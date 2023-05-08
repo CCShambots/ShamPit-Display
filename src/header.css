@@ -1,0 +1,40 @@
+.header-container {
+    background-color: #004f9e;
+    display: flex;
+    justify-content: space-between;
+    /*display: inline-grid;*/
+    color: white;
+}
+
+h1,h2 {
+    margin: 0;
+}
+
+.box {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.left-info {
+    margin-left: 10px;
+    justify-content: left;
+}
+
+.event-title {
+    margin-bottom: auto;
+    margin-top: auto;
+    justify-content: center;
+}
+
+.settings {
+    justify-content: right;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10px;
+}
+
+.settings-icon {
+    height: 50%;
+    width: auto;
+}
