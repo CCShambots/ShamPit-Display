@@ -4,16 +4,14 @@ import {Alliance, Alliances, Match} from "../data/Data";
 import TeamInfo from "../components/TeamInfo";
 import "./MainPage.css"
 import SplashText from "../components/SplashText";
+import SyncIcon from "../components/SyncIcon";
 
 function MainPage(props: any) {
 
-    //TODO: Add reload icon
-    //TODO: Make it reload every 30 sec or so
-
-    //TODO: Set a title and Favicon
-    //TODO: Dropdown for an event for a team
     //TODO: Interface to scouting app for cycles
     //TODO: Show if a team has a match to play still before they play (maybe)
+    //TODO: Dropdown for an event for a team
+    //TODO: Add support for pasting a TBA link in full and parsing it to an event key
 
     //TODO: Make this a number instead of string
 
@@ -40,9 +38,12 @@ function MainPage(props: any) {
     let [willWin, setWillWin] = useState(true)
     let [confidence, setConfidence] = useState(1)
 
+    let [syncing, setSyncing] = useState(false)
+
     let pullURL:string = "https://www.thebluealliance.com/api/v3/event/" + eventKey + "/matches";
 
-    const fetchInfo = () => {
+    const fetchMatchInfo = () => {
+        setSyncing(true)
         fetch(pullURL,
             apiOptions)
             .then(response => {
@@ -90,9 +91,9 @@ function MainPage(props: any) {
     //Make the app pull match data only every 30 seconds
     useEffect(() => {
         const interval = setInterval(() => {
-            fetchInfo();
+            fetchMatchInfo();
 
-        }, MINUTE_MS * .25);
+        }, MINUTE_MS * .5);
 
         return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
     }, [])
@@ -128,8 +129,9 @@ function MainPage(props: any) {
         }
     }
 
+    //Fetch matches info from when the component mounts
     useEffect(() => {
-        fetchInfo()
+        fetchMatchInfo()
     }, [])
 
     //Only update match prediction when the next match updates
@@ -143,10 +145,10 @@ function MainPage(props: any) {
                 setBlueScore(data.blue_epa_sum)
 
                 let alliance = nextMatch?.alliances.red.numbers.includes(parseInt(teamNumber)) ? "red" : "blue";
-                console.log(alliance)
-                console.log(data.epa_winner)
                 setWillWin(data.epa_winner === alliance)
                 setConfidence(data.epa_win_prob)
+
+                setSyncing(false)
             })
     }
 
@@ -173,9 +175,13 @@ function MainPage(props: any) {
                     <h2 className={"alliance-score"}>{blueScore}</h2>
                 </div>
                 <div className={"bottom-content"}>
-                    <div className={"next-match " + (willWin ? "win" : "loss")}>
+                    <div onClick={() => fetchMatchInfo()}>
+                        <SyncIcon syncing={syncing}/>
+                    </div>
+                    <div className={"next-match prediction " + (willWin ? "win" : "loss")}>
                         <h2 >Match Prediction: {willWin ? "Win" : "Loss"} ({Math.round(confidence * 100)})%</h2>
                     </div>
+                    <div></div>
                 </div>
             </div>
 

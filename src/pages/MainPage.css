@@ -35,6 +35,17 @@
 .bottom-content {
     margin-top: auto;
     margin-bottom: 10px;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+
+
+    width: 100vw;
+}
+
+.prediction {
 }
 
 .win {
@@ -43,6 +54,4 @@
 
 .loss {
     background-color: #930707;
-    color:white;
-    justify-content: end;
 }
