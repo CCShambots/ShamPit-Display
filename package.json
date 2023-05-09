@@ -1,6 +1,6 @@
 {
   "name": "5907-pit-display",
-  "version": "2023.1",
+  "version": "2023.0.1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
