@@ -6,8 +6,10 @@ import "./MainPage.css"
 import SplashText from "../components/SplashText";
 
 function MainPage(props: any) {
-    
+
+    //TODO: Add reload thing
     //TODO: Make it reload every 30 sec or so
+
     //TODO: Make the settings icon respect ribbon color
     //TODO: Set a title and Favicon
     //TODO: Dropdown for an event for a team
@@ -82,6 +84,19 @@ function MainPage(props: any) {
 
     //Update the next match to play only when the list of matches changes
     useEffect(() => pullNextMatchData(), [matches])
+
+    //Number of MS in a minute
+    const MINUTE_MS = 60000;
+
+    //Make the app pull match data only every 30 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchInfo();
+
+        }, MINUTE_MS * .25);
+
+        return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+    }, [])
 
 
     /**
@@ -158,7 +173,11 @@ function MainPage(props: any) {
                     <h2 className={"alliance-score"}>{redScore}</h2>
                     <h2 className={"alliance-score"}>{blueScore}</h2>
                 </div>
-                <h2 className={"next-match " + (willWin ? "win" : "loss")}>Match Prediction: {willWin ? "Win" : "Loss"} ({Math.round(confidence * 100)})%</h2>
+                <div className={"bottom-content"}>
+                    <div className={"next-match " + (willWin ? "win" : "loss")}>
+                        <h2 >Match Prediction: {willWin ? "Win" : "Loss"} ({Math.round(confidence * 100)})%</h2>
+                    </div>
+                </div>
             </div>
 
         </div>

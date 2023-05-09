@@ -32,6 +32,11 @@
     font-size: 65px;
 }
 
+.bottom-content {
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+
 .win {
     background-color: green;
 }
@@ -39,4 +44,5 @@
 .loss {
     background-color: #930707;
     color:white;
+    justify-content: end;
 }
