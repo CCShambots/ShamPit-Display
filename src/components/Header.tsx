@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import './header.css'
 import packageJson from '../../package.json';
-import settingsIcon from '../resources/settings.svg';
+import SettingsIcon from "./SettingsIcon";
 
 const Header = (props:any) => {
 
@@ -36,19 +36,19 @@ const Header = (props:any) => {
         <div className={"header-container"} style={{backgroundColor: backgroundColor, color: textColor}}>
             <div className={"left-info box"}>
                 <div>
-                    <Link className={"links"} to={"https://github.com/CCShambots/5907-pit-display"}>
+                    <Link style={{color: textColor}} to={"https://github.com/CCShambots/5907-pit-display"}>
                         Version: {packageJson.version}
                     </Link>
                     <br/>
-                    <Link className={"links"} to={"https://www.thebluealliance.com/team/" + teamNumber}>Team: {teamNumber}</Link>
+                    <Link style={{color: textColor}} to={"https://www.thebluealliance.com/team/" + teamNumber}>Team: {teamNumber}</Link>
                     <br/>
-                    <Link className={"links"} to={"https://www.thebluealliance.com/event/" + eventKey}>Event: {eventKey}</Link>
+                    <Link style={{color: textColor}} to={"https://www.thebluealliance.com/event/" + eventKey}>Event: {eventKey}</Link>
                 </div>
             </div>
             <h1 className={"event-title box"}>{eventName}</h1>
             <div className={"settings box"}>
                 <Link className={"settings-icon"} to={"/settings"}>
-                    <img src={settingsIcon} alt={"Settings"}></img>
+                    <SettingsIcon color={textColor}></SettingsIcon>
                 </Link>
             </div>
         </div>

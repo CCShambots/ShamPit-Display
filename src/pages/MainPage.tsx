@@ -7,10 +7,9 @@ import SplashText from "../components/SplashText";
 
 function MainPage(props: any) {
 
-    //TODO: Add reload thing
+    //TODO: Add reload icon
     //TODO: Make it reload every 30 sec or so
 
-    //TODO: Make the settings icon respect ribbon color
     //TODO: Set a title and Favicon
     //TODO: Dropdown for an event for a team
     //TODO: Interface to scouting app for cycles
