@@ -3,17 +3,19 @@ import React, {useEffect, useState} from "react";
 import {Alliance, Alliances, Match} from "../data/Data";
 import TeamInfo from "../components/TeamInfo";
 import "./MainPage.css"
+import SplashText from "../components/SplashText";
 
 function MainPage(props: any) {
-
-    //TODO: Splash text
-
+    
     //TODO: Make it reload every 30 sec or so
     //TODO: Make the settings icon respect ribbon color
     //TODO: Set a title and Favicon
     //TODO: Dropdown for an event for a team
+    //TODO: Interface to scouting app for cycles
+    //TODO: Show if a team has a match to play still before they play (maybe)
 
     //TODO: Make this a number instead of string
+
     const teamNumber = localStorage.getItem("number") || "0"
     const eventKey = localStorage.getItem("eventKey") || ""
 
@@ -138,7 +140,10 @@ function MainPage(props: any) {
         <div className="App">
             <Header number={parseInt(teamNumber)} eventKey={eventKey} options={apiOptions}/>
             <div className="main-app">
-                <h1 className={"next-match"}>Next Match: {nextMatchName}</h1>
+                <div>
+                    <h1 className={"next-match"}>Next Match: {nextMatchName}</h1>
+                    {/*<SplashText/>*/}
+                </div>
                 <h2 className={"next-match"}>{matchTime}</h2>
 
                 <div className={"alliances-container"}>
