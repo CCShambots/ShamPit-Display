@@ -1,0 +1,43 @@
+.alliances-container {
+    display: flex;
+    width: 100vw;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.alliance-info {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+
+    width: 50vw;
+
+}
+
+.score-results {
+    display: flex;
+    justify-content: space-around;
+    width: 100vw;
+
+    margin-top: 10px;
+}
+
+.alliance-score {
+    width: 25vw;
+    border-radius: 10px;
+    color: white;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    font-size: 65px;
+}
+
+.win {
+    background-color: green;
+}
+
+.loss {
+    background-color: #930707;
+    color:white;
+    /*border: 10px solid black;*/
+}

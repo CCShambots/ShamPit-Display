@@ -1,0 +1,36 @@
+.team-display {
+    padding: 15px 25px 15px 25px;
+
+    border-radius: 10px;
+
+    min-height: 40vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.active {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+
+    border-color: white;
+}
+
+.inactive {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: black;
+    border-color: black;
+}
+
+h2, h3 {
+    margin: 0
+}
+
+.bot-image {
+    width: 10vw;
+    height: auto;
+    border: 5px solid;
+    min-height: 20vh;
+    border-radius: 10px;
+}

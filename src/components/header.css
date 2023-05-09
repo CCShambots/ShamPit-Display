@@ -1,7 +1,7 @@
 .header-container {
     display: flex;
     justify-content: space-between;
-    height: 15vh;
+    height: 10vh;
 }
 
 h1,h2 {
@@ -25,6 +25,8 @@ h1,h2 {
     margin-bottom: auto;
     margin-top: auto;
     justify-content: center;
+    white-space: nowrap;
+    /*width: 100vw;*/
 }
 
 .settings {
