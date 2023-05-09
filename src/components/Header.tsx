@@ -1,0 +1,58 @@
+import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import './header.css'
+import packageJson from '../../package.json';
+import settingsIcon from '../resources/settings.svg';
+
+const Header = (props:any) => {
+
+    const backgroundColor = localStorage.getItem("backgroundColor") || "#004f9e"
+    const textColor = localStorage.getItem("textColor") || "#ffffff"
+
+    let teamNumber: number = props.number
+    let eventKey: string = props.eventKey
+
+    const [eventName, setEventName] = useState("NO EVENT")
+
+
+    const fetchInfo = () => {
+        fetch("https://www.thebluealliance.com/api/v3/event/" + eventKey, props.options)
+            .then(response => {
+                return response.json()
+            })
+            .then(data => {
+                setEventName(data.name)
+            })
+    }
+
+    //Run fetch event name on component load
+    useEffect(() => {
+        fetchInfo()
+    }, [fetchInfo])
+
+
+
+    return (
+        <div className={"header-container"} style={{backgroundColor: backgroundColor, color: textColor}}>
+            <div className={"left-info box"}>
+                <div>
+                    <Link className={"links"} to={"https://github.com/CCShambots/5907-pit-display"}>
+                        Version: {packageJson.version}
+                    </Link>
+                    <br/>
+                    <Link className={"links"} to={"https://www.thebluealliance.com/team/" + teamNumber}>Team: {teamNumber}</Link>
+                    <br/>
+                    <Link className={"links"} to={"https://www.thebluealliance.com/event/" + eventKey}>Event: {eventKey}</Link>
+                </div>
+            </div>
+            <h1 className={"event-title box"}>{eventName}</h1>
+            <div className={"settings box"}>
+                <Link className={"settings-icon"} to={"/settings"}>
+                    <img src={settingsIcon} alt={"Settings"}></img>
+                </Link>
+            </div>
+        </div>
+    );
+}
+
+export default Header;

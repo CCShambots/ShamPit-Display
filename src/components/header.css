@@ -1,9 +1,7 @@
 .header-container {
-    background-color: #004f9e;
     display: flex;
     justify-content: space-between;
-    /*display: inline-grid;*/
-    color: white;
+    height: 15vh;
 }
 
 h1,h2 {
@@ -19,6 +17,8 @@ h1,h2 {
 .left-info {
     margin-left: 10px;
     justify-content: left;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .event-title {
@@ -37,4 +37,8 @@ h1,h2 {
 .settings-icon {
     height: 50%;
     width: auto;
+}
+
+.links {
+    color: white;
 }

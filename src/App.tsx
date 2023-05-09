@@ -1,16 +1,17 @@
 import React from 'react';
-import logo from './resources/logo.svg';
 import './App.css';
-import Header from "./Header";
+import MainPage from "./pages/MainPage";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import SettingsPage from "./pages/SettingsPage";
 
 function App() {
   return (
-    <div className="App">
-        <Header/>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
-    </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+        </Routes>
+      </BrowserRouter>
   );
 }
 
