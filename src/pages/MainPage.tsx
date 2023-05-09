@@ -6,9 +6,16 @@ import "./MainPage.css"
 
 function MainPage(props: any) {
 
+    //TODO: Splash text
 
-    const teamNumber = localStorage.getItem("number") || "5907"
-    const eventKey = localStorage.getItem("eventKey") || "2023milan"
+    //TODO: Make it reload every 30 sec or so
+    //TODO: Make the settings icon respect ribbon color
+    //TODO: Set a title and Favicon
+    //TODO: Dropdown for an event for a team
+
+    //TODO: Make this a number instead of string
+    const teamNumber = localStorage.getItem("number") || "0"
+    const eventKey = localStorage.getItem("eventKey") || ""
 
     const apiKey:string = localStorage.getItem("apiKey") || "none"
 

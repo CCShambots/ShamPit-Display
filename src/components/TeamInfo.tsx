@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from "react"
 import "./TeamInfo.css"
+import packageJson from "../../package.json";
 
 function TeamInfo(props: any) {
+
+    const year = packageJson.version.substring(0, 4);
 
     const [epa, setEPA] = useState<number>(0)
     const [cycles, setCycles] = useState<number>(0)
     const [imgPath, setImgPath] = useState<string>("../resources/team-images/" + props.number + ".jpg")
 
     const fetchEPA = () => {
-        fetch("https://api.statbotics.io/v2/team_year/" + props.number + "/2023")
+        fetch("https://api.statbotics.io/v2/team_year/" + props.number + "/" + year)
             .then(response => {
                 return response.json()
             })
@@ -20,7 +23,7 @@ function TeamInfo(props: any) {
     }
 
     const fetchImage = () => {
-        fetch("https://www.thebluealliance.com/api/v3/team/frc" + props.number +"/media/2023", props.apiOptions)
+        fetch("https://www.thebluealliance.com/api/v3/team/frc" + props.number +"/media/" + year, props.apiOptions)
             .then(response => {
                 return response.json()
             }).then(data => {

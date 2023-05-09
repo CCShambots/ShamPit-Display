@@ -7,14 +7,14 @@ import {Link} from "react-router-dom";
 
 function SettingsPage(props: any) {
 
-    console.log(localStorage.getItem("number") || "5907");
+    console.log(localStorage.getItem("number") || "");
 
     const [backgroundColor, setBackgroundColor] =
         useState(localStorage.getItem("backgroundColor") || "#004f9e");
     const [textColor, setTextColor] = useState(localStorage.getItem("textColor") || "#ffffff");
 
-    const [teamNumber, setTeamNumber] = useState(parseInt(JSON.parse(localStorage.getItem("number") || "5907")));
-    const [eventKey, setEventKey] = useState(localStorage.getItem("eventKey") || "2023milan");
+    const [teamNumber, setTeamNumber] = useState(parseInt(JSON.parse(localStorage.getItem("number") || "")));
+    const [eventKey, setEventKey] = useState(localStorage.getItem("eventKey") || "");
 
     const [apiKey, setApiKey] = useState(localStorage.getItem("apiKey") || "none");
 
