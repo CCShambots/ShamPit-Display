@@ -45,7 +45,15 @@ const Header = (props:any) => {
                     <Link style={{color: textColor}} to={"https://www.thebluealliance.com/event/" + eventKey}>Event: {eventKey}</Link>
                 </div>
             </div>
-            <h1 className={"event-title box"}>{eventName}</h1>
+            <h1 className={"event-title box"}>{
+                //Remove any "presented by" stuff because it takes up too much text
+                eventName.substring(0, eventName.indexOf("presented"))
+                + (
+                    //If there was a "presented" removed and a dash for a division (i.e. FiM states, add that as well
+                    eventName.indexOf("presented") != -1 && eventName.indexOf("-") != -1 ?
+                        eventName.substring(eventName.indexOf("-")) : ""
+                )
+            }</h1>
             <div className={"settings box"}>
                 <Link className={"settings-icon"} to={"/settings"}>
                     <SettingsIcon color={textColor}></SettingsIcon>

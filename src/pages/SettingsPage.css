@@ -14,8 +14,7 @@
 
 .settings-container {
 
-    margin-top: 25px;
-    margin-bottom: 25px;
+    margin-top: 20px;
 
     display: flex;
 
@@ -90,6 +89,10 @@
 
 .input {
     border-radius: 10px;
+}
+
+.valid {
+    background-color: lightgreen;
 }
 
 .color-input {

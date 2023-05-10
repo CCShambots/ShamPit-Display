@@ -1,11 +1,14 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {HexColorInput, HexColorPicker} from "react-colorful";
 import "./SettingsPage.css";
 import {Link} from "react-router-dom";
+import {Event} from "../data/Event";
+import packageJson from "../../package.json";
 
 
 
-function SettingsPage(props: any) {
+function SettingsPage(props: any)
+ {
 
     console.log(localStorage.getItem("number") || "");
 
@@ -18,6 +21,9 @@ function SettingsPage(props: any) {
 
     const [apiKey, setApiKey] = useState(localStorage.getItem("apiKey") || "none");
 
+    const [teamEvents, setTeamEvents] = useState<Event[]>([])
+
+     //This fixed an error sometime, but I didn't document it. Sorry
     function withEvent(func: Function): React.ChangeEventHandler<any> {
         return (event: React.ChangeEvent<any>) => {
             const { target } = event;
@@ -25,12 +31,57 @@ function SettingsPage(props: any) {
         };
     }
 
+    useEffect(() => {
+        if(eventKey.indexOf("thebluealliance.com/event") != -1) {
+            setEventKey(eventKey.substring(eventKey.lastIndexOf("/") + 1))
+        }
+
+    }, [eventKey])
+
+     useEffect(() => {
+         let apiOptions = {
+             "method" : "GET",
+             "headers" : {
+                 "X-TBA-Auth-Key" : apiKey,
+             }
+         };
+
+         fetch(
+             "https://www.thebluealliance.com/api/v3/team/frc" + teamNumber + "/events/" +
+             packageJson.version.substring(0, 4), apiOptions).then(response => response.json())
+             .then(data => {
+                 let teamEvents:Event[] = []
+                 try {
+                     data.forEach(teamEvent => {
+                         teamEvents.push(new Event(teamEvent.name, teamEvent.key))
+                     })
+                 } catch (e) {}
+
+                 setTeamEvents(teamEvents)
+             })
+     }, [teamNumber, apiKey])
+
+     //Save all settings to local storage
     function save(input:any) {
         localStorage.setItem("number", String(teamNumber));
         localStorage.setItem("eventKey", eventKey);
         localStorage.setItem("backgroundColor", backgroundColor);
         localStorage.setItem("textColor", textColor);
         localStorage.setItem("apiKey", apiKey);
+    }
+
+    function handleEventSelection(value:string) {
+        if(value != "none") setEventKey(value)
+    }
+
+    //Determines whether the current event key matches one of the events
+    function isCurrentKeyMatching():boolean {
+        let value = false
+        teamEvents.forEach(e => {
+            if(e.key == eventKey) value = true
+        })
+
+        return value
     }
 
     return <div className={"App"}>
@@ -46,7 +97,18 @@ function SettingsPage(props: any) {
 
             <div className={"settings-container"}>
                 <h2>Event Key</h2>
-                <input className={"input"} type={"text"} onChange={withEvent(setEventKey)} value={eventKey}></input>
+                <input className={"input " + (isCurrentKeyMatching() ? "valid" : "")} type={"text"} onChange={withEvent(setEventKey)} value={eventKey}></input>
+            </div>
+
+            <div className={"settings-container"}>
+
+                <h2>Select From Team's Events</h2>
+
+                <select className={"input"} onChange={withEvent(handleEventSelection)} value={eventKey} defaultValue={"none"}>
+                    <option value={"none"}>[Using Custom Event Key]</option>
+                    {/*Include all events the team is playing at*/}
+                    {teamEvents.map((e) => <option value={e.key}>{e.name}</option>)}
+                </select>
             </div>
 
             <div className={"settings-container"}>
