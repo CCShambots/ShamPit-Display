@@ -6,7 +6,7 @@ import "./MainPage.css"
 import SplashText from "../components/SplashText";
 import SyncIcon from "../components/SyncIcon";
 import FullscreenIcon from "../components/FullscreenIcon";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function MainPage(props: any) {
 
@@ -23,6 +23,13 @@ function MainPage(props: any) {
             "X-TBA-Auth-Key" : apiKey,
         }
     };
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+
+        if(!localStorage.getItem("apiKey")) navigate('/settings', { replace: true });
+    }, [navigate]);
 
     const [nextMatchName, setNextMatchName] = useState("No Match Found");
     const [matchTime, setMatchTime] = useState("");
@@ -41,46 +48,49 @@ function MainPage(props: any) {
 
     let [syncing, setSyncing] = useState(false)
 
-    let pullURL:string = "https://www.thebluealliance.com/api/v3/event/" + eventKey + "/matches";
+    let pullURL:string = "https://www.thebluealliance.com/api/v3/event/" + eventKey + "/matches"
 
     const fetchMatchInfo = () => {
         setSyncing(true)
-        fetch(pullURL,
-            apiOptions)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                //Convert all of the data to match info
-                let curMatches:Match[] = [];
+        if(apiKey!=="") {
+            fetch(pullURL,
+                apiOptions)
+                .then(response => {
+                    return response.json()
+                })
+                .then(data => {
+                    //Convert all of the data to match info
+                    let curMatches:Match[] = [];
 
-                data.forEach((e) => {
+                    data.forEach((e) => {
 
-                    curMatches.push(
-                        new Match(
-                            e.key,
-                            e.comp_level,
-                            e.match_number,
-                            new Alliances(
-                                new Alliance(e.alliances.red.team_keys.map((e) => {
-                                    return parseInt(e.substring(3))
-                                }), e.alliances.red.score),
-                                new Alliance(e.alliances.blue.team_keys.map((e) => {
-                                    return parseInt(e.substring(3))
-                                }), e.alliances.blue.score)
-                            ),
-                            new Date(e.predicted_time * 1000)
+                        curMatches.push(
+                            new Match(
+                                e.key,
+                                e.comp_level,
+                                e.match_number,
+                                new Alliances(
+                                    new Alliance(e.alliances.red.team_keys.map((e) => {
+                                        return parseInt(e.substring(3))
+                                    }), e.alliances.red.score),
+                                    new Alliance(e.alliances.blue.team_keys.map((e) => {
+                                        return parseInt(e.substring(3))
+                                    }), e.alliances.blue.score)
+                                ),
+                                new Date(e.predicted_time * 1000)
+                            )
                         )
-                    )
 
-                    curMatches.sort((e1, e2) => {
-                        return e1.predicted_time.getTime() - e2.predicted_time.getTime()
+                        curMatches.sort((e1, e2) => {
+                            return e1.predicted_time.getTime() - e2.predicted_time.getTime()
+                        })
+
                     })
 
-                })
+                    setMatches(curMatches)
+                }).catch(e => {})
+        }
 
-                setMatches(curMatches)
-            })
     }
 
     //Update the next match to play only when the list of matches changes
@@ -143,19 +153,19 @@ function MainPage(props: any) {
     //Only update match prediction when the next match updates
     const getMatchPrediction = () => {
         if(nextMatch !== undefined) {
-            fetch("https://api.statbotics.io/v2/match/" + nextMatch?.key)
-                .then(result => {return result.json() })
-                .then(data => {
-                    setRedScore(data.red_epa_sum)
-                    setBlueScore(data.blue_epa_sum)
+                fetch("https://api.statbotics.io/v2/match/" + nextMatch?.key)
+                    .then(result => {return result.json() })
+                    .then(data => {
+                        setRedScore(data.red_epa_sum)
+                        setBlueScore(data.blue_epa_sum)
 
-                    let alliance = nextMatch?.alliances.red.numbers.includes(parseInt(teamNumber)) ? "red" : "blue";
-                    setWillWin(data.epa_winner === alliance)
-                    //You have to take the complement of the probability since the win_prob is always from red alliance perspective
-                    setConfidence(alliance === "red" ? data.epa_win_prob : 1- data.epa_win_prob)
+                        let alliance = nextMatch?.alliances.red.numbers.includes(parseInt(teamNumber)) ? "red" : "blue";
+                        setWillWin(data.epa_winner === alliance)
+                        //You have to take the complement of the probability since the win_prob is always from red alliance perspective
+                        setConfidence(alliance === "red" ? data.epa_win_prob : 1- data.epa_win_prob)
 
-                    setSyncing(false)
-                })
+                        setSyncing(false)
+                    }).catch(e => {})
         }
 
     }

@@ -7,16 +7,13 @@ import packageJson from "../../package.json";
 
 
 
-function SettingsPage(props: any)
- {
-
-    console.log(localStorage.getItem("number") || "");
+function SettingsPage(props: any) {
 
     const [backgroundColor, setBackgroundColor] =
         useState(localStorage.getItem("backgroundColor") || "#004f9e");
     const [textColor, setTextColor] = useState(localStorage.getItem("textColor") || "#ffffff");
 
-    const [teamNumber, setTeamNumber] = useState(parseInt(JSON.parse(localStorage.getItem("number") || "")));
+    const [teamNumber, setTeamNumber] = useState(parseInt(JSON.parse(localStorage.getItem("number") || "{}")));
     const [eventKey, setEventKey] = useState(localStorage.getItem("eventKey") || "");
 
     const [apiKey, setApiKey] = useState(localStorage.getItem("apiKey") || "none");
@@ -59,7 +56,7 @@ function SettingsPage(props: any)
                      } catch (e) {}
 
                      setTeamEvents(teamEvents)
-                 })
+                 }).catch(e => {})
          }
      }, [teamNumber])
 
@@ -107,9 +104,9 @@ function SettingsPage(props: any)
                 <h2>Select From Team's Events</h2>
 
                 <select className={"input"} onChange={withEvent(handleEventSelection)} value={eventKey} defaultValue={"none"}>
-                    <option value={"none"}>[Using Custom Event Key]</option>
+                    <option key={"none"} value={"none"}>[Using Custom Event Key]</option>
                     {/*Include all events the team is playing at*/}
-                    {teamEvents.map((e) => <option value={e.key}>{e.name}</option>)}
+                    {teamEvents.map((e) => <option key={e.key} value={e.key}>{e.name}</option>)}
                 </select>
             </div>
 

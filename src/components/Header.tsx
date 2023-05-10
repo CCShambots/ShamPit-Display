@@ -22,7 +22,7 @@ const Header = (props:any) => {
             })
             .then(data => {
                 setEventName(data.name)
-            })
+            }).catch(e => {})
     }
 
     //Run fetch event name on component load
