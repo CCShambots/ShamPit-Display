@@ -10,22 +10,28 @@ class Match {
 
     convertToHumanReadableName():string {
         let header: string = ""
+        let semis:boolean = false
 
-            switch (this.comp_level) {
-                case("qm"):
-                    header = "Quals Match"
-                    break;
-                case("sf"):
-                    header = "Eliminations Match"
-                    break;
-                case("f"):
-                    header = "Finals Match"
-                    break;
-                default:
-                    header = "Match"
-                    break;
-            }
-        return header + " " + this.match_number;
+        switch (this.comp_level) {
+            case("qm"):
+                header = "Quals Match"
+                break;
+            case("sf"):
+                header = "Eliminations Match"
+                semis = true
+                break;
+            case("f"):
+                header = "Finals Match"
+                break;
+            default:
+                header = "Match"
+                break;
+        }
+
+        //We have to pull the match number differently for semis matches because TBA parses them in the worst way possible
+        let matchNum:number = semis ? parseInt(this.key.substring(10, 11)) : this.match_number;
+
+        return header + " " + matchNum;
     }
 
     getCorrectDate():string {

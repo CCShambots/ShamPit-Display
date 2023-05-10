@@ -46,13 +46,16 @@ const Header = (props:any) => {
                 </div>
             </div>
             <h1 className={"event-title box"}>{
-                //Remove any "presented by" stuff because it takes up too much text
-                eventName.substring(0, eventName.indexOf("presented"))
-                + (
-                    //If there was a "presented" removed and a dash for a division (i.e. FiM states, add that as well
-                    eventName.indexOf("presented") != -1 && eventName.indexOf("-") != -1 ?
-                        eventName.substring(eventName.indexOf("-")) : ""
-                )
+                eventName.indexOf("presented") != -1  ?
+                    (
+                        //Remove any "presented by" stuff because it takes up too much text
+                        eventName.substring(0, eventName.indexOf("presented"))
+                        + (
+                            //If there was a "presented" removed and a dash for a division (i.e. FiM states, add that as well
+                            eventName.indexOf("presented") != -1 && eventName.indexOf("-") != -1 ?
+                                eventName.substring(eventName.indexOf("-")) : ""
+                        )
+                    ) : eventName
             }</h1>
             <div className={"settings box"}>
                 <Link className={"settings-icon"} to={"/settings"}>

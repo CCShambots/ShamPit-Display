@@ -5,12 +5,13 @@ import TeamInfo from "../components/TeamInfo";
 import "./MainPage.css"
 import SplashText from "../components/SplashText";
 import SyncIcon from "../components/SyncIcon";
+import FullscreenIcon from "../components/FullscreenIcon";
 
 function MainPage(props: any) {
 
     //TODO: Interface to scouting app for cycles
     //TODO: Show if a team has a match to play still before they play (maybe)
-
+    
     //TODO: Make this a number instead of string
 
     const teamNumber = localStorage.getItem("number") || "0"
@@ -136,19 +137,22 @@ function MainPage(props: any) {
     useEffect(() => getMatchPrediction(), [nextMatch])
 
     const getMatchPrediction = () => {
-        fetch("https://api.statbotics.io/v2/match/" + nextMatch?.key)
-            .then(result => {return result.json() })
-            .then(data => {
-                setRedScore(data.red_epa_sum)
-                setBlueScore(data.blue_epa_sum)
+        if(nextMatch != undefined) {
+            fetch("https://api.statbotics.io/v2/match/" + nextMatch?.key)
+                .then(result => {return result.json() })
+                .then(data => {
+                    setRedScore(data.red_epa_sum)
+                    setBlueScore(data.blue_epa_sum)
 
-                let alliance = nextMatch?.alliances.red.numbers.includes(parseInt(teamNumber)) ? "red" : "blue";
-                setWillWin(data.epa_winner === alliance)
-                //You have to take the complement of the probability since the win_prob is always from red alliance perspective
-                setConfidence(alliance == "red" ? data.epa_win_prob : 1- data.epa_win_prob)
+                    let alliance = nextMatch?.alliances.red.numbers.includes(parseInt(teamNumber)) ? "red" : "blue";
+                    setWillWin(data.epa_winner === alliance)
+                    //You have to take the complement of the probability since the win_prob is always from red alliance perspective
+                    setConfidence(alliance == "red" ? data.epa_win_prob : 1- data.epa_win_prob)
 
-                setSyncing(false)
-            })
+                    setSyncing(false)
+                })
+        }
+
     }
 
     return (
@@ -174,13 +178,11 @@ function MainPage(props: any) {
                     <h2 className={"alliance-score"}>{blueScore}</h2>
                 </div>
                 <div className={"bottom-content"}>
-                    <div onClick={() => fetchMatchInfo()}>
-                        <SyncIcon syncing={syncing}/>
-                    </div>
+                    <SyncIcon click={fetchMatchInfo} syncing={syncing}/>
                     <div className={"next-match prediction " + (willWin ? "win" : "loss")}>
-                        <h2 >Match Prediction: {willWin ? "Win" : "Loss"} ({Math.round(confidence * 100)})%</h2>
+                        <h2>Match Prediction: {willWin ? "Win" : "Loss"} ({Math.round(confidence * 100)})%</h2>
                     </div>
-                    <div></div>
+                    <FullscreenIcon/>
                 </div>
             </div>
 
