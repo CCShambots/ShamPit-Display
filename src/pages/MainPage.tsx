@@ -11,7 +11,6 @@ import {Link} from "react-router-dom";
 function MainPage(props: any) {
 
     //TODO: Interface to scouting app for cycles
-    //TODO: Show if a team has a match to play still before they play (maybe)
 
     //TODO: Make this a number instead of string
 
