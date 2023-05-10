@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 function MainPage(props: any) {
 
     //TODO: Interface to scouting app for cycles
-    
+
     const teamNumber = localStorage.getItem("number") || "0"
     const eventKey = localStorage.getItem("eventKey") || ""
 

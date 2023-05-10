@@ -59,7 +59,7 @@ function SettingsPage(props: any)
 
                  setTeamEvents(teamEvents)
              })
-     }, [teamNumber, apiKey])
+     }, [teamNumber])
 
      //Save all settings to local storage
     function save(input:any) {
