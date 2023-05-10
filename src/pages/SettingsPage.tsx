@@ -29,7 +29,7 @@ function SettingsPage(props: any) {
     }
 
     useEffect(() => {
-        if(eventKey.indexOf("thebluealliance.com/event") != -1) {
+        if(eventKey.indexOf("thebluealliance.com/event") !== -1) {
             setEventKey(eventKey.substring(eventKey.lastIndexOf("/") + 1))
         }
 
@@ -44,6 +44,7 @@ function SettingsPage(props: any) {
                  }
              };
 
+
              fetch(
                  "https://www.thebluealliance.com/api/v3/team/frc" + teamNumber + "/events/" +
                  packageJson.version.substring(0, 4), apiOptions).then(response => response.json())
@@ -55,10 +56,10 @@ function SettingsPage(props: any) {
                          })
                      } catch (e) {}
 
-                     setTeamEvents(teamEvents)
+                      setTeamEvents(teamEvents)
                  }).catch(e => {})
          }
-     }, [teamNumber])
+     }, [apiKey, teamNumber])
 
      //Save all settings to local storage
     function save(input:any) {
@@ -70,14 +71,14 @@ function SettingsPage(props: any) {
     }
 
     function handleEventSelection(value:string) {
-        if(value != "none") setEventKey(value)
+        if(value !== "none") setEventKey(value)
     }
 
     //Determines whether the current event key matches one of the events
     function isCurrentKeyMatching():boolean {
         let value = false
         teamEvents.forEach(e => {
-            if(e.key == eventKey) value = true
+            if(e.key === eventKey) value = true
         })
 
         return value
