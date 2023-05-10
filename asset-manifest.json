@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/my-app/static/css/main.82617b27.css",
+    "main.js": "/my-app/static/js/main.b24b1f5c.js",
+    "static/js/787.3cbca76d.chunk.js": "/my-app/static/js/787.3cbca76d.chunk.js",
+    "static/media/5907.jpg": "/my-app/static/media/5907.bfc7394b3e1acba1eaa8.jpg",
+    "static/media/no-team-image.jpg": "/my-app/static/media/no-team-image.0ec7567978a4d146665d.jpg",
+    "index.html": "/my-app/index.html",
+    "static/media/sync-icon.svg": "/my-app/static/media/sync-icon.807a56304b40e62226d971dfff6848e6.svg",
+    "static/media/refresh-icon.svg": "/my-app/static/media/refresh-icon.37ff5575acf5015cb4b64de996013517.svg",
+    "static/media/fullscreen-icon.svg": "/my-app/static/media/fullscreen-icon.3bad91eb2acd7d6dd995e7b5e9f1bed4.svg",
+    "static/media/fullscreen-close-icon.svg": "/my-app/static/media/fullscreen-close-icon.75db94a52384b09cc470daebdf3d8797.svg",
+    "main.82617b27.css.map": "/my-app/static/css/main.82617b27.css.map",
+    "main.b24b1f5c.js.map": "/my-app/static/js/main.b24b1f5c.js.map",
+    "787.3cbca76d.chunk.js.map": "/my-app/static/js/787.3cbca76d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.82617b27.css",
+    "static/js/main.b24b1f5c.js"
+  ]
+}
