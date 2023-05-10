@@ -39,26 +39,28 @@ function SettingsPage(props: any)
     }, [eventKey])
 
      useEffect(() => {
-         let apiOptions = {
-             "method" : "GET",
-             "headers" : {
-                 "X-TBA-Auth-Key" : apiKey,
-             }
-         };
+         if(apiKey !== "") {
+             let apiOptions = {
+                 "method" : "GET",
+                 "headers" : {
+                     "X-TBA-Auth-Key" : apiKey,
+                 }
+             };
 
-         fetch(
-             "https://www.thebluealliance.com/api/v3/team/frc" + teamNumber + "/events/" +
-             packageJson.version.substring(0, 4), apiOptions).then(response => response.json())
-             .then(data => {
-                 let teamEvents:Event[] = []
-                 try {
-                     data.forEach(teamEvent => {
-                         teamEvents.push(new Event(teamEvent.name, teamEvent.key))
-                     })
-                 } catch (e) {}
+             fetch(
+                 "https://www.thebluealliance.com/api/v3/team/frc" + teamNumber + "/events/" +
+                 packageJson.version.substring(0, 4), apiOptions).then(response => response.json())
+                 .then(data => {
+                     let teamEvents:Event[] = []
+                     try {
+                         data.forEach(teamEvent => {
+                             teamEvents.push(new Event(teamEvent.name, teamEvent.key))
+                         })
+                     } catch (e) {}
 
-                 setTeamEvents(teamEvents)
-             })
+                     setTeamEvents(teamEvents)
+                 })
+         }
      }, [teamNumber])
 
      //Save all settings to local storage
