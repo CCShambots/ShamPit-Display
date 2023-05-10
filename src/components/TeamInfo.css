@@ -35,3 +35,27 @@ h2, h3 {
     min-height: 20vh;
     border-radius: 10px;
 }
+
+.header-info {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+}
+
+.center {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.avatar {
+    height: 5vh;
+    width: 5vh;
+
+    margin-top: auto;
+    margin-bottom: auto;
+
+    border: 3px solid black;
+    border-radius: 5px;
+}

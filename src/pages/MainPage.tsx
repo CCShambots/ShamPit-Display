@@ -11,7 +11,9 @@ function MainPage(props: any) {
 
     //TODO: Interface to scouting app for cycles
     //TODO: Show if a team has a match to play still before they play (maybe)
-    
+
+    //TODO: Add Team Logos
+
     //TODO: Make this a number instead of string
 
     const teamNumber = localStorage.getItem("number") || "0"

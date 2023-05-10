@@ -10,6 +10,8 @@ function TeamInfo(props: any) {
     const [cycles, setCycles] = useState<number>(0)
     const [imgPath, setImgPath] = useState<string>("../resources/team-images/" + props.number + ".jpg")
 
+    const [avatarPath, setAvatarPath] = useState<string>("")
+
     const fetchEPA = () => {
         fetch("https://api.statbotics.io/v2/team_year/" + props.number + "/" + year)
             .then(response => {
@@ -22,7 +24,7 @@ function TeamInfo(props: any) {
             })
     }
 
-    const fetchImage = () => {
+    const fetchImage = (onlyAvatar:boolean) => {
         fetch("https://www.thebluealliance.com/api/v3/team/frc" + props.number +"/media/" + year, props.apiOptions)
             .then(response => {
                 return response.json()
@@ -31,10 +33,18 @@ function TeamInfo(props: any) {
             let shouldSkip = false
             if(data.length >0) {
                 data.forEach((e) => {
-                    if(shouldSkip) return
-                    if(e.direct_url != '') {
-                        setImgPath(e.direct_url)
-                        shouldSkip = true
+
+                    if(e.type === "avatar") {
+                        // console.log(e)
+                        setAvatarPath(e.details.base64Image)
+                    }
+
+                    if(!onlyAvatar) {
+                        if(shouldSkip) return
+                        if(e.direct_url != '') {
+                            setImgPath(e.direct_url)
+                            shouldSkip = true
+                        }
                     }
                 })
 
@@ -44,11 +54,17 @@ function TeamInfo(props: any) {
 
     useEffect(() => {
         fetchEPA()
+        fetchImage(true)
     }, [])
 
     return (
         <div className={"team-display " + (props.activeTeam ? "active" : "inactive")}>
-            <h2>{props.number}</h2>
+            <div className={"header-info"}>
+                {avatarPath !== "" ?
+                    <img className={"avatar"} src={`data:image/png;base64,${avatarPath}`} alt={"team avatar"}/> : null
+                }
+                <h2 className={avatarPath === "" ? "center" : ""}>{props.number}</h2>
+            </div>
             {getImg()}
             <div>
                 <h3>EPA: {epa}</h3>
@@ -71,7 +87,7 @@ function TeamInfo(props: any) {
             }
 
         } catch (error) {
-            fetchImage()
+            fetchImage(false)
 
             return <img className={"bot-image"}
                         src={require("../resources/no-team-image.jpg")}
