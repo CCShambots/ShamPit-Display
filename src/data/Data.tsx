@@ -14,14 +14,14 @@ class Match {
 
         switch (this.comp_level) {
             case("qm"):
-                header = "Quals Match"
+                header = "Quals"
                 break;
             case("sf"):
-                header = "Eliminations Match"
+                header = "Elims"
                 semis = true
                 break;
             case("f"):
-                header = "Finals Match"
+                header = "Finals"
                 break;
             default:
                 header = "Match"
@@ -29,7 +29,9 @@ class Match {
         }
 
         //We have to pull the match number differently for semis matches because TBA parses them in the worst way possible
-        let matchNum:number = semis ? parseInt(this.key.substring(10, 11)) : this.match_number;
+        let matchNum:number = semis ?
+            parseInt(this.key.substring(this.key.indexOf("_") + 3, this.key.indexOf("m1")))
+            : this.match_number;
 
         return header + " " + matchNum;
     }
@@ -68,13 +70,11 @@ class Match {
 
 class Alliances {
 
-    readonly red:Alliance
-    readonly blue:Alliance
+    constructor(readonly red: Alliance, readonly blue: Alliance) {
+    }
 
-
-    constructor(red: Alliance, blue: Alliance) {
-        this.red = red;
-        this.blue = blue;
+    public getTeams():number[] {
+        return [...this.red.numbers, ...this.blue.numbers]
     }
 }
 class Alliance {

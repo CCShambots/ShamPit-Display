@@ -58,7 +58,14 @@ function TeamInfo(props: any) {
     }, [])
 
     return (
+
         <div className={"team-display " + (props.activeTeam ? "active" : "inactive")}>
+            {
+                props.upcomingMatch != null ?
+
+                    <p className={"upcoming-match"}><b>In: {props.upcomingMatch.convertToHumanReadableName()}</b></p>
+                    : null
+            }
             <div className={"header-info"}>
                 {avatarPath !== "" ?
                     <img className={"avatar"} src={`data:image/png;base64,${avatarPath}`} alt={"team avatar"}/> : null
@@ -71,6 +78,7 @@ function TeamInfo(props: any) {
                 <h3>Cycles: {props.cycles}</h3>
             </div>
         </div>
+
     )
 
     function getImg() {

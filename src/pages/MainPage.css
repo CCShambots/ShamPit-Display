@@ -1,3 +1,18 @@
+.top-info {
+    display: flex;
+    width: 100vw;
+    justify-content: space-between;
+}
+
+.top-text {
+    font-size: 25px;
+
+    margin-left: 10px;
+    margin-right: 10px;
+
+    width: 25vw;
+}
+
 .alliances-container {
     display: flex;
     width: 100vw;

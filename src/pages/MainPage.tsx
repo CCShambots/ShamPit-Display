@@ -6,13 +6,12 @@ import "./MainPage.css"
 import SplashText from "../components/SplashText";
 import SyncIcon from "../components/SyncIcon";
 import FullscreenIcon from "../components/FullscreenIcon";
+import {Link} from "react-router-dom";
 
 function MainPage(props: any) {
 
     //TODO: Interface to scouting app for cycles
     //TODO: Show if a team has a match to play still before they play (maybe)
-
-    //TODO: Add Team Logos
 
     //TODO: Make this a number instead of string
 
@@ -32,7 +31,11 @@ function MainPage(props: any) {
     const [matchTime, setMatchTime] = useState("");
 
     let [matches, setMatches] = useState<Match[]>([])
-    let [nextMatch, setNextmatch] = useState<Match>()
+    let [nextMatch, setNextMatch] = useState<Match>()
+    let [nextMatchIndex, setNextMatchIndex] = useState<number>(0)
+
+    //The index of the last played match
+    let [lastPlayedMatch, setLastPlayedMatch] = useState(-1)
 
     let [redScore, setRedScore] = useState(0)
     let [blueScore, setBlueScore] = useState(0)
@@ -101,9 +104,16 @@ function MainPage(props: any) {
 
 
     /**
-     * Determine the next unplayed match by the team
+     * Determine the next un-played match by the team
      */
     const pullNextMatchData = () => {
+
+
+        let unplayedMatches = matches.filter((e:Match) =>
+            !(e.alliances.red.score >= 0 && e.alliances.blue.score >= 0)
+        );
+
+        setLastPlayedMatch(matches.length - unplayedMatches.length - 1)
 
         let ourMatches = matches.filter((e:Match) => {
             let teamNum:number = parseInt(teamNumber)
@@ -114,18 +124,16 @@ function MainPage(props: any) {
             }
         )
 
-        let ourUnplayedMatches = ourMatches.filter((e:Match) =>
-            !(e.alliances.red.score >= 0 && e.alliances.blue.score >= 0)
-        );
-
+        let ourUnplayedMatches = ourMatches.filter(x => unplayedMatches.includes(x))
 
         let nextMatch:Match  = ourUnplayedMatches.length > 0 ? ourUnplayedMatches[0] : ourMatches[ourMatches.length-1]
 
         if(nextMatch) {
             setMatchTime(nextMatch.getCorrectDate())
+            setNextMatchIndex(matches.indexOf(nextMatch))
             setNextMatchName(nextMatch.convertToHumanReadableName())
 
-            setNextmatch(nextMatch);
+            setNextMatch(nextMatch);
 
         }
     }
@@ -136,10 +144,8 @@ function MainPage(props: any) {
     }, [])
 
     //Only update match prediction when the next match updates
-    useEffect(() => getMatchPrediction(), [nextMatch])
-
     const getMatchPrediction = () => {
-        if(nextMatch != undefined) {
+        if(nextMatch !== undefined) {
             fetch("https://api.statbotics.io/v2/match/" + nextMatch?.key)
                 .then(result => {return result.json() })
                 .then(data => {
@@ -149,7 +155,7 @@ function MainPage(props: any) {
                     let alliance = nextMatch?.alliances.red.numbers.includes(parseInt(teamNumber)) ? "red" : "blue";
                     setWillWin(data.epa_winner === alliance)
                     //You have to take the complement of the probability since the win_prob is always from red alliance perspective
-                    setConfidence(alliance == "red" ? data.epa_win_prob : 1- data.epa_win_prob)
+                    setConfidence(alliance === "red" ? data.epa_win_prob : 1- data.epa_win_prob)
 
                     setSyncing(false)
                 })
@@ -157,12 +163,24 @@ function MainPage(props: any) {
 
     }
 
+    useEffect(() => getMatchPrediction(), [nextMatch, getMatchPrediction])
+
+
     return (
         <div className="App">
             <Header number={parseInt(teamNumber)} eventKey={eventKey} options={apiOptions}/>
             <div className="main-app">
-                <div>
+                <div className={"top-info"}>
+                    <b>
+                        {
+                            lastPlayedMatch >= 0 ?
+                            <p className={"top-text"}>Last Played: {matches[lastPlayedMatch].convertToHumanReadableName()}</p> :
+                            <p className={"top-text"}>Last Played: None</p>
+                        }
+                    </b>
+
                     <h1 className={"next-match"}>Next Match: {nextMatchName}</h1>
+                    <p className={"top-text"}>EPA provided by <Link style={{color: "white"}} to={"https://www.statbotics.io"}>Statbotics</Link></p>
                     {/*<SplashText/>*/}
                 </div>
                 <h2 className={"next-match"}>{matchTime}</h2>
@@ -182,7 +200,7 @@ function MainPage(props: any) {
                 <div className={"bottom-content"}>
                     <SyncIcon click={fetchMatchInfo} syncing={syncing}/>
                     <div className={"next-match prediction " + (willWin ? "win" : "loss")}>
-                        <h2>Match Prediction: {willWin ? "Win" : "Loss"} ({Math.round(confidence * 100)})%</h2>
+                        <h2>Match Prediction: {willWin ? "Win" : "Loss"} ({Math.round(confidence * 100)}%)</h2>
                     </div>
                     <FullscreenIcon/>
                 </div>
@@ -197,8 +215,22 @@ function MainPage(props: any) {
             let num = 0
 
             return alliance.numbers.map((e) => {
+
+                //Determine if the team has another match still to play
+                let upcomingMatch:Match|null = null
+
+                for(let i = lastPlayedMatch+1; i<nextMatchIndex; i++) {
+                    let thisMatch = matches[i]
+
+                    if(thisMatch.alliances.getTeams().includes(e)) {
+
+                        upcomingMatch = thisMatch;
+                        break;
+                    }
+                }
+
                 num++
-                return <TeamInfo number={e} activeTeam={parseInt(teamNumber) === e} key={num} apiOptions={apiOptions}/>
+                return <TeamInfo number={e} activeTeam={parseInt(teamNumber) === e} key={num} upcomingMatch={upcomingMatch} apiOptions={apiOptions}/>
             })
         }
     }
