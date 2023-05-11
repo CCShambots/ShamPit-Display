@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import './header.css'
-import packageJson from '../../package.json';
-import SettingsIcon from "./SettingsIcon";
+import packageJson from '../../../package.json';
+import SettingsIcon from "../settings-icon/SettingsIcon";
 
 const Header = (props:any) => {
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import "./TeamInfo.css"
-import packageJson from "../../package.json";
+import packageJson from "../../../package.json";
 
 function TeamInfo(props: any) {
 
@@ -98,7 +98,7 @@ function TeamInfo(props: any) {
             fetchImage(false)
 
             return <img className={"bot-image"}
-                        src={require("../resources/no-team-image.jpg")}
+                        src={require("../../resources/no-team-image.jpg")}
                         alt={"No Image Found"}></img>
 
         }

@@ -1,7 +1,7 @@
 import React from "react";
 import "./SyncIcon.css"
-import syncIcon from "../resources/sync-icon.svg"
-import refreshIcon from "../resources/refresh-icon.svg"
+import syncIcon from "../../resources/sync-icon.svg"
+import refreshIcon from "../../resources/refresh-icon.svg"
 
 function SyncIcon(props:any) {
     return props.syncing ?

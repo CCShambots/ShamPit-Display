@@ -49,5 +49,5 @@
 
 @font-face {
     font-family: 'minecraft';
-    src: local('MyFont'), url(../resources/minecraft-font.woff) format('woff');
+    src: local('MyFont'), url(../../resources/minecraft-font.woff) format('woff');
 }

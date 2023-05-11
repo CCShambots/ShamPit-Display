@@ -1,8 +1,8 @@
 import React, {useEffect} from "react";
 import "./FullScreen.css"
 
-import fullscreen from "../resources/fullscreen-icon.svg"
-import fullscreenClose from "../resources/fullscreen-close-icon.svg"
+import fullscreen from "../../resources/fullscreen-icon.svg"
+import fullscreenClose from "../../resources/fullscreen-close-icon.svg"
 
 function FullscreenIcon(props:any) {
 

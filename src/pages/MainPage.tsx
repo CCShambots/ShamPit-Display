@@ -1,11 +1,10 @@
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import React, {useEffect, useState} from "react";
 import {Alliance, Alliances, Match} from "../data/Data";
-import TeamInfo from "../components/TeamInfo";
+import TeamInfo from "../components/team-info/TeamInfo";
 import "./MainPage.css"
-import SplashText from "../components/SplashText";
-import SyncIcon from "../components/SyncIcon";
-import FullscreenIcon from "../components/FullscreenIcon";
+import SyncIcon from "../components/sync-icon/SyncIcon";
+import FullscreenIcon from "../components/fullscreen/FullscreenIcon";
 import {Link, useNavigate} from "react-router-dom";
 
 function MainPage(props: any) {
