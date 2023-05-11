@@ -9,7 +9,7 @@ When you ggo to the app for the first time on a new computer, you'll be taken di
 ### TBA API Key
 You need to provide an API key for The Blue Alliance for the display to be able to access any information from the database. To get an API key, simply go to [TBA's account page](https://www.thebluealliance.com/account) and log in to or create your account. Scroll to the section labeled "Read API Keys," create a new API key, and copy it into the TBA API Key field in the settings window of the pit display.
 
-![Image of Creating a TBA API Key](photos/tba api.png?raw=true "TBA API Creation")
+![Image of Creating a TBA API Key](https://raw.githubusercontent.com/CCShambots/5907-pit-display/master/photos/tba%20api.png)
 
 
 ### Selecting an Event
