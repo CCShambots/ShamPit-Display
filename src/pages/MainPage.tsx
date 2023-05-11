@@ -16,7 +16,6 @@ function MainPage(props: any) {
 
     //TODO: Swap event key and event dropdown
     //TODO: Provide info on the optionality of manual event key
-    //TODO: Make api key and team number clear themselves on first input
 
     //TODO: Stop errors from happening
 

@@ -104,7 +104,7 @@ function SettingsPage(props: any) {
 
                 <h2>Select From Team's Events</h2>
 
-                <select className={"input"} onChange={withEvent(handleEventSelection)} value={eventKey} defaultValue={"none"}>
+                <select className={"input"} onChange={withEvent(handleEventSelection)} value={eventKey}>
                     <option key={"none"} value={"none"}>[Using Custom Event Key]</option>
                     {/*Include all events the team is playing at*/}
                     {teamEvents.map((e) => <option key={e.key} value={e.key}>{e.name}</option>)}
