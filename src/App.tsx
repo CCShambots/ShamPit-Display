@@ -11,7 +11,7 @@ function App() {
       <HashRouter basename={`/`}>
             <Routes>
                     <Route path='' element={ <MainPage /> } />
-                    <Route path='/settings' element={ <SettingsPage /> } />
+                    <Route path='settings' element={ <SettingsPage /> } />
 
                 <Route path="/*" element={<NavLink to="/" />}  /> {/* navigate to default route if no url matched */}
             </Routes>
