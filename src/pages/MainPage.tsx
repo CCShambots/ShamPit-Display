@@ -20,8 +20,6 @@ function MainPage(props: any) {
 
     //TODO: Stop errors from happening
 
-    //TODO: Swap everything to vh instead of px
-
     //TODO: Make a match skippable in case things go wrong and provide ability to override
 
     const teamNumber = localStorage.getItem("number") || "0"

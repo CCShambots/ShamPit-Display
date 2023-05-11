@@ -113,7 +113,11 @@ function SettingsPage(props: any) {
 
             <div className={"settings-container"}>
                 <h2>TBA API Key</h2>
-                <input className={"input long"} type={"text"} onChange={withEvent(setApiKey)} value={apiKey}></input>
+                <input className={"input long"} type={"text"}
+                       onClick={() => {
+                            if(apiKey === "none") setApiKey("")
+                        }}
+                   onChange={withEvent(setApiKey)} value={apiKey}></input>
             </div>
 
             <div className={"settings-container"}>
