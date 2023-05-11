@@ -127,14 +127,14 @@ function SettingsPage(props: any) {
 
             <div className={"settings-container"}>
                 <h2 className={"color-text"}>Ribbon Background Color</h2>
-                <HexColorPicker color={backgroundColor} onChange={setBackgroundColor} ></HexColorPicker>
+                <HexColorPicker style={{height: "15vh", width: "15vh"}} color={backgroundColor} onChange={setBackgroundColor}></HexColorPicker>
                 <HexColorInput className={"input color-input background-input"}
                                color={backgroundColor} onChange={setBackgroundColor} />
             </div>
 
             <div className={"settings-container"}>
                 <h2 className={"color-text"}>Ribbon Text Color</h2>
-                <HexColorPicker color={textColor} onChange={setTextColor} ></HexColorPicker>
+                <HexColorPicker style={{height: "15vh", width: "15vh"}} color={textColor} onChange={setTextColor}></HexColorPicker>
 
                 {/*Allow the user to set the color easily to black or white*/}
                 <div className={"color-buttons"}>
