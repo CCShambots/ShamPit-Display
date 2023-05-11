@@ -1,46 +1,23 @@
-# Getting Started with Create React App
+# Getting Started with The Pit Display
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+You can access the pit display [here](https://ccshambots.github.io/5907-pit-display/).
 
-## Available Scripts
+## Set up
 
-In the project directory, you can run:
+When you ggo to the app for the first time on a new computer, you'll be taken directly to the settings page to configure your information. This will be saved on the computer unless you actively delete it (not recommended)
 
-### `npm start`
+### TBA API Key
+You need to provide an API key for The Blue Alliance for the display to be able to access any information from the database. To get an API key, simply go to [TBA's account page](https://www.thebluealliance.com/account) and log in to or create your account. Scroll to the section labeled "Read API Keys," create a new API key, and copy it into the TBA API Key field in the settings window of the pit display.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![Image of Creating a TBA API Key](photos/tba api.png?raw=true "TBA API Creation")
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+### Selecting an Event
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You can select an event to display in multiple ways
 
-### `npm run build`
+1. Enter the Event Key directly - copy the event key from the end of a TBA event page (i.e. `https://www.thebluealliance.com/event/2023dal` becomes `2023dal`)
+2. Copy the full event link into the Event Key Field
+3. Select one of your team's events from the dropdown. If you use the dropdown, you don't have to enter anything into the Event Key Field if you select from here. It will autofill for you.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+The Event Key field will turn green when it matches one of the events in the dropdown for you team. This will guarantee that you have a valid key.
