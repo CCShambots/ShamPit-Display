@@ -58,7 +58,7 @@ const Header = (props:any) => {
                     ) : eventName
             }</h1>
             <div className={"settings box"}>
-                <Link className={"settings-icon"} to={"/settings"}>
+                <Link className={"settings-icon"} to={"/5907-pit-display/settings"}>
                     <SettingsIcon color={textColor}></SettingsIcon>
                 </Link>
             </div>

@@ -9,8 +9,8 @@ function App() {
   return (
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="settings" element={<SettingsPage />} />
+          <Route path="/5907-pit-display" element={<MainPage />} />
+          <Route path="/5907-pit-display/settings" element={<SettingsPage />} />
         </Routes>
       </BrowserRouter>
   );
