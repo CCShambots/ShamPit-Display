@@ -84,7 +84,7 @@ function SettingsPage(props: any) {
         return value
     }
 
-    return <div className={"App"}>
+    return <div className={"settings-page"}>
         <h1 className={"title"} style={{background: backgroundColor, color: textColor}}>Settings</h1>
 
         <div className={"settings"}>

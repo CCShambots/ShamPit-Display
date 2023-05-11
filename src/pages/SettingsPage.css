@@ -1,3 +1,11 @@
+.settings-page {
+    text-align: center;
+    color:white;
+    min-height: 100vh;
+    background-color: #282c34;
+}
+
+
 .title{
     font-size: 6.5vh;
     padding-bottom: 1.3vh;
