@@ -13,10 +13,7 @@ function MainPage(props: any) {
     //TODO: Interface to scouting app for cycles
 
     //TODO: Publish current features as version and then bump to new
-
-    //TODO: Swap event key and event dropdown
-    //TODO: Provide info on the optionality of manual event key
-
+    
     //TODO: Stop errors from happening
 
     //TODO: Make a match skippable in case things go wrong and provide ability to override

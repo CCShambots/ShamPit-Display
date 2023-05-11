@@ -89,15 +89,20 @@ function SettingsPage(props: any) {
 
         <div className={"settings"}>
             {/*Inputs for the settings info*/}
+
+            <div className={"settings-container"}>
+                <h2>TBA API Key</h2>
+                <input className={"input long"} type={"text"}
+                       onClick={() => {
+                           if(apiKey === "none") setApiKey("")
+                       }}
+                       onChange={withEvent(setApiKey)} value={apiKey}></input>
+            </div>
+
             <div className={"settings-container"}>
                 <h2>Team Number</h2>
                 <input className={"input"} type={"text"} id={"team-number"} value={teamNumber}
                        minLength={1} maxLength={4} onChange={withEvent(setTeamNumber)}></input>
-            </div>
-
-            <div className={"settings-container"}>
-                <h2>Event Key</h2>
-                <input className={"input " + (isCurrentKeyMatching() ? "valid" : "")} type={"text"} onChange={withEvent(setEventKey)} value={eventKey}></input>
             </div>
 
             <div className={"settings-container"}>
@@ -112,12 +117,12 @@ function SettingsPage(props: any) {
             </div>
 
             <div className={"settings-container"}>
-                <h2>TBA API Key</h2>
-                <input className={"input long"} type={"text"}
-                       onClick={() => {
-                            if(apiKey === "none") setApiKey("")
-                        }}
-                   onChange={withEvent(setApiKey)} value={apiKey}></input>
+                <div>
+                    <h2>Event Key</h2>
+                    <p className={"small-text"}>*Optional if you select an event from the dropdown</p>
+                </div>
+
+                <input className={"input " + (isCurrentKeyMatching() ? "valid" : "")} type={"text"} onChange={withEvent(setEventKey)} value={eventKey}></input>
             </div>
 
             <div className={"settings-container"}>
