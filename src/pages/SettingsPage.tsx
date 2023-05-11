@@ -13,7 +13,7 @@ function SettingsPage(props: any) {
         useState(localStorage.getItem("backgroundColor") || "#004f9e");
     const [textColor, setTextColor] = useState(localStorage.getItem("textColor") || "#ffffff");
 
-    const [teamNumber, setTeamNumber] = useState(parseInt(JSON.parse(localStorage.getItem("number") || "{}")));
+    const [teamNumber, setTeamNumber] = useState(parseInt(localStorage.getItem("number") || "0"));
     const [eventKey, setEventKey] = useState(localStorage.getItem("eventKey") || "");
 
     const [apiKey, setApiKey] = useState(localStorage.getItem("apiKey") || "none");
