@@ -28,7 +28,7 @@ function MainPage(props: any) {
 
     useEffect(() => {
 
-        if(!localStorage.getItem("apiKey")) navigate('/5907-pit-display/settings', { replace: true });
+        // if(!localStorage.getItem("apiKey")) navigate('/5907-pit-display/settings', { replace: true });
     }, [navigate]);
 
     const [nextMatchName, setNextMatchName] = useState("No Match Found");

@@ -140,10 +140,10 @@ function SettingsPage(props: any) {
             </div>
 
             <div className={"settings-container"}>
-                <Link onClick={save} to={"/5907-pit-display"} className={"color-button green bottom-button"}>
+                <Link onClick={save} to={"/5907-pit-display/home"} className={"color-button green bottom-button"}>
                     Save
                 </Link>
-                <Link to={"/5907-pit-display"} className={"color-button red bottom-button"}>
+                <Link to={"/5907-pit-display/home"} className={"color-button red bottom-button"}>
                     Cancel
                 </Link>
             </div>

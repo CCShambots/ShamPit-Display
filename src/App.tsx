@@ -1,18 +1,25 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import MainPage from "./pages/MainPage";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, NavLink, Route, Router, Routes} from "react-router-dom";
 import SettingsPage from "./pages/SettingsPage";
 
 function App() {
 
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/5907-pit-display" element={<MainPage />} />
-          <Route path="/5907-pit-display/settings" element={<SettingsPage />} />
-        </Routes>
-      </BrowserRouter>
+      <HashRouter>
+            <Routes>
+              <Route index path={"/"} element={<MainPage />} />
+              <Route path="/5907-pit-display/settings" element={<SettingsPage />} />
+
+                <Route path='/5907-pit-display'> {/* put url base here and nest children routes */}
+                    <Route path='home' element={ <MainPage /> } />
+                    <Route path='settings' element={ <SettingsPage /> } />
+                </Route>
+                <Route path="/*" element={<NavLink to="/5907-pit-display/home" />}  /> {/* navigate to default route if no url matched */}
+            </Routes>
+
+      </HashRouter>
   );
 }
 
