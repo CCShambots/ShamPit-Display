@@ -1,3 +1,6 @@
+/* Height conversion: 6.5/50 */
+/* Width conversion: 1/10 */
+
 .top-info {
     display: flex;
     width: 100vw;
@@ -5,10 +8,10 @@
 }
 
 .top-text {
-    font-size: 25px;
+    font-size: 3.25vh;
 
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 1vw;
+    margin-right: 1vw;
 
     width: 25vw;
 }
@@ -17,7 +20,7 @@
     display: flex;
     width: 100vw;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 1.3vh;
 }
 
 .alliance-info {
@@ -34,22 +37,22 @@
     justify-content: space-around;
     width: 100vw;
 
-    margin-top: 10px;
+    margin-top: 1.3vh;
 }
 
 .alliance-score {
     width: 25vw;
-    border-radius: 10px;
+    border-radius: 1.3vh;
     color: white;
 
     background-color: rgba(0, 0, 0, 0.5);
 
-    font-size: 65px;
+    font-size: 8.45vh;
 }
 
 .bottom-content {
     margin-top: auto;
-    margin-bottom: 10px;
+    margin-bottom: 1.3vh;
 
     display: flex;
     flex-direction: row;

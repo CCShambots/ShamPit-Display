@@ -1,20 +1,12 @@
 .title{
-    font-size: 50px;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    font-size: 6.5vh;
+    padding-bottom: 1.3vh;
+    padding-top: 1.3vh;
 }
-
-/*.settings {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-
-/*    align-content: space-between;*/
-
-/*}*/
 
 .settings-container {
 
-    margin-top: 20px;
+    margin-top: 2.6vh;
 
     display: flex;
 
@@ -34,18 +26,18 @@
 
     justify-content: space-around;
 
-    margin-left: 20px;
+    margin-left: 2.6vh;
 }
 
 .color-button {
-    font-size: 20px;
+    font-size: 2.6vh;
 
     height: 5vh;
     width: 10vh;
 
     user-select: none;
 
-    border-radius: 10px;
+    border-radius: 1.3vh;
 
     display: flex;
     flex-direction: column;
@@ -88,7 +80,7 @@
 
 
 .input {
-    border-radius: 10px;
+    border-radius: 1.3vh;
 }
 
 .valid {
@@ -97,7 +89,7 @@
 
 .color-input {
     height: 5vh;
-    font-size: 20px;
+    font-size: 2.6vh;
     width: 10vw;
 
     margin-top: auto;
@@ -105,12 +97,12 @@
 }
 
 .background-input {
-    margin-left: 20px;
+    margin-left: 2vw;
 }
 
 .bottom-button {
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: 1vw;
+    margin-left: 1vw;
 
     color: white;
     text-decoration: none;

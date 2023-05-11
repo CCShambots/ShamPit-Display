@@ -75,7 +75,7 @@ function TeamInfo(props: any) {
             {getImg()}
             <div>
                 <h3>EPA: {epa}</h3>
-                <h3>Cycles: {props.cycles}</h3>
+                {/*<h3>Cycles: {props.cycles}</h3>*/}
             </div>
         </div>
 

@@ -1,7 +1,7 @@
 .team-display {
-    padding: 15px 25px 15px 25px;
+    padding: 1.95vh 2.5vw 1.95vh 2.5vw;
 
-    border-radius: 10px;
+    border-radius: 1.3vh;
 
     min-height: 40vh;
     max-height: 50vh;
@@ -33,7 +33,7 @@ h2, h3 {
     height: auto;
     border: 5px solid;
     min-height: 20vh;
-    border-radius: 10px;
+    border-radius: 1.3vh;
 }
 
 .header-info {
@@ -61,8 +61,6 @@ h2, h3 {
 }
 
 .upcoming-match {
-    z-index: 10;
-
     margin-top: 0;
     margin-bottom: 0;
 
