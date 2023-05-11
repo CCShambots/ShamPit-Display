@@ -46,7 +46,7 @@ const Header = (props:any) => {
                 </div>
             </div>
             <h1 className={"event-title box"}>{
-                eventName.indexOf("presented") != -1  ?
+                eventName !== undefined && eventName.indexOf("presented") != -1  ?
                     (
                         //Remove any "presented by" stuff because it takes up too much text
                         eventName.substring(0, eventName.indexOf("presented"))
