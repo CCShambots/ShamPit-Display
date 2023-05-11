@@ -1,7 +1,7 @@
 import Header from "../components/header/Header";
 import React, {useEffect, useState} from "react";
 import {Alliance, Alliances, Match} from "../data/Data";
-import TeamInfo from "../components/team-info/TeamInfo";
+import TeamInfo from "../components/TeamInfo";
 import "./MainPage.css"
 import SyncIcon from "../components/sync-icon/SyncIcon";
 import FullscreenIcon from "../components/fullscreen/FullscreenIcon";
