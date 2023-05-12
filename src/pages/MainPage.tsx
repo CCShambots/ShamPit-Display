@@ -127,10 +127,11 @@ function MainPage(props: any) {
 
         let unplayedMatches = matches.filter((e:Match) =>
             !(e.alliances.red.score >= 0 && e.alliances.blue.score >= 0)
-            && !skipMatches.includes(e) //Check if this match has been set to skip
         );
 
-        setLastPlayedMatch(matches.length - unplayedMatches.length - 1)
+        let playedMatches = matches.filter(e => !unplayedMatches.includes(e))
+
+        setLastPlayedMatch(matches.indexOf(playedMatches[playedMatches.length-1]))
 
         let ourMatches = matches.filter((e:Match) => {
             let teamNum:number = parseInt(teamNumber)
@@ -141,7 +142,9 @@ function MainPage(props: any) {
             }
         )
 
-        let ourUnplayedMatches = ourMatches.filter(x => unplayedMatches.includes(x))
+        let ourUnplayedMatches = ourMatches.filter(x =>  {
+            return unplayedMatches.includes(x) && !skipMatches.includes(x)
+        })
 
         let nextMatch:Match  = ourUnplayedMatches.length > 0 ? ourUnplayedMatches[0] : ourMatches[ourMatches.length-1]
 
