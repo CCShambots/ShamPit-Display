@@ -17,6 +17,8 @@
     margin-top: auto;
     margin-bottom: auto;
 
+    font-size: 4vh;
+
     transition: 0.5s;
 }
 
@@ -32,4 +34,7 @@
     border: 3px solid white;
 
     transition: 0.5s;
+
+    height: 4vh;
+    width: auto;
 }

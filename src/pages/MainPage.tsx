@@ -16,7 +16,6 @@ function MainPage(props: any) {
     //TODO: Stop errors from happening
 
     //TODO: Use function parameters instead of types
-    //TODO: Make a match skippable in case things go wrong and provide ability to override
 
     const teamNumber = localStorage.getItem("number") || "0"
     const eventKey = localStorage.getItem("eventKey") || ""
