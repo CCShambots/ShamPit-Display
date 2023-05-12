@@ -6,6 +6,10 @@
 }
 
 .main-app {
+
+  transition: 0.5s;
+
+
   min-height: 90vh;
   display: flex;
   flex-direction: column;

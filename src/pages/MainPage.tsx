@@ -6,6 +6,8 @@ import "./MainPage.css"
 import SyncIcon from "../components/sync-icon/SyncIcon";
 import FullscreenIcon from "../components/fullscreen/FullscreenIcon";
 import {Link, useNavigate} from "react-router-dom";
+import MatchCompletionOverride from "../components/match-override-menu/MatchCompletionOverride";
+import {match} from "assert";
 
 function MainPage(props: any) {
 
@@ -13,6 +15,7 @@ function MainPage(props: any) {
 
     //TODO: Stop errors from happening
 
+    //TODO: Use function parameters instead of types
     //TODO: Make a match skippable in case things go wrong and provide ability to override
 
     const teamNumber = localStorage.getItem("number") || "0"
@@ -40,6 +43,9 @@ function MainPage(props: any) {
     let [matches, setMatches] = useState<Match[]>([])
     let [nextMatch, setNextMatch] = useState<Match>()
     let [nextMatchIndex, setNextMatchIndex] = useState<number>(0)
+
+    //Matches that the user has indicated have already occurred and should be ignored
+    let [skipMatches, setSkipMatches] = useState<Match[]>([])
 
     //The index of the last played match
     let [lastPlayedMatch, setLastPlayedMatch] = useState(-1)
@@ -121,6 +127,7 @@ function MainPage(props: any) {
 
         let unplayedMatches = matches.filter((e:Match) =>
             !(e.alliances.red.score >= 0 && e.alliances.blue.score >= 0)
+            && !skipMatches.includes(e) //Check if this match has been set to skip
         );
 
         setLastPlayedMatch(matches.length - unplayedMatches.length - 1)
@@ -144,7 +151,6 @@ function MainPage(props: any) {
             setNextMatchName(nextMatch.convertToHumanReadableName())
 
             setNextMatch(nextMatch);
-
         }
     }
 
@@ -184,13 +190,17 @@ function MainPage(props: any) {
                     <b>
                         {
                             lastPlayedMatch >= 0 ?
-                            <p className={"top-text"}>Last Played: {matches[lastPlayedMatch].convertToHumanReadableName()}</p> :
-                            <p className={"top-text"}>Last Played: None</p>
+                                <p className={"top-text"}>Last Played: {matches[lastPlayedMatch].convertToHumanReadableName()}</p> :
+                                <p className={"top-text"}>Last Played: None</p>
                         }
                     </b>
 
                     <h1 className={"next-match"}>Next Match: {nextMatchName}</h1>
-                    <p className={"top-text"}>EPA provided by <Link style={{color: "white"}} to={"https://www.statbotics.io"}>Statbotics</Link></p>
+
+                    <div>
+                        <p className={"top-text"}>EPA provided by <Link style={{color: "white"}} to={"https://www.statbotics.io"}>Statbotics</Link></p>
+
+                    </div>
                     {/*<SplashText/>*/}
                 </div>
                 <h2 className={"next-match"}>{matchTime}</h2>
@@ -206,6 +216,7 @@ function MainPage(props: any) {
                 <div className={"score-results"}>
                     <h2 className={"alliance-score"}>{redScore}</h2>
                     <h2 className={"alliance-score"}>{blueScore}</h2>
+                    <MatchCompletionOverride triggerReload={fetchMatchInfo} nextMatch={nextMatch} matches={skipMatches} setMatches={setSkipMatches}/>
                 </div>
                 <div className={"bottom-content"}>
                     <SyncIcon click={fetchMatchInfo} syncing={syncing}/>

@@ -1,0 +1,35 @@
+
+.override-entry {
+    margin-left: 1vw;
+    margin-right: 1vw;
+
+    display: flex;
+    justify-content: space-between;
+
+    transition: 0.5s;
+
+    overflow: hidden;
+
+    border-bottom: 3px solid white;
+}
+
+.match-name {
+    margin-top: auto;
+    margin-bottom: auto;
+
+    transition: 0.5s;
+}
+
+.hovered {
+    color:red;
+}
+
+.remove-icon {
+    margin-top: auto;
+    margin-bottom: auto;
+
+    border-radius: 1vh;
+    border: 3px solid white;
+
+    transition: 0.5s;
+}
