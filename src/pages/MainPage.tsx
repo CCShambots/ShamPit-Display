@@ -7,7 +7,6 @@ import SyncIcon from "../components/sync-icon/SyncIcon";
 import FullscreenIcon from "../components/fullscreen/FullscreenIcon";
 import {Link, useNavigate} from "react-router-dom";
 import MatchCompletionOverride from "../components/match-override-menu/MatchCompletionOverride";
-import {match} from "assert";
 
 function MainPage(props: any) {
 
@@ -16,6 +15,10 @@ function MainPage(props: any) {
     //TODO: Stop errors from happening
 
     //TODO: Use function parameters instead of types
+
+    //TODO: Make top left text change height dynamically
+    //TODO: Make override menu info text change dynamically to fit better
+    //TODO: Offline mode?
 
     const teamNumber = localStorage.getItem("number") || "0"
     const eventKey = localStorage.getItem("eventKey") || ""
