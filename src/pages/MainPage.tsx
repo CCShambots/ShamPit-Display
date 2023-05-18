@@ -19,6 +19,7 @@ function MainPage(props: any) {
     //TODO: Make top left text change height dynamically
     //TODO: Make override menu info text change dynamically to fit better
     //TODO: Offline mode?
+    //TODO: Make links open in new tab
 
     const teamNumber = localStorage.getItem("number") || "0"
     const eventKey = localStorage.getItem("eventKey") || ""
@@ -203,10 +204,9 @@ function MainPage(props: any) {
                     <h1 className={"next-match"}>Next Match: {nextMatchName}</h1>
 
                     <div>
-                        <p className={"top-text"}>EPA provided by <Link style={{color: "white"}} to={"https://www.statbotics.io"}>Statbotics</Link></p>
+                        <p className={"top-text"}>EPA provided by <Link target={"_blank"} style={{color: "white"}} to={"https://www.statbotics.io"}>Statbotics</Link></p>
 
                     </div>
-                    {/*<SplashText/>*/}
                 </div>
                 <h2 className={"next-match"}>{matchTime}</h2>
 

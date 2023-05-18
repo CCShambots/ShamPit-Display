@@ -7,7 +7,10 @@
 .icon {
     margin-top: auto;
     margin-bottom: auto;
+}
 
+.flip-image {
+    transform: scaleX(-1);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -18,9 +21,9 @@
 
 @keyframes sync-spin {
     from {
-        transform: rotate(0deg);
+        transform: rotate(30deg) scaleX(-1);
     }
     to {
-        transform: rotate(-360deg);
+        transform: rotate(390deg) scaleX(-1);
     }
 }

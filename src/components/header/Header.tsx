@@ -36,13 +36,13 @@ const Header = (props:any) => {
         <div className={"header-container"} style={{backgroundColor: backgroundColor, color: textColor}}>
             <div className={"left-info box"}>
                 <div>
-                    <Link style={{color: textColor}} to={"https://github.com/CCShambots/5907-pit-display"}>
+                    <Link target={"_blank"} style={{color: textColor}} to={"https://github.com/CCShambots/5907-pit-display"}>
                         Version: {packageJson.version}
                     </Link>
                     <br/>
-                    <Link style={{color: textColor}} to={"https://www.thebluealliance.com/team/" + teamNumber}>Team: {teamNumber}</Link>
+                    <Link target={"_blank"} style={{color: textColor}} to={"https://www.thebluealliance.com/team/" + teamNumber}>Team: {teamNumber}</Link>
                     <br/>
-                    <Link style={{color: textColor}} to={"https://www.thebluealliance.com/event/" + eventKey}>Event: {eventKey}</Link>
+                    <Link target={"_blank"} style={{color: textColor}} to={"https://www.thebluealliance.com/event/" + eventKey}>Event: {eventKey}</Link>
                 </div>
             </div>
             <h1 className={"event-title box"}>{
