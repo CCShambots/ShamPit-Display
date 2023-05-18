@@ -6,7 +6,6 @@ function OverrideEntry(props: any) {
 
     let [height, setHeight] = useState<number>(
         () => {
-            console.log( "SETTING")
             return 6;
         }
     );
@@ -14,7 +13,6 @@ function OverrideEntry(props: any) {
     let [hover, setHover] = useState<boolean>(false)
 
     useEffect(() => {
-        console.log(height)
     }, [height])
 
     return(

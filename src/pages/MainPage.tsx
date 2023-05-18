@@ -17,7 +17,6 @@ function MainPage(props: any) {
     //TODO: Use function parameters instead of types
 
     //TODO: Make top left text change height dynamically
-    //TODO: Make override menu info text change dynamically to fit better
     //TODO: Offline mode?
 
     const teamNumber = localStorage.getItem("number") || "0"
