@@ -19,7 +19,6 @@ function MainPage(props: any) {
     //TODO: Make top left text change height dynamically
     //TODO: Make override menu info text change dynamically to fit better
     //TODO: Offline mode?
-    //TODO: Make links open in new tab
 
     const teamNumber = localStorage.getItem("number") || "0"
     const eventKey = localStorage.getItem("eventKey") || ""

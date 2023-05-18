@@ -60,8 +60,8 @@ function MatchCompletionOverride(props: any) {
 
             <div className={"menu-container"}>
                 <div className={"skip-current"}>
-                    <p className={"skip-info"} style={{opacity: infoBox ? "1" : "0"}}>
-                        This will indicate that the currently shown match should be disregarded. The site will look for your team's next unplayed match</p>
+                    {/*<p className={"skip-info"} style={{opacity: infoBox ? "1" : "0"}}>*/}
+                    {/*    This will indicate that the currently shown match should be disregarded. The site will look for your team's next unplayed match</p>*/}
                     <p onClick={() => {
                         add(props.nextMatch)
                         props.triggerReload()
