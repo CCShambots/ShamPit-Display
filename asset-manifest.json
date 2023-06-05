@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/5907-pit-display/static/css/main.fad8d8af.css",
-    "main.js": "/5907-pit-display/static/js/main.e5bdd3a7.js",
+    "main.css": "/5907-pit-display/static/css/main.95fc84f8.css",
+    "main.js": "/5907-pit-display/static/js/main.b55737b8.js",
     "static/js/787.3cbca76d.chunk.js": "/5907-pit-display/static/js/787.3cbca76d.chunk.js",
     "static/media/5907.jpg": "/5907-pit-display/static/media/5907.bfc7394b3e1acba1eaa8.jpg",
     "static/media/no-team-image.jpg": "/5907-pit-display/static/media/no-team-image.0ec7567978a4d146665d.jpg",
@@ -12,12 +12,12 @@
     "static/media/fullscreen-close-icon.svg": "/5907-pit-display/static/media/fullscreen-close-icon.75db94a52384b09cc470daebdf3d8797.svg",
     "static/media/arrow-down.svg": "/5907-pit-display/static/media/arrow-down.bd07ef487f21dd02e8c5f70dc616ff56.svg",
     "static/media/remove-icon.svg": "/5907-pit-display/static/media/remove-icon.44e751399a19ac1311c4cd962eb34b49.svg",
-    "main.fad8d8af.css.map": "/5907-pit-display/static/css/main.fad8d8af.css.map",
-    "main.e5bdd3a7.js.map": "/5907-pit-display/static/js/main.e5bdd3a7.js.map",
+    "main.95fc84f8.css.map": "/5907-pit-display/static/css/main.95fc84f8.css.map",
+    "main.b55737b8.js.map": "/5907-pit-display/static/js/main.b55737b8.js.map",
     "787.3cbca76d.chunk.js.map": "/5907-pit-display/static/js/787.3cbca76d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fad8d8af.css",
-    "static/js/main.e5bdd3a7.js"
+    "static/css/main.95fc84f8.css",
+    "static/js/main.b55737b8.js"
   ]
 }
