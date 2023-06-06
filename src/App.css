@@ -9,7 +9,6 @@
 
   transition: 0.5s;
 
-
   min-height: 90vh;
   display: flex;
   flex-direction: column;
@@ -19,8 +18,8 @@
   color: white;
 
   background:
-          linear-gradient(to right, red 0%, red 50%, transparent 50%, transparent 100%),
-          linear-gradient(to left, blue 0%, blue 50%, transparent 50%, transparent 100%);
+          linear-gradient(to right, #ce1111 0%, #ce1111 50%, transparent 50%, transparent 100%),
+          linear-gradient(to left, #0a0aa2 0%, #0a0aa2 50%, transparent 50%, transparent 100%);
 
 }
 

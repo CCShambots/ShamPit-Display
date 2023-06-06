@@ -7,6 +7,12 @@
     justify-content: space-between;
 }
 
+.app-container {
+    display: flex;
+
+    width: 100vw;
+}
+
 .top-text {
     font-size: 3.25vh;
 
@@ -69,9 +75,9 @@
 }
 
 .win {
-    background-color: green;
+    background-color: #0fe10f;
 }
 
 .loss {
-    background-color: #930707;
+    background-color: #f10b0b;
 }
