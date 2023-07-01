@@ -8,6 +8,7 @@ import FullscreenIcon from "../components/fullscreen/FullscreenIcon";
 import {Link, useNavigate} from "react-router-dom";
 import MatchCompletionOverride from "../components/match-override-menu/MatchCompletionOverride";
 import packageJson from "../../package.json";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 function MainPage(props: any) {
 
@@ -181,7 +182,7 @@ function MainPage(props: any) {
                         setRedScore(data.red_epa_sum)
                         setBlueScore(data.blue_epa_sum)
 
-                        let alliance = nextMatch?.alliances.red.numbers.includes(parseInt(teamNumber)) ? "red" : "blue";
+                        let alliance = getTeamAlliance();
                         setWillWin(data.epa_winner === alliance)
                         //win_prob is always from red alliance perspective, so we flip the probability for when our selected team is on the blue alliance
                         setConfidence(alliance === "red" ? data.epa_win_prob : 1 - data.epa_win_prob)
@@ -200,7 +201,7 @@ function MainPage(props: any) {
                         setRedScore(redTotal);
                         setBlueScore(blueTotal);
 
-                        let teamAlliance = nextMatch?.alliances.red.numbers.includes(parseInt(teamNumber)) ? "red" : "blue";
+                        let teamAlliance = getTeamAlliance();
                         let winningAlliance = redTotal > blueTotal ? "red" : "blue";
 
                         setWillWin(teamAlliance === winningAlliance);
@@ -231,14 +232,18 @@ function MainPage(props: any) {
                         }
                     </b>
 
-                    <h1 className={"next-match"}>Next Match: {nextMatchName}</h1>
+                    <div>
+                        <h1 className={"next-match next-match-text"}>Next Match: {nextMatchName}</h1>
+                        <div className={"next-match-time-container"}>
+                            <h2 className={"next-match next-match-time"}>{matchTime}</h2>
+                        </div>
+                    </div>
 
                     <div>
                         <p className={"top-text"}>EPA provided by <Link target={"_blank"} style={{color: "white"}} to={"https://www.statbotics.io"}>Statbotics</Link></p>
 
                     </div>
                 </div>
-                <h2 className={"next-match"}>{matchTime}</h2>
 
                 <div className={"alliances-container"}>
                     <div className = {"alliance-info"}>
@@ -253,6 +258,11 @@ function MainPage(props: any) {
                     <h2 className={"alliance-score"}>{blueScore}</h2>
                     <MatchCompletionOverride triggerReload={fetchMatchInfo} nextMatch={nextMatch} matches={skipMatches} setMatches={setSkipMatches}/>
                 </div>
+                <div className={"bar-wrapper"}>
+                    <div className={"bar-container"}>
+                        <div className={"bar-completed"} style={{width: `${generateWidthOfAdvantageBar()}%`}}/>
+                    </div>
+                </div>
                 <div className={"bottom-content"}>
                     <SyncIcon click={fetchMatchInfo} syncing={syncing}/>
                     <div className={"next-match prediction " + (willWin ? "win" : "loss")}>
@@ -264,6 +274,20 @@ function MainPage(props: any) {
 
         </div>
     );
+
+    //Generate the width, as a percentage, that the advantage bar should be
+    function generateWidthOfAdvantageBar():number {
+        let alliance = getTeamAlliance();
+
+        let baseBar = alliance === "red" ? confidence : 1 + -confidence
+
+        //we add an extra 5 percent to its width for the gradient to look good and be accurate (the gradient is 10% total
+        return (baseBar * 100) * 1.05
+    }
+
+    function getTeamAlliance():string {
+        return nextMatch?.alliances.red.numbers.includes(parseInt(teamNumber)) ? "red" : "blue";
+    }
 
     function getTeamInfoSet(alliance:Alliance|undefined) {
         if(alliance !== undefined) {

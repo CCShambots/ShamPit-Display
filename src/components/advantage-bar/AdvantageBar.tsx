@@ -3,7 +3,7 @@ import "./AdvantageBar.css"
 
 function AdvantageBar(props: any) {
     return(
-        <div className={"bar-container"}>
+        <div className={"bar-wrapper"}>
         </div>
     )
 }
