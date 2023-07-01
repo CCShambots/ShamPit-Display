@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './App.css';
 import MainPage from "./pages/MainPage";
-import {BrowserRouter, HashRouter, NavLink, Route, Router, Routes} from "react-router-dom";
+import {HashRouter, NavLink, Route, Routes} from "react-router-dom";
 import SettingsPage from "./pages/SettingsPage";
 
 function App() {

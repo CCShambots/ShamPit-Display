@@ -13,9 +13,9 @@ const Header = (props:any) => {
     let eventKey: string = props.eventKey
 
     const [eventName, setEventName] = useState("NO EVENT")
-
-
-    const fetchInfo = () => {
+    
+    //Fetch the event title when the component loads
+    useEffect(() => {
         fetch("https://www.thebluealliance.com/api/v3/event/" + eventKey, props.options)
             .then(response => {
                 return response.json()
@@ -23,12 +23,7 @@ const Header = (props:any) => {
             .then(data => {
                 setEventName(data.name)
             }).catch(e => {})
-    }
-
-    //Run fetch event name on component load
-    useEffect(() => {
-        fetchInfo()
-    }, [fetchInfo])
+    }, [eventKey, props.options])
 
 
 
@@ -46,13 +41,13 @@ const Header = (props:any) => {
                 </div>
             </div>
             <h1 className={"event-title box"}>{
-                eventName !== undefined && eventName.indexOf("presented") != -1  ?
+                eventName !== undefined && eventName.indexOf("presented") !== -1  ?
                     (
                         //Remove any "presented by" stuff because it takes up too much text
                         eventName.substring(0, eventName.indexOf("presented"))
                         + (
                             //If there was a "presented" removed and a dash for a division (i.e. FiM states, add that as well
-                            eventName.indexOf("presented") != -1 && eventName.indexOf("-") != -1 ?
+                            eventName.indexOf("presented") !== -1 && eventName.indexOf("-") !== -1 ?
                                 eventName.substring(eventName.indexOf("-")) : ""
                         )
                     ) : eventName

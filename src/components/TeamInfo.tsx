@@ -7,7 +7,6 @@ function TeamInfo(props: any) {
     const year = packageJson.version.substring(0, 4);
 
     const [epa, setEPA] = useState<number>(0)
-    const [cycles, setCycles] = useState<number>(0)
     const [imgPath, setImgPath] = useState<string>("../resources/team-images/" + props.number + ".jpg")
 
     const [avatarPath, setAvatarPath] = useState<string>("")
@@ -41,7 +40,7 @@ function TeamInfo(props: any) {
 
                     if(!onlyAvatar) {
                         if(shouldSkip) return
-                        if(e.direct_url != '') {
+                        if(e.direct_url !== '') {
                             setImgPath(e.direct_url)
                             shouldSkip = true
                         }
@@ -84,14 +83,14 @@ function TeamInfo(props: any) {
     function getImg() {
         try {
 
-            if(imgPath.substring(0, 1) == ".") {
+            if(imgPath.substring(0, 1) === ".") {
                 return <img className={"bot-image"}
                             src={require("../resources/team-images/" + props.number + ".jpg")}
-                            alt={"Image Error"}></img>
+                            alt={"Error"}></img>
             } else {
                 return <img className={"bot-image"}
                             src={imgPath}
-                            alt={"Image Error"}></img>
+                            alt={"Error"}></img>
             }
 
         } catch (error) {
@@ -99,7 +98,7 @@ function TeamInfo(props: any) {
 
             return <img className={"bot-image"}
                         src={require("../resources/no-team-image.jpg")}
-                        alt={"No Image Found"}></img>
+                        alt={"None Found"}></img>
 
         }
     }

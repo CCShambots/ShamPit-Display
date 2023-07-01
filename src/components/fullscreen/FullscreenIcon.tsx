@@ -23,8 +23,8 @@ function FullscreenIcon(props:any) {
     }, [])
 
     return(!isFullscreen ?
-        <img className={"fullscreen-icon"} onClick={enterFullScreen} src={fullscreen}/> :
-        <img className={"fullscreen-icon"} onClick={closeFullScreen} src={fullscreenClose}/>
+        <img className={"fullscreen-icon"} onClick={enterFullScreen} src={fullscreen} alt={"team"}/> :
+        <img className={"fullscreen-icon"} onClick={closeFullScreen} src={fullscreenClose} alt={"team"}/>
     )
 }
 
