@@ -7,6 +7,7 @@ import SyncIcon from "../components/sync-icon/SyncIcon";
 import FullscreenIcon from "../components/fullscreen/FullscreenIcon";
 import {Link, useNavigate} from "react-router-dom";
 import MatchCompletionOverride from "../components/match-override-menu/MatchCompletionOverride";
+import packageJson from "../../package.json";
 
 function MainPage(props: any) {
 
@@ -18,6 +19,10 @@ function MainPage(props: any) {
 
     //TODO: Make top left text change height dynamically
     //TODO: Offline mode?
+
+    //TODO: Cache EPAs in the proper way
+
+    //TODO: pull events that a team is participating in in a better way
 
     const teamNumber = localStorage.getItem("number") || "0"
     const eventKey = localStorage.getItem("eventKey") || ""
@@ -169,19 +174,46 @@ function MainPage(props: any) {
                 fetch("https://api.statbotics.io/v2/match/" + nextMatch?.key)
                     .then(result => {return result.json() })
                     .then(data => {
+
+                        //If there is no data included in the response (i.e.the match cannot be found on statbotics), throw an error to do the calculations manually
+                        if(Object.keys(data).length === 0) throw Error();
+
                         setRedScore(data.red_epa_sum)
                         setBlueScore(data.blue_epa_sum)
 
                         let alliance = nextMatch?.alliances.red.numbers.includes(parseInt(teamNumber)) ? "red" : "blue";
                         setWillWin(data.epa_winner === alliance)
-                        //You have to take the complement of the probability since the win_prob is always from red alliance perspective
-                        setConfidence(alliance === "red" ? data.epa_win_prob : 1- data.epa_win_prob)
+                        //win_prob is always from red alliance perspective, so we flip the probability for when our selected team is on the blue alliance
+                        setConfidence(alliance === "red" ? data.epa_win_prob : 1 - data.epa_win_prob)
 
                         setSyncing(false)
-                    }).catch(e => {})
+                    })
+                    .catch(async e => {
+                        //We were unable to get the match result from statbotics (potentially because it's an offseason event). We'll run our own manual summation in that case
+
+                        let redTotal = await getSumOfEPAs(nextMatch?.alliances.red.numbers ?? [1])
+                        let blueTotal = await getSumOfEPAs(nextMatch?.alliances.blue.numbers ?? [1])
+
+                        redTotal = Math.round(redTotal);
+                        blueTotal = Math.round(blueTotal);
+
+                        setRedScore(redTotal);
+                        setBlueScore(blueTotal);
+
+                        let teamAlliance = nextMatch?.alliances.red.numbers.includes(parseInt(teamNumber)) ? "red" : "blue";
+                        let winningAlliance = redTotal > blueTotal ? "red" : "blue";
+
+                        setWillWin(teamAlliance === winningAlliance);
+
+                        setConfidence(-1);
+
+
+                    }
+                )
         }
 
     }
+
 
     useEffect(() => getMatchPrediction(), [nextMatch, getMatchPrediction])
 
@@ -224,7 +256,7 @@ function MainPage(props: any) {
                 <div className={"bottom-content"}>
                     <SyncIcon click={fetchMatchInfo} syncing={syncing}/>
                     <div className={"next-match prediction " + (willWin ? "win" : "loss")}>
-                        <h2>Match Prediction: {willWin ? "Win" : "Loss"} ({Math.round(confidence * 100)}%)</h2>
+                        <h2>Match Prediction: {willWin ? "Win" : "Loss"} ({confidence !== -1 ? Math.round(confidence * 100): "¯\\_(ツ)_/¯"}%)</h2>
                     </div>
                     <FullscreenIcon/>
                 </div>
@@ -240,7 +272,7 @@ function MainPage(props: any) {
 
             return alliance.numbers.map((e) => {
 
-                //Determine if the team has another match still to play
+                //Determine if the team has another match still to play before this match that they're playing in
                 let upcomingMatch:Match|null = null
 
                 for(let i = lastPlayedMatch+1; i<nextMatchIndex; i++) {
@@ -258,6 +290,23 @@ function MainPage(props: any) {
             })
         }
     }
+}
+
+const year = packageJson.version.substring(0, 4);
+
+async function getSumOfEPAs(teamNumbers:number[]):Promise<number> {
+
+    return teamNumbers.reduce(async (sum, current) => {
+        return await fetch("https://api.statbotics.io/v2/team_year/" + current + "/" + year)
+            .then(response => {
+                return response.json()
+            })
+            .then(async data => {
+                //Take the team's data
+                return (await sum) + data.epa_end
+            })
+
+    }, Promise.resolve(0));
 }
 
 
