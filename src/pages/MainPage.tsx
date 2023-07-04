@@ -1,5 +1,5 @@
 import Header from "../components/header/Header";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Alliance, Alliances, Match} from "../data/Data";
 import TeamInfo from "../components/TeamInfo";
 import "./MainPage.css"
@@ -9,10 +9,10 @@ import {Link, useNavigate} from "react-router-dom";
 import MatchCompletionOverride from "../components/match-override-menu/MatchCompletionOverride";
 import packageJson from "../../package.json";
 import ProgressBar from "@ramonak/react-progress-bar";
+import {Simulate} from "react-dom/test-utils";
+import reset = Simulate.reset;
 
 function MainPage(props: any) {
-
-    //TODO: Interface to scouting app for cycles
 
     //TODO: Stop errors from happening
 
@@ -63,6 +63,7 @@ function MainPage(props: any) {
     let [confidence, setConfidence] = useState(1)
 
     let [syncing, setSyncing] = useState(false)
+    let [timeSinceSync, setTimeSinceSync] = useState(0)
 
     let pullURL:string = "https://www.thebluealliance.com/api/v3/event/" + eventKey + "/matches"
 
@@ -125,6 +126,28 @@ function MainPage(props: any) {
         return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
     }, [])
 
+    let counter = useRef(0)
+    let resetTimer = useRef(false)
+
+    useEffect(() => {
+
+        const interval = setInterval(() => {
+
+            console.log(resetTimer)
+
+            if(resetTimer.current) {
+                resetTimer.current = false
+                counter.current = 0
+                console.log("timer reset moment")
+            }
+
+            counter.current += 1
+            setTimeSinceSync(counter.current)
+        }, MINUTE_MS / (60.0))
+
+        return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+    }, [])
+
 
     /**
      * Determine the next un-played match by the team
@@ -171,6 +194,7 @@ function MainPage(props: any) {
 
     //Only update match prediction when the next match updates
     const getMatchPrediction = () => {
+        console.log("running")
         if(nextMatch !== undefined) {
                 fetch("https://api.statbotics.io/v2/match/" + nextMatch?.key)
                     .then(result => {return result.json() })
@@ -188,6 +212,8 @@ function MainPage(props: any) {
                         setConfidence(alliance === "red" ? data.epa_win_prob : 1 - data.epa_win_prob)
 
                         setSyncing(false)
+
+                        resetTimer.current = true
                     })
                     .catch(async e => {
                         //We were unable to get the match result from statbotics (potentially because it's an offseason event). We'll run our own manual summation in that case
@@ -216,7 +242,7 @@ function MainPage(props: any) {
     }
 
 
-    useEffect(() => getMatchPrediction(), [nextMatch, getMatchPrediction])
+    useEffect(() => getMatchPrediction(), [nextMatch])
 
 
     return (
@@ -240,8 +266,8 @@ function MainPage(props: any) {
                     </div>
 
                     <div>
-                        <p className={"top-text"}>EPA provided by <Link target={"_blank"} style={{color: "white"}} to={"https://www.statbotics.io"}>Statbotics</Link></p>
-
+                        {/*<p className={"top-text"}>EPA provided by <Link target={"_blank"} style={{color: "white"}} to={"https://www.statbotics.io"}>Statbotics</Link></p>*/}
+                        <p className={"top-text"}>{timeSinceSync} Seconds Since Sync</p>
                     </div>
                 </div>
 

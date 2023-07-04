@@ -36,6 +36,8 @@ function SettingsPage(props: any) {
     }, [eventKey])
 
      useEffect(() => {
+         let startingTeamNum = teamNumber;
+
          if(apiKey !== "") {
              let apiOptions = {
                  "method" : "GET",
@@ -56,7 +58,9 @@ function SettingsPage(props: any) {
                          })
                      } catch (e) {}
 
-                      setTeamEvents(teamEvents)
+                     if(startingTeamNum === teamNumber) {
+                        setTeamEvents(teamEvents)
+                     }
                  }).catch(e => {})
          }
      }, [apiKey, teamNumber])
