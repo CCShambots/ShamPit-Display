@@ -8,9 +8,7 @@ import FullscreenIcon from "../components/fullscreen/FullscreenIcon";
 import {Link, useNavigate} from "react-router-dom";
 import MatchCompletionOverride from "../components/match-override-menu/MatchCompletionOverride";
 import packageJson from "../../package.json";
-import ProgressBar from "@ramonak/react-progress-bar";
 import {Simulate} from "react-dom/test-utils";
-import reset = Simulate.reset;
 
 function MainPage(props: any) {
 
@@ -230,9 +228,14 @@ function MainPage(props: any) {
                         let teamAlliance = getTeamAlliance();
                         let winningAlliance = redTotal > blueTotal ? "red" : "blue";
 
-                        setWillWin(teamAlliance === winningAlliance);
+                        let shouldWin = teamAlliance === winningAlliance
+                        setWillWin(shouldWin);
 
-                        setConfidence(-1);
+                        let percentageDiff = winningAlliance === "red" ? redTotal / blueTotal - 1 : blueTotal / redTotal - 1
+
+                        let winProb = teamAlliance === "red" ? percentageDiff : 1-percentageDiff
+
+                        setConfidence(winProb);
 
 
                     }
