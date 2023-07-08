@@ -5,23 +5,25 @@ import TeamInfo from "../components/TeamInfo";
 import "./MainPage.css"
 import SyncIcon from "../components/sync-icon/SyncIcon";
 import FullscreenIcon from "../components/fullscreen/FullscreenIcon";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import MatchCompletionOverride from "../components/match-override-menu/MatchCompletionOverride";
 import packageJson from "../../package.json";
-import {Simulate} from "react-dom/test-utils";
 
-function MainPage(props: any) {
+function MainPage() {
 
     //TODO: Stop errors from happening
+    //TODO: Reorganize crap
 
     //TODO: Use function parameters instead of types
 
-    //TODO: Make top left text change height dynamically
     //TODO: Offline mode?
 
     //TODO: Cache EPAs in the proper way
 
     //TODO: pull events that a team is participating in in a better way
+    //TODO: Notify user if not using a statbotics prediction
+    //TODO: Make fake prediction not so weird
+    //TODO: Swap to local storage hooks
 
     const teamNumber = localStorage.getItem("number") || "0"
     const eventKey = localStorage.getItem("eventKey") || ""
@@ -131,12 +133,10 @@ function MainPage(props: any) {
 
         const interval = setInterval(() => {
 
-            console.log(resetTimer)
 
             if(resetTimer.current) {
                 resetTimer.current = false
                 counter.current = 0
-                console.log("timer reset moment")
             }
 
             counter.current += 1
@@ -151,7 +151,6 @@ function MainPage(props: any) {
      * Determine the next un-played match by the team
      */
     const pullNextMatchData = () => {
-
 
         let unplayedMatches = matches.filter((e:Match) =>
             !(e.alliances.red.score >= 0 && e.alliances.blue.score >= 0)
@@ -170,8 +169,9 @@ function MainPage(props: any) {
             }
         )
 
+
         let ourUnplayedMatches = ourMatches.filter(x =>  {
-            return unplayedMatches.includes(x) && !skipMatches.includes(x)
+            return unplayedMatches.includes(x) && !skipMatches.map(e => e.key).includes(x.key)
         })
 
         let nextMatch:Match  = ourUnplayedMatches.length > 0 ? ourUnplayedMatches[0] : ourMatches[ourMatches.length-1]
@@ -192,7 +192,6 @@ function MainPage(props: any) {
 
     //Only update match prediction when the next match updates
     const getMatchPrediction = () => {
-        console.log("running")
         if(nextMatch !== undefined) {
                 fetch("https://api.statbotics.io/v2/match/" + nextMatch?.key)
                     .then(result => {return result.json() })

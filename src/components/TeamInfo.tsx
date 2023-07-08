@@ -34,15 +34,19 @@ function TeamInfo(props: any) {
                 data.forEach((e) => {
 
                     if(e.type === "avatar") {
-                        // console.log(e)
                         setAvatarPath(e.details.base64Image)
                     }
 
                     if(!onlyAvatar) {
                         if(shouldSkip) return
                         if(e.direct_url !== '') {
-                            setImgPath(e.direct_url)
-                            shouldSkip = true
+
+                            try {
+                                require(imgPath)
+                            } catch {
+                                setImgPath(e.direct_url)
+                                shouldSkip = true
+                            }
                         }
                     }
                 })
@@ -53,8 +57,8 @@ function TeamInfo(props: any) {
 
     useEffect(() => {
         fetchEPA()
-        fetchImage(true)
-    }, [])
+        fetchImage(false)
+    }, [props.number])
 
     return (
 

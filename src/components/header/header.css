@@ -19,6 +19,8 @@ h1,h2 {
     justify-content: left;
     margin-top: auto;
     margin-bottom: auto;
+
+    font-size: 2vh;
 }
 
 .event-title {
