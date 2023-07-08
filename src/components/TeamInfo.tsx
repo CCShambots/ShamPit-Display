@@ -37,6 +37,7 @@ function TeamInfo(props: any) {
                         setAvatarPath(e.details.base64Image)
                     }
 
+                    //TODO: Fix jank
                     if(!onlyAvatar) {
                         if(shouldSkip) return
                         if(e.direct_url !== '') {
@@ -87,7 +88,7 @@ function TeamInfo(props: any) {
     function getImg() {
         try {
 
-            if(imgPath.substring(0, 1) === ".") {
+            if(imgPath.substring(0, 1) === "." || props.number === 5907) {
                 return <img className={"bot-image"}
                             src={require("../resources/team-images/" + props.number + ".jpg")}
                             alt={"Error"}></img>

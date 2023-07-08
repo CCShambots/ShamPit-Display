@@ -26,7 +26,7 @@ function MatchCompletionOverride(props: any) {
         setTimeout(() => {
                 let newMatches = props.matches.filter(e => e !== m)
 
-                props.setMatches(newMatches)
+                props.setMatches([...newMatches])
 
                 //Have to do this goofy function so that it actually pulls the current value of numMinus
                 setNumMinus(numMinus => numMinus - 1)
