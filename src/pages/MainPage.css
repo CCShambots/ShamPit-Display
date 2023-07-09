@@ -173,3 +173,21 @@
 .loss {
     background-color: #f10b0b;
 }
+
+.tossup {
+    background-color: yellow;
+}
+
+.presented-text {
+    position: absolute;
+
+    margin: 0;
+
+    right: 10vw;
+
+    bottom: 3vh;
+}
+
+.presented-link {
+    color: white;
+}

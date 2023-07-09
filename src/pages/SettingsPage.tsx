@@ -1,22 +1,41 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {HexColorInput, HexColorPicker} from "react-colorful";
 import "./SettingsPage.css";
 import {Link} from "react-router-dom";
 import {Event} from "../data/Event";
-import packageJson from "../../package.json";
+import {useLocalStorage} from "usehooks-ts";
+import packageJson from "../../package.json"
 
 
+function SettingsPage() {
 
-function SettingsPage(props: any) {
+    let year = packageJson.version.substring(0, 4)
 
     const [backgroundColor, setBackgroundColor] =
-        useState(localStorage.getItem("backgroundColor") || "#004f9e");
-    const [textColor, setTextColor] = useState(localStorage.getItem("textColor") || "#ffffff");
+        useLocalStorage("backgroundColor", "#004f9e");
 
-    const [teamNumber, setTeamNumber] = useState(parseInt(localStorage.getItem("number") || "0"));
-    const [eventKey, setEventKey] = useState(localStorage.getItem("eventKey") || "");
+    let [originalBackgroundColor] = useState(() => backgroundColor)
 
-    const [apiKey, setApiKey] = useState(localStorage.getItem("apiKey") || "none");
+
+    const [textColor, setTextColor] =
+        useLocalStorage("textColor", "#ffffff");
+
+    let [originalTextColor] = useState(() => textColor)
+
+
+    const [teamNumber, setTeamNumber] = useLocalStorage("number", "0");
+    let [originalTeamNumber] = useState(() => teamNumber)
+
+    const [eventKey, setEventKey] = useLocalStorage("eventKey", "");
+    let [originalEventKey] = useState(() => eventKey)
+
+    const [apiKey, setApiKey] = useLocalStorage("apiKey", "none");
+    let [originalAPIKey] = useState(() => apiKey)
+
+    //Where to change a match from yellow to green or red
+    const [confidenceCutoff, setConfidenceCutoff] = useLocalStorage("confidence-cutoff", 0.15);
+    let [originalConfidenceCutoff] = useState(() => confidenceCutoff)
+
 
     const [teamEvents, setTeamEvents] = useState<Event[]>([])
 
@@ -29,49 +48,65 @@ function SettingsPage(props: any) {
     }
 
     useEffect(() => {
+        //Parse event key down to just the event key if it is set through the dropdown (link to an event)
         if(eventKey.indexOf("thebluealliance.com/event") !== -1) {
             setEventKey(eventKey.substring(eventKey.lastIndexOf("/") + 1))
         }
 
-    }, [eventKey])
+    }, [eventKey, setEventKey])
 
+    let currentTeamNum = useRef(0)
+
+    //Pull the events that this team is part of
      useEffect(() => {
-         let startingTeamNum = teamNumber;
 
+         currentTeamNum.current = teamNumber
+
+         //Make sure that there is an API Key
          if(apiKey !== "") {
+             const key:string = localStorage.getItem("tba-key") || "none";
+
              let apiOptions = {
                  "method" : "GET",
                  "headers" : {
-                     "X-TBA-Auth-Key" : apiKey,
+                     "X-TBA-Auth-Key" : key.substring(1, key.length-1)
                  }
              };
 
+             try {
+                 fetch(`https://www.thebluealliance.com/api/v3/team/frc${teamNumber}/events/${year}`, apiOptions)
+                     .then(async (response) => {
+                         return {json: await response.json(), reqUrl: response.url}
+                     })
+                     .then((info) => {
 
-             fetch(
-                 "https://www.thebluealliance.com/api/v3/team/frc" + teamNumber + "/events/" +
-                 packageJson.version.substring(0, 4), apiOptions).then(response => response.json())
-                 .then(data => {
-                     let teamEvents:Event[] = []
-                     try {
-                         data.forEach(teamEvent => {
-                             teamEvents.push(new Event(teamEvent.name, teamEvent.key))
-                         })
-                     } catch (e) {}
+                         let data = info.json
 
-                     if(startingTeamNum === teamNumber) {
-                        setTeamEvents(teamEvents)
-                     }
-                 }).catch(e => {})
+                         let teamEvents:Event[] = []
+                         try {
+                             data.forEach(teamEvent => {
+                                 teamEvents.push(new Event(teamEvent.name, teamEvent.key))
+                             })
+                         } catch (e) {}
+
+                         if(info.reqUrl.indexOf(currentTeamNum.current.toString())) {
+                             setTeamEvents(teamEvents)
+                         }
+                     })
+                     .catch(() => {})
+
+             } catch (e) {}
          }
      }, [apiKey, teamNumber])
 
      //Save all settings to local storage
-    function save(input:any) {
-        localStorage.setItem("number", String(teamNumber));
-        localStorage.setItem("eventKey", eventKey);
-        localStorage.setItem("backgroundColor", backgroundColor);
-        localStorage.setItem("textColor", textColor);
-        localStorage.setItem("apiKey", apiKey);
+    function cancel() {
+        setTeamNumber(originalTeamNumber)
+        setEventKey(originalEventKey)
+        setBackgroundColor(originalBackgroundColor)
+        setTextColor(originalTextColor)
+        setApiKey(originalAPIKey)
+        setConfidenceCutoff(originalConfidenceCutoff)
     }
 
     function handleEventSelection(value:string) {
@@ -130,6 +165,15 @@ function SettingsPage(props: any) {
             </div>
 
             <div className={"settings-container"}>
+                <div>
+                    <h2>Confidence Cutoff</h2>
+                    <p className={"small-text"}>*The win chance at which the display will turn from yellow to red or green. In interval [0,1].</p>
+                </div>
+
+                <input className={"input"} type={"text"} onChange={withEvent(setConfidenceCutoff)} value={confidenceCutoff}></input>
+            </div>
+
+            <div className={"settings-container"}>
                 <h2 className={"color-text"}>Ribbon Background Color</h2>
                 <HexColorPicker style={{height: "15vh", width: "15vh"}} color={backgroundColor} onChange={setBackgroundColor}></HexColorPicker>
                 <HexColorInput className={"input color-input background-input"}
@@ -153,10 +197,10 @@ function SettingsPage(props: any) {
             </div>
 
             <div className={"settings-container"}>
-                <Link onClick={save} to={"/"} className={"color-button green bottom-button"}>
+                <Link to={"/"} className={"color-button green bottom-button"}>
                     Save
                 </Link>
-                <Link to={"/"} className={"color-button red bottom-button"}>
+                <Link onClick={() => cancel()} to={"/"} className={"color-button red bottom-button"}>
                     Cancel
                 </Link>
             </div>

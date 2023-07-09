@@ -34,6 +34,8 @@ h2, h3 {
     border: 5px solid;
     min-height: 20vh;
     border-radius: 1.3vh;
+
+    object-fit: cover;
 }
 
 .header-info {
@@ -60,9 +62,11 @@ h2, h3 {
     border-radius: 5px;
 }
 
-.upcoming-match {
+.small-info-text {
     margin-top: 0;
     margin-bottom: 0;
 
     color: white;
+
+    /*line-height: 10vh;*/
 }

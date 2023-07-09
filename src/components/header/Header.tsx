@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import './header.css'
 import packageJson from '../../../package.json';
 import SettingsIcon from "../settings-icon/SettingsIcon";
+import {PullTBA} from "../../util/APIUtil";
+import {useLocalStorage} from "usehooks-ts";
 
-const Header = (props:any) => {
+const Header = (props: {number:number, eventKey:string}) => {
 
-    const backgroundColor = localStorage.getItem("backgroundColor") || "#004f9e"
-    const textColor = localStorage.getItem("textColor") || "#ffffff"
+    const [backgroundColor] = useLocalStorage("backgroundColor", "#004f9e")
+    const [textColor] = useLocalStorage("textColor", "#ffffff")
 
     let teamNumber: number = props.number
     let eventKey: string = props.eventKey
@@ -15,16 +17,9 @@ const Header = (props:any) => {
     const [eventName, setEventName] = useState("NO EVENT")
     
     //Fetch the event title when the component loads
-    useEffect(() => {
-        fetch("https://www.thebluealliance.com/api/v3/event/" + eventKey, props.options)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                setEventName(data.name)
-            }).catch(e => {})
-    }, [eventKey, props.options])
-
+    PullTBA(`event/${eventKey}`, (data) => {
+        setEventName(data.name)
+    })
 
 
     return (

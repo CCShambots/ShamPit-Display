@@ -5,44 +5,38 @@ import TeamInfo from "../components/TeamInfo";
 import "./MainPage.css"
 import SyncIcon from "../components/sync-icon/SyncIcon";
 import FullscreenIcon from "../components/fullscreen/FullscreenIcon";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import MatchCompletionOverride from "../components/match-override-menu/MatchCompletionOverride";
 import packageJson from "../../package.json";
+import {useLocalStorage} from "usehooks-ts";
+import {PullTBA} from "../util/APIUtil";
+
 
 function MainPage() {
 
-    //TODO: Stop errors from happening
-    //TODO: Reorganize crap
+    //TODO: loading path has to be done manually for images?
+
+    //TODO: Reorganize stuff
 
     //TODO: Fix removing match override not working
 
-    //TODO: Use function parameters instead of types
-
     //TODO: Offline mode?
 
-    //TODO: Cache EPAs in the proper way
+    //TODO: Make local storage keys stored in an enum somewhere
 
-    //TODO: pull events that a team is participating in in a better way
-    //TODO: Notify user if not using a statbotics prediction
-    //TODO: Make fake prediction not so weird
-    //TODO: Swap to local storage hooks
+    const [teamNumber] = useLocalStorage("number", "0")
+    const [eventKey] = useLocalStorage("eventKey", "")
 
-    const teamNumber = localStorage.getItem("number") || "0"
-    const eventKey = localStorage.getItem("eventKey") || ""
+    const [apiKey] = useLocalStorage("apiKey", "")
 
-    const apiKey:string = localStorage.getItem("apiKey") || "none"
+    const [confidenceCutoff] = useLocalStorage("confidence-cutoff", 0.15)
 
-    let apiOptions = {
-        "method" : "GET",
-        "headers" : {
-            "X-TBA-Auth-Key" : apiKey,
-        }
-    };
 
     const navigate = useNavigate();
 
     useEffect(() => {
 
+        //Automatically redirect to the settings page if no TBA API key is set
         if(!localStorage.getItem("apiKey")) navigate('settings', { replace: true });
     }, [navigate]);
 
@@ -67,18 +61,14 @@ function MainPage() {
     let [syncing, setSyncing] = useState(false)
     let [timeSinceSync, setTimeSinceSync] = useState(0)
 
-    let pullURL:string = "https://www.thebluealliance.com/api/v3/event/" + eventKey + "/matches"
+    let pullURL:string = "event/" + eventKey + "/matches"
 
     const fetchMatchInfo = () => {
         setSyncing(true)
         if(apiKey!=="") {
-            fetch(pullURL,
-                apiOptions)
-                .then(response => {
-                    return response.json()
-                })
-                .then(data => {
-                    //Convert all of the data to match info
+            PullTBA(
+                pullURL, (data) => {
+                    //Convert all the data to match info
                     let curMatches:Match[] = [];
 
                     data.forEach((e) => {
@@ -107,7 +97,8 @@ function MainPage() {
                     })
 
                     setMatches(curMatches)
-                }).catch(e => {})
+                }
+            )
         }
 
     }
@@ -232,9 +223,10 @@ function MainPage() {
                         let shouldWin = teamAlliance === winningAlliance
                         setWillWin(shouldWin);
 
-                        let percentageDiff = winningAlliance === "red" ? redTotal / blueTotal - 1 : blueTotal / redTotal - 1
+                        //This value is an estimate of the constant statbotics uses to determine win chance
+                        let redWinProb = (redTotal - blueTotal) * 0.952974 + 50
 
-                        let winProb = teamAlliance === "red" ? percentageDiff : 1-percentageDiff
+                        let winProb = teamAlliance === "red" ? redWinProb : 1-redWinProb
 
                         setConfidence(winProb);
 
@@ -251,7 +243,7 @@ function MainPage() {
 
     return (
         <div className="App">
-            <Header number={parseInt(teamNumber)} eventKey={eventKey} options={apiOptions}/>
+            <Header number={parseInt(teamNumber)} eventKey={eventKey}/>
             <div className="main-app">
                 <div className={"top-info"}>
                     <b>
@@ -270,7 +262,6 @@ function MainPage() {
                     </div>
 
                     <div>
-                        {/*<p className={"top-text"}>EPA provided by <Link target={"_blank"} style={{color: "white"}} to={"https://www.statbotics.io"}>Statbotics</Link></p>*/}
                         <p className={"top-text"}>{timeSinceSync} Seconds Since Sync</p>
                     </div>
                 </div>
@@ -295,15 +286,31 @@ function MainPage() {
                 </div>
                 <div className={"bottom-content"}>
                     <SyncIcon click={fetchMatchInfo} syncing={syncing}/>
-                    <div className={"next-match prediction " + (willWin ? "win" : "loss")}>
-                        <h2>Match Prediction: {willWin ? "Win" : "Loss"} ({confidence !== -1 ? Math.round(confidence * 100): "¯\\_(ツ)_/¯"}%)</h2>
+                    <div className={"next-match prediction " + getMatchOutcomeType()}>
+                        <h2>Win Chance: {Math.round(confidence * 100)}%</h2>
                     </div>
                     <FullscreenIcon/>
+                    <h6 className={"presented-text"}>Created by <Link className={"presented-link"} target={"_blank"}  to={"https://www.thebluealliance.com/team/5907"}>
+                            CC Shambots - FRC 5907
+                        </Link>
+                    </h6>
                 </div>
             </div>
 
         </div>
     );
+
+    function getMatchOutcomeType() {
+
+
+        if(confidence <= confidenceCutoff) {
+            return "loss"
+        } else if(confidence >= 1-confidenceCutoff) {
+            return "win"
+        } else {
+            return "tossup"
+        }
+    }
 
     //Generate the width, as a percentage, that the advantage bar should be
     function generateWidthOfAdvantageBar():number {
@@ -340,7 +347,7 @@ function MainPage() {
                 }
 
                 num++
-                return <TeamInfo number={e} activeTeam={parseInt(teamNumber) === e} key={num} upcomingMatch={upcomingMatch} apiOptions={apiOptions}/>
+                return <TeamInfo key={num} teamNumber={e} activeTeam={parseInt(teamNumber) === e} upcomingMatch={upcomingMatch}/>
             })
         }
     }

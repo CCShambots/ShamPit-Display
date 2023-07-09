@@ -1,57 +1,68 @@
 import React, {useEffect, useState} from "react"
 import "./TeamInfo.css"
 import packageJson from "../../package.json";
+import {PullStatbotics, PullTBA} from "../util/APIUtil";
+import {Match} from "../data/Data";
+import {useLocalStorage} from "usehooks-ts";
 
-function TeamInfo(props: any) {
+let baseImagePath = "../resources/team-images/"
+
+function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:Match|null}) {
 
     const year = packageJson.version.substring(0, 4);
 
     const [epa, setEPA] = useState<number>(0)
-    const [imgPath, setImgPath] = useState<string>("../resources/team-images/" + props.number + ".jpg")
+    const [imgPath, setImgPath] = useState<string>(getLocalTeamPath())
+    let [useLocalImage, setUseLocalImage] = useState<boolean>(true)
+
+    let [eventKey] = useLocalStorage("eventKey", "")
 
     const [avatarPath, setAvatarPath] = useState<string>("")
 
-    const fetchEPA = () => {
-        fetch("https://api.statbotics.io/v2/team_year/" + props.number + "/" + year)
-            .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                //Take the team's data
-                setEPA(data.epa_end)
+    let [rank, setRank] = useState(-1)
 
-            })
+    //Load the team rank
+    useEffect(() => {
+        PullTBA(`event/${eventKey}/rankings`, (data) => {
+            let rank = data.rankings.map(e => parseInt(e["team_key"].substring(3))).indexOf(props.teamNumber) + 1
+
+            setRank(rank)
+        })
+    }, [props.teamNumber, props.upcomingMatch])
+
+    const fetchEPA = () => {
+        PullStatbotics(`team_year/${props.teamNumber}/${year}`, (data) => {
+            setEPA(data.epa_end)
+        })
     }
 
     const fetchImage = (onlyAvatar:boolean) => {
-        fetch("https://www.thebluealliance.com/api/v3/team/frc" + props.number +"/media/" + year, props.apiOptions)
-            .then(response => {
-                return response.json()
-            }).then(data => {
-
+        PullTBA(`team/frc${props.teamNumber}/media/${year}`, async (data) => {
             let shouldSkip = false
-            if(data.length >0) {
-                data.forEach((e) => {
 
-                    if(e.type === "avatar") {
-                        setAvatarPath(e.details.base64Image)
-                    }
+            for(let i=0; i<data.length;i++) {
+                let e = data[i]
 
-                    //TODO: Fix jank
-                    if(!onlyAvatar) {
-                        if(shouldSkip) return
-                        if(e.direct_url !== '') {
+                if (e.type === "avatar") {
+                    setAvatarPath(e.details.base64Image)
+                }
 
-                            try {
-                                require(imgPath)
-                            } catch {
+                if (!onlyAvatar) {
+                    if (shouldSkip) return
+                    if (e.direct_url !== '') {
+
+                        shouldSkip = await checkImage(e.direct_url).then((r:any) => {
+                            if(r.status === 'ok') {
                                 setImgPath(e.direct_url)
-                                shouldSkip = true
+                                return true
+                            } else {
+                                return false
                             }
-                        }
-                    }
-                })
 
+                        })
+
+                    }
+                }
             }
         })
     }
@@ -59,38 +70,53 @@ function TeamInfo(props: any) {
     useEffect(() => {
         fetchEPA()
         fetchImage(false)
-    }, [props.number])
+    }, [props.teamNumber])
 
     return (
 
         <div className={"team-display " + (props.activeTeam ? "active" : "inactive")}>
             {
                 props.upcomingMatch != null ?
-
-                    <p className={"upcoming-match"}><b>In: {props.upcomingMatch.convertToHumanReadableName()}</b></p>
+                    <p className={"small-info-text"}><b>In: {props.upcomingMatch.convertToHumanReadableName()}</b></p>
                     : null
             }
             <div className={"header-info"}>
                 {avatarPath !== "" ?
                     <img className={"avatar"} src={`data:image/png;base64,${avatarPath}`} alt={"team avatar"}/> : null
                 }
-                <h2 className={avatarPath === "" ? "center" : ""}>{props.number}</h2>
+                <h2 className={avatarPath === "" ? "center" : ""}>{props.teamNumber}</h2>
             </div>
+            <p className={"small-info-text"}><b>Rank: {rank}</b></p>
             {getImg()}
             <div>
                 <h3>EPA: {epa}</h3>
-                {/*<h3>Cycles: {props.cycles}</h3>*/}
             </div>
         </div>
 
     )
 
+    function checkImage(path) {
+        return new Promise(resolve => {
+                const img = new Image();
+                img.onload = () => resolve({path, status: 'ok'});
+                img.onerror = () => resolve({path, status: 'error'});
+
+                img.src = path;
+            }
+        );
+    }
+
+    function getLocalTeamPath() {
+        return baseImagePath + props.teamNumber + ".jpg"
+    }
+
     function getImg() {
+
         try {
 
-            if(imgPath.substring(0, 1) === "." || props.number === 5907) {
+            if(useLocalImage) {
                 return <img className={"bot-image"}
-                            src={require("../resources/team-images/" + props.number + ".jpg")}
+                            src={require(`../resources/team-images/${props.teamNumber}.jpg`)}
                             alt={"Error"}></img>
             } else {
                 return <img className={"bot-image"}
@@ -100,6 +126,7 @@ function TeamInfo(props: any) {
 
         } catch (error) {
             fetchImage(false)
+            setUseLocalImage(false)
 
             return <img className={"bot-image"}
                         src={require("../resources/no-team-image.jpg")}

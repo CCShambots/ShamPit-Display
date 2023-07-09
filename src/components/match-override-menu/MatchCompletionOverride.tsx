@@ -5,7 +5,8 @@ import ArrowDown from "../../resources/arrow-down.svg"
 import OverrideEntry from "./OverrideEntry";
 import {Match} from "../../data/Data";
 
-function MatchCompletionOverride(props: any) {
+function MatchCompletionOverride(props: { triggerReload:() => void,
+    nextMatch:Match|undefined, matches:Match[], setMatches:(matches:Match[]) => void }) {
 
     let [menuActive, setMenuActive] = useState<boolean>(false)
 
@@ -27,6 +28,8 @@ function MatchCompletionOverride(props: any) {
                 let newMatches = props.matches.filter(e => e !== m)
 
                 props.setMatches([...newMatches])
+
+                props.triggerReload()
 
                 //Have to do this goofy function so that it actually pulls the current value of numMinus
                 setNumMinus(numMinus => numMinus - 1)
@@ -63,7 +66,7 @@ function MatchCompletionOverride(props: any) {
                     {/*<p className={"skip-info"} style={{opacity: infoBox ? "1" : "0"}}>*/}
                     {/*    This will indicate that the currently shown match should be disregarded. The site will look for your team's next unplayed match</p>*/}
                     <p onClick={() => {
-                        add(props.nextMatch)
+                        add(props.nextMatch!)
                         props.triggerReload()
                     }}   onMouseEnter={() => setInfoBox(true)}
                          onMouseLeave={() => setInfoBox(false)}

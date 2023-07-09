@@ -1,6 +1,6 @@
 {
   "name": "5907-pit-display",
-  "version": "2023.4.1",
+  "version": "2023.5.0",
   "private": true,
   "homepage": "https://ccshambots.github.io/5907-pit-display/",
   "dependencies": {
@@ -14,6 +14,7 @@
     "@types/react-dom": "^18.2.4",
     "@types/react-router-dom": "^5.3.3",
     "gh-pages": "^5.0.0",
+    "list-react-files": "^0.2.0",
     "react": "^18.2.0",
     "react-colorful": "^5.6.1",
     "react-dom": "^18.2.0",
@@ -21,6 +22,7 @@
     "react-scripts": "5.0.1",
     "reactjs-popup": "^2.0.5",
     "typescript": "^4.9.5",
+    "usehooks-ts": "^2.9.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -51,5 +53,14 @@
   },
   "devDependencies": {
     "@types/react-color": "^3.0.6"
+  },
+  "browser": {
+    "crypto": false,
+    "fs": false,
+    "path": false,
+    "os": false,
+    "net": false,
+    "stream": false,
+    "tls": false
   }
 }
