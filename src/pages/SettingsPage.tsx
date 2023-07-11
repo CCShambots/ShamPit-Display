@@ -64,7 +64,7 @@ function SettingsPage() {
 
          //Make sure that there is an API Key
          if(apiKey !== "") {
-             const key:string = localStorage.getItem("tba-key") || "none";
+             const key:string = localStorage.getItem("apiKey") || "none";
 
              let apiOptions = {
                  "method" : "GET",
