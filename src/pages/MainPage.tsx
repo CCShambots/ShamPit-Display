@@ -14,6 +14,8 @@ import {PullTBA} from "../util/APIUtil";
 
 function MainPage() {
 
+    //TODO: Win/Loss animation
+
     //TODO: loading path has to be done manually for images?
 
     //TODO: Reorganize stuff
