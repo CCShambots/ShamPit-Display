@@ -1,6 +1,6 @@
-# Getting Started with The Pit Display
+# Getting Started with ShamPit Display
 
-You can access the pit display [here](https://ccshambots.github.io/5907-pit-display/).
+You can access the pit display [here](https://ccshambots.github.io/ShamPit-Display/).
 
 ## Set up
 
