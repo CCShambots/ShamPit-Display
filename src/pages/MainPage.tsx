@@ -16,6 +16,9 @@ function MainPage() {
 
     //TODO: Win/Loss animation
 
+    //TODO: Toggle stats % estimation
+    //TODO: Make settings page not ugly
+
     //TODO: loading path has to be done manually for images?
 
     //TODO: Reorganize stuff
@@ -25,6 +28,8 @@ function MainPage() {
     //TODO: Offline mode?
 
     //TODO: Make local storage keys stored in an enum somewhere
+
+    //TODO: Image database basically
 
     const [lastVersion, setLastVersion] = useLocalStorage("last-version", packageJson.version)
 
