@@ -264,6 +264,10 @@ function MainPage() {
                         let winProb = teamAlliance === "red" ? redWinProb : 1-redWinProb
 
                         setConfidence(winProb);
+
+                        setSyncing(false)
+
+                        resetTimer.current = true
                     }
                 )
         }
