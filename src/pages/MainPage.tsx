@@ -216,7 +216,12 @@ function MainPage() {
     const getMatchPrediction = () => {
         if(nextMatch !== undefined) {
                 fetch("https://api.statbotics.io/v2/match/" + nextMatch?.key)
-                    .then(result => {return result.json() })
+                    .then(result => {
+                        if(result.status !== 200) {
+                            throw Error();
+                        }
+                        return result.json()
+                    })
                     .then(data => {
 
                         //If there is no data included in the response (i.e.the match cannot be found on statbotics), throw an error to do the calculations manually
@@ -235,6 +240,7 @@ function MainPage() {
                         resetTimer.current = true
                     })
                     .catch(async e => {
+
                         //We were unable to get the match result from statbotics (potentially because it's an offseason event). We'll run our own manual summation in that case
 
                         let redTotal = await getSumOfEPAs(nextMatch?.alliances.red.numbers ?? [1])
@@ -257,9 +263,7 @@ function MainPage() {
 
                         let winProb = teamAlliance === "red" ? redWinProb : 1-redWinProb
 
-                        setConfidence(winProb);
-
-
+                        setConfidence(winProb/100);
                     }
                 )
         }
