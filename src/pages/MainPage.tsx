@@ -259,11 +259,11 @@ function MainPage() {
                         setWillWin(shouldWin);
 
                         //This value is an estimate of the constant statbotics uses to determine win chance
-                        let redWinProb = (redTotal - blueTotal) * 0.952974 + 50
+                        let redWinProb = ((redTotal - blueTotal) * 0.952974 + 50)/100.0
 
                         let winProb = teamAlliance === "red" ? redWinProb : 1-redWinProb
 
-                        setConfidence(winProb/100);
+                        setConfidence(winProb);
                     }
                 )
         }
