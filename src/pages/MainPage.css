@@ -19,7 +19,8 @@
     margin-left: 1vw;
     /*margin-right: 1vw;*/
     padding-right: 1vw;
-
+    margin-top: 1vh;
+    margin-bottom: 0;
     width: 25vw;
 }
 
@@ -190,4 +191,22 @@
 
 .presented-link {
     color: white;
+}
+
+.last-match-info {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 2vh;
+}
+
+.last-match-info p {
+    margin-top: 1vh;
+    margin-bottom: 0;
+}
+
+.red-score {
+    color: red;
+}
+
+.blue-score {
+    color: blue;
 }

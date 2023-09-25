@@ -8,6 +8,25 @@ class Match {
         public readonly predicted_time: Date) {
     }
 
+    static filterForTeam(initialMatches:Match[], teamNum:number):Match[] {
+        return initialMatches.filter((e) =>
+            e.alliances.blue.numbers.includes(teamNum)
+            || e.alliances.red.numbers.includes(teamNum)
+        )
+    }
+
+    getTeamAlliance(teamNum:number) {
+        if(this.alliances.red.numbers.includes(teamNum)) return "red"
+        else if(this.alliances.blue.numbers.includes(teamNum)) return "blue"
+        else return "none"
+    }
+
+    getWinningAlliance() {
+        if(this.alliances.red.score > this.alliances.blue.score) return "red"
+        else if (this.alliances.blue.score > this.alliances.red.score) return "blue"
+        else return "tie"
+    }
+
     convertToHumanReadableName():string {
         let header: string = ""
         let semis:boolean = false
@@ -79,8 +98,11 @@ class Alliances {
 }
 class Alliance {
 
-    constructor(readonly numbers:number[],
-    readonly score:number) {}
+    constructor(
+        readonly numbers:number[],
+        readonly score:number,
+        readonly rp:number
+    ) {}
 }
 
 

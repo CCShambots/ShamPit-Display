@@ -65,9 +65,11 @@ function MainPage() {
     //The index of the last played match
     let [lastPlayedMatch, setLastPlayedMatch] = useState(-1)
 
+    let [yourLastMatch, setYourLastMatch] = useState<Match>()
+
     let [redScore, setRedScore] = useState(0)
     let [blueScore, setBlueScore] = useState(0)
-    let [willWin, setWillWin] = useState(true)
+    let [, setWillWin] = useState(true)
     let [confidence, setConfidence] = useState(1)
 
     let [syncing, setSyncing] = useState(false)
@@ -93,10 +95,10 @@ function MainPage() {
                                 new Alliances(
                                     new Alliance(e.alliances.red.team_keys.map((e) => {
                                         return parseInt(e.substring(3))
-                                    }), e.alliances.red.score),
+                                    }), e.alliances.red.score, e["score_breakdown"].red.rp),
                                     new Alliance(e.alliances.blue.team_keys.map((e) => {
                                         return parseInt(e.substring(3))
-                                    }), e.alliances.blue.score)
+                                    }), e.alliances.blue.score, e["score_breakdown"].blue.rp)
                                 ),
                                 new Date(e.predicted_time * 1000)
                             )
@@ -116,7 +118,9 @@ function MainPage() {
     }
 
     //Update the next match to play only when the list of matches changes
-    useEffect(() => pullNextMatchData(), [matches])
+    useEffect(() => {
+        pullNextMatchData()
+    }, [matches])
 
     //Number of MS in a minute
     const MINUTE_MS = 60000;
@@ -151,7 +155,6 @@ function MainPage() {
         return () => clearInterval(interval); // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
     }, [])
 
-
     /**
      * Determine the next un-played match by the team
      */
@@ -165,15 +168,13 @@ function MainPage() {
 
         setLastPlayedMatch(matches.indexOf(playedMatches[playedMatches.length-1]))
 
-        let ourMatches = matches.filter((e:Match) => {
-            let teamNum:number = parseInt(teamNumber)
-            return (
-                e.alliances.blue.numbers.includes(teamNum)
-                || e.alliances.red.numbers.includes(teamNum)
-            )
-            }
-        )
+        let teamNum = parseInt(teamNumber)
 
+        let yourPlayedMatches = Match.filterForTeam(playedMatches, teamNum)
+
+        setYourLastMatch(yourPlayedMatches[yourPlayedMatches.length-1])
+
+        let ourMatches = Match.filterForTeam(matches, teamNum)
 
         let ourUnplayedMatches = ourMatches.filter(x =>  {
             return unplayedMatches.includes(x) && !skipMatches.map(e => e.key).includes(x.key)
@@ -260,19 +261,34 @@ function MainPage() {
 
     useEffect(() => getMatchPrediction(), [nextMatch])
 
+    let yourLastAlliance = yourLastMatch?.getTeamAlliance(parseInt(teamNumber))
+
+    let lastMatchName = yourLastMatch?.convertToHumanReadableName()
+    let isQualsMatch = lastMatchName?.includes("Quals")
 
     return (
         <div className="App">
             <Header number={parseInt(teamNumber)} eventKey={eventKey}/>
             <div className="main-app">
                 <div className={"top-info"}>
-                    <b>
+                    <div className={"top-text"}>
                         {
-                            lastPlayedMatch >= 0 ?
-                                <p className={"top-text"}>Last Played: {matches[lastPlayedMatch].convertToHumanReadableName()}</p> :
-                                <p className={"top-text"}>Last Played: None</p>
+                            yourLastMatch ?
+                            <div className={"last-match-info"}>
+                                <p>Just {(yourLastMatch.getWinningAlliance() === yourLastAlliance ? "Won" : "Lost")} {lastMatchName}</p>
+                                <p>
+
+                                    <span className={"red-score"}>
+                                        {isQualsMatch ? `(${yourLastMatch.alliances.red.rp}RP)` : ""} {yourLastMatch.alliances.red.score}
+                                    </span>
+                                    -
+                                    <span className={"blue-score"}>
+                                        {yourLastMatch.alliances.blue.score} {isQualsMatch ? `(${yourLastMatch.alliances.blue.rp}RP)` : ""}
+                                    </span>
+                                </p>
+                            </div> : <div className={"top-text"}/>
                         }
-                    </b>
+                    </div>
 
                     <div>
                         <h1 className={"next-match next-match-text"}>Next Match: {nextMatchName}</h1>
@@ -282,7 +298,14 @@ function MainPage() {
                     </div>
 
                     <div>
-                        <p className={"top-text"}>{timeSinceSync} Seconds Since Sync</p>
+                        <b>
+                            {
+                                lastPlayedMatch >= 0 ?
+                                    <p className={"top-text"}>Last Match: {matches[lastPlayedMatch].convertToHumanReadableName()}</p> :
+                                    <p className={"top-text"}>Last Match: None</p>
+                            }
+                        </b>
+                        <p className={"top-text"}><b>{timeSinceSync} Seconds Since Sync</b></p>
                     </div>
                 </div>
 
