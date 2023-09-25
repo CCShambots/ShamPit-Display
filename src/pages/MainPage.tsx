@@ -211,8 +211,8 @@ function MainPage() {
                         //If there is no data included in the response (i.e.the match cannot be found on statbotics), throw an error to do the calculations manually
                         if(Object.keys(data).length === 0) throw Error();
 
-                        setRedScore(data.red_epa_sum)
-                        setBlueScore(data.blue_epa_sum)
+                        setRedScore(Math.round(data.red_epa_sum))
+                        setBlueScore(Math.round(data.blue_epa_sum))
 
                         let alliance = getTeamAlliance();
                         setWillWin(data.epa_winner === alliance)

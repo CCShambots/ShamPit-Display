@@ -77,7 +77,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
     useEffect(() => {
         //Clear the current TBA image location (don't retain old images on match change)
         setTbaImgPath("")
-        
+
         fetchEPA()
         fetchTBAImage(false)
         checkShamBase()
