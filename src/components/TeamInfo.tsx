@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react"
 import "./TeamInfo.css"
 import packageJson from "../../package.json";
-import {PullStatbotics, PullTBA} from "../util/APIUtil";
+import {CheckImage, PullStatbotics, PullTBA, ShamBaseUrl} from "../util/APIUtil";
 import {Match} from "../data/Data";
 import {useLocalStorage} from "usehooks-ts";
 
@@ -12,8 +12,9 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
     const year = packageJson.version.substring(0, 4);
 
     const [epa, setEPA] = useState<number>(0)
-    const [imgPath, setImgPath] = useState<string>(getLocalTeamPath())
-    let [useLocalImage, setUseLocalImage] = useState<boolean>(true)
+    const [tbaImgPath, setTbaImgPath] = useState<string>("")
+
+    let [imageInShambase, setImageInShambase] = useState(false)
 
     let [eventKey] = useLocalStorage("eventKey", "")
 
@@ -24,19 +25,19 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
     //Load the team rank
     useEffect(() => {
         PullTBA(`event/${eventKey}/rankings`, (data) => {
-            let rank = data.rankings.map(e => parseInt(e["team_key"].substring(3))).indexOf(props.teamNumber) + 1
+            let rank = data["rankings"].map(e => parseInt(e["team_key"].substring(3))).indexOf(props.teamNumber) + 1
 
             setRank(rank)
         })
     }, [props.teamNumber, props.upcomingMatch])
 
-    const fetchEPA = () => {
+    function fetchEPA() {
         PullStatbotics(`team_year/${props.teamNumber}/${year}`, (data) => {
             setEPA(data.epa_end)
         })
     }
 
-    const fetchImage = (onlyAvatar:boolean) => {
+    function fetchTBAImage(onlyAvatar:boolean) {
         PullTBA(`team/frc${props.teamNumber}/media/${year}`, async (data) => {
             let shouldSkip = false
 
@@ -53,7 +54,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
 
                         shouldSkip = await checkImage(e.direct_url).then((r:any) => {
                             if(r.status === 'ok') {
-                                setImgPath(e.direct_url)
+                                setTbaImgPath(e.direct_url)
                                 return true
                             } else {
                                 return false
@@ -67,9 +68,19 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
         })
     }
 
+    const checkShamBase = () => {
+        CheckImage(props.teamNumber).then(result => {
+            setImageInShambase(result)
+        })
+    }
+
     useEffect(() => {
+        //Clear the current TBA image location (don't retain old images on match change)
+        setTbaImgPath("")
+        
         fetchEPA()
-        fetchImage(false)
+        fetchTBAImage(false)
+        checkShamBase()
     }, [props.teamNumber])
 
     return (
@@ -106,27 +117,22 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
         );
     }
 
-    function getLocalTeamPath() {
-        return baseImagePath + props.teamNumber + ".jpg"
-    }
-
     function getImg() {
 
         try {
 
-            if(useLocalImage) {
+            if(imageInShambase) {
                 return <img className={"bot-image"}
-                            src={require(`../resources/team-images/${props.teamNumber}.jpg`)}
+                            src={ShamBaseUrl + `bytes/get/key/${props.teamNumber}-img`}
                             alt={"Error"}></img>
             } else {
                 return <img className={"bot-image"}
-                            src={imgPath}
-                            alt={"Error"}></img>
+                            src={tbaImgPath}
+                            alt={"No Image"}></img>
             }
 
         } catch (error) {
-            fetchImage(false)
-            setUseLocalImage(false)
+            fetchTBAImage(false)
 
             return <img className={"bot-image"}
                         src={require("../resources/no-team-image.jpg")}
