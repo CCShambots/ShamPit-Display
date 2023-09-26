@@ -24,4 +24,4 @@ The Event Key field will turn green when it matches one of the events in the dro
 
 
 # Contributing to ShamPit-Display
-See 
+See [CONTRIBUTING.md](https://github.com/CCShambots/ShamPit-Display/blob/master/CONTRIBUTING.md)
