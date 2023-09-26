@@ -15,26 +15,27 @@ import ReactConfetti from "react-confetti";
 
 function MainPage() {
 
-    const [lastVersion, setLastVersion] = useLocalStorage("last-version", packageJson.version)
-
-    useEffect(() => {
-
-        if(!localStorage.getItem("last-version")) {
-            setLastVersion(packageJson.version)
-        }
-
-        //Just in case of any breaking changes, we'll remove any local storage on minor version change to avoid errors
-        let lastPeriodIndex = lastVersion.indexOf(".")
-        let lastMinorVersion = lastVersion.substring(lastPeriodIndex + 1, lastPeriodIndex + 2)
-
-        let currentPeriodIndex = packageJson.version.indexOf(".")
-        let currentMinorVersion = packageJson.version.substring(currentPeriodIndex+1, currentPeriodIndex+2) 
-        if(currentMinorVersion !== lastMinorVersion) {
-            localStorage.clear()
-            setLastVersion(packageJson.version)
-            window.location.reload()
-        }
-    }, [lastVersion])
+    //This should not have to happen any more
+    // const [lastVersion, setLastVersion] = useLocalStorage("last-version", packageJson.version)
+    //
+    // useEffect(() => {
+    //
+    //     if(!localStorage.getItem("last-version")) {
+    //         setLastVersion(packageJson.version)
+    //     }
+    //
+    //     //Just in case of any breaking changes, we'll remove any local storage on minor version change to avoid errors
+    //     let lastPeriodIndex = lastVersion.indexOf(".")
+    //     let lastMinorVersion = lastVersion.substring(lastPeriodIndex + 1, lastPeriodIndex + 2)
+    //
+    //     let currentPeriodIndex = packageJson.version.indexOf(".")
+    //     let currentMinorVersion = packageJson.version.substring(currentPeriodIndex+1, currentPeriodIndex+2)
+    //     if(currentMinorVersion !== lastMinorVersion) {
+    //         localStorage.clear()
+    //         setLastVersion(packageJson.version)
+    //         window.location.reload()
+    //     }
+    // }, [lastVersion])
     
 
     const [teamNumber] = useLocalStorage("number", "0")
