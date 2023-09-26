@@ -10,6 +10,7 @@ import MatchCompletionOverride from "../components/match-override-menu/MatchComp
 import packageJson from "../../package.json";
 import {useLocalStorage} from "usehooks-ts";
 import {PullTBA} from "../util/APIUtil";
+import ReactConfetti from "react-confetti";
 
 
 function MainPage() {
@@ -66,6 +67,8 @@ function MainPage() {
     let [lastPlayedMatch, setLastPlayedMatch] = useState(-1)
 
     let [yourLastMatch, setYourLastMatch] = useState<Match>()
+    const [confetti, setConfetti] = useState(false)
+    let confettiDurationMS = 10000
 
     let [redScore, setRedScore] = useState(0)
     let [blueScore, setBlueScore] = useState(0)
@@ -166,7 +169,7 @@ function MainPage() {
 
         let playedMatches = matches.filter(e => !unplayedMatches.includes(e))
 
-        setLastPlayedMatch(matches.indexOf(playedMatches[playedMatches.length-1]))
+        handleLastMatchInfo(playedMatches)
 
         let teamNum = parseInt(teamNumber)
 
@@ -188,6 +191,28 @@ function MainPage() {
             setNextMatchName(nextMatch.convertToHumanReadableName())
 
             setNextMatch(nextMatch);
+        }
+    }
+
+    function handleLastMatchInfo(playedMatches:Match[]) {
+        //Load the previous match key to check that we're doing confetti for a new match
+        let oldLastMatchKey = yourLastMatch?.key ?? "none"
+        console.log(oldLastMatchKey)
+
+        let lastMatch = playedMatches[playedMatches.length-1]
+
+        setLastPlayedMatch(matches.indexOf(lastMatch))
+
+        let matchKey = lastMatch?.key
+
+        let yourLastAlliance = lastMatch?.getTeamAlliance(parseInt(teamNumber))
+        let wonLast = lastMatch?.getWinningAlliance() === yourLastAlliance
+
+        if(matchKey !== oldLastMatchKey && wonLast && yourLastAlliance !== undefined) {
+            setConfetti(wonLast)
+            setTimeout(() => {
+                setConfetti(false)
+            }, confettiDurationMS)
         }
     }
 
@@ -266,8 +291,12 @@ function MainPage() {
     let lastMatchName = yourLastMatch?.convertToHumanReadableName()
     let isQualsMatch = lastMatchName?.includes("Quals")
 
+
     return (
         <div className="App">
+            <div className={`confetti ${confetti ? "active-con" : "inactive-con"}`}>
+                <ReactConfetti/>
+            </div>
             <Header number={parseInt(teamNumber)} eventKey={eventKey}/>
             <div className="main-app">
                 <div className={"top-info"}>

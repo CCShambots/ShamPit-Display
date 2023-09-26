@@ -210,3 +210,15 @@
 .blue-score {
     color: blue;
 }
+
+.confetti {
+    transition: 2s;
+}
+
+.active-con {
+    opacity: 1;
+}
+
+.inactive-con {
+    opacity: 0;
+}
