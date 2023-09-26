@@ -21,3 +21,7 @@ You can select an event to display in multiple ways
 3. Select one of your team's events from the dropdown. If you use the dropdown, you don't have to enter anything into the Event Key Field if you select from here. It will autofill for you.
 
 The Event Key field will turn green when it matches one of the events in the dropdown for you team. This will guarantee that you have a valid key.
+
+
+# Contributing to ShamPit-Display
+See 
