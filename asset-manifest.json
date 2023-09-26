@@ -1,9 +1,8 @@
 {
   "files": {
-    "main.css": "/ShamPit-Display/static/css/main.c6928170.css",
-    "main.js": "/ShamPit-Display/static/js/main.59de4915.js",
+    "main.css": "/ShamPit-Display/static/css/main.ba70617b.css",
+    "main.js": "/ShamPit-Display/static/js/main.131cf592.js",
     "static/js/787.ff6e7d47.chunk.js": "/ShamPit-Display/static/js/787.ff6e7d47.chunk.js",
-    "static/media/5907.jpg": "/ShamPit-Display/static/media/5907.bfc7394b3e1acba1eaa8.jpg",
     "static/media/no-team-image.jpg": "/ShamPit-Display/static/media/no-team-image.0ec7567978a4d146665d.jpg",
     "index.html": "/ShamPit-Display/index.html",
     "static/media/sync-icon.svg": "/ShamPit-Display/static/media/sync-icon.807a56304b40e62226d971dfff6848e6.svg",
@@ -12,12 +11,12 @@
     "static/media/fullscreen-close-icon.svg": "/ShamPit-Display/static/media/fullscreen-close-icon.4716f8e83878273c7e44114f63ab55c3.svg",
     "static/media/arrow-down.svg": "/ShamPit-Display/static/media/arrow-down.bd07ef487f21dd02e8c5f70dc616ff56.svg",
     "static/media/remove-icon.svg": "/ShamPit-Display/static/media/remove-icon.44e751399a19ac1311c4cd962eb34b49.svg",
-    "main.c6928170.css.map": "/ShamPit-Display/static/css/main.c6928170.css.map",
-    "main.59de4915.js.map": "/ShamPit-Display/static/js/main.59de4915.js.map",
+    "main.ba70617b.css.map": "/ShamPit-Display/static/css/main.ba70617b.css.map",
+    "main.131cf592.js.map": "/ShamPit-Display/static/js/main.131cf592.js.map",
     "787.ff6e7d47.chunk.js.map": "/ShamPit-Display/static/js/787.ff6e7d47.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c6928170.css",
-    "static/js/main.59de4915.js"
+    "static/css/main.ba70617b.css",
+    "static/js/main.131cf592.js"
   ]
 }
