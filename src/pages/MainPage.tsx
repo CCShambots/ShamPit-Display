@@ -99,10 +99,10 @@ function MainPage() {
                                 new Alliances(
                                     new Alliance(e.alliances.red.team_keys.map((e) => {
                                         return parseInt(e.substring(3))
-                                    }), e.alliances.red.score, e["score_breakdown"].red.rp),
+                                    }), e.alliances.red.score, e["score_breakdown"]?.red.rp ?? -1),
                                     new Alliance(e.alliances.blue.team_keys.map((e) => {
                                         return parseInt(e.substring(3))
-                                    }), e.alliances.blue.score, e["score_breakdown"].blue.rp)
+                                    }), e.alliances.blue.score, e["score_breakdown"]?.blue.rp ?? -1)
                                 ),
                                 new Date(e.predicted_time * 1000)
                             )
@@ -113,6 +113,8 @@ function MainPage() {
                         })
 
                     })
+
+                    console.log(curMatches)
 
                     setMatches(curMatches)
                 }
@@ -167,6 +169,7 @@ function MainPage() {
         let unplayedMatches = matches.filter((e:Match) =>
             !(e.alliances.red.score >= 0 && e.alliances.blue.score >= 0)
         );
+
 
         let playedMatches = matches.filter(e => !unplayedMatches.includes(e))
 
