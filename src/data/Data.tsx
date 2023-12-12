@@ -56,14 +56,14 @@ class Match {
     }
 
     getCorrectDate():string {
-        return this.formatDayOfTheWeek(this.predicted_time) + ", " + this.formatAMPM(this.predicted_time);
+        return this.formatDayOfTheWeek(this.predicted_time) + " " + this.formatAMPM(this.predicted_time);
     }
 
 
     private formatAMPM(date):string {
         let hours = date.getHours();
         let minutes = date.getMinutes();
-        let ampm = hours >= 12 ? 'pm' : 'am';
+        let ampm = hours >= 12 ? 'PM' : 'AM';
         hours = hours % 12;
         hours = hours ? hours : 12; // the hour '0' should be '12'
         minutes = minutes < 10 ? '0'+minutes : minutes;
@@ -73,13 +73,13 @@ class Match {
 
     private formatDayOfTheWeek(date):string {
         switch(date.getDay()) {
-            case (0): return "Sunday"
-            case (1): return "Monday"
-            case (2): return "Tuesday"
-            case (3): return "Wednesday"
-            case (4): return "Thursday"
-            case (5): return "Friday"
-            case (6): return "Saturday"
+            case (0): return "Sun."
+            case (1): return "Mon."
+            case (2): return "Tues."
+            case (3): return "Wed."
+            case (4): return "Thurs."
+            case (5): return "Fri."
+            case (6): return "Sat."
         }
 
         return "CATASTROPHIC FAILURE"

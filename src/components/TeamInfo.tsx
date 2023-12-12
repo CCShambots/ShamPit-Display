@@ -97,7 +97,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
                 }
                 <h2 className={avatarPath === "" ? "center" : ""}>{props.teamNumber}</h2>
             </div>
-            <p className={"small-info-text"}><b>Rank: {rank}</b></p>
+            <p className={"small-info-text " + (!props.activeTeam ? "rank-text-inactive" : "")}><b>Rank: {rank}</b></p>
             {getImg()}
             <div>
                 <h3>EPA: {epa}</h3>

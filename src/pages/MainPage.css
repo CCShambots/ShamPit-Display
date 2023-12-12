@@ -49,7 +49,7 @@
 }
 
 .alliance-score {
-    width: 25vw;
+    width: 15vw;
     border-radius: 1.3vh;
     color: white;
 
@@ -103,11 +103,11 @@
 }
 
 :root {
-    --next-match-radius: 1.3vh;
+    --next-match-radius: 0.75vh;
 }
 
 .next-match {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.5);
     color: black;
     padding-right: 1vw;
     padding-left: 1vw;
@@ -143,7 +143,9 @@
     width: var(--next-match-radius);
     border-top-right-radius: var(--next-match-radius);
 
-    box-shadow: 0 calc(var(--next-match-radius) * -1) 0 0 white;
+    box-shadow: 0 calc(var(--next-match-radius) * -1) 0 0 rgba(255, 255, 255, 0.5);
+
+    mix-blend-mode: initial;
 }
 
 .next-match-time:after {
