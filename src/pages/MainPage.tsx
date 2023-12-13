@@ -20,7 +20,7 @@ function MainPage() {
 
     const [apiKey] = useLocalStorage("apiKey", "")
 
-    const [confidenceCutoff] = useLocalStorage("confidence-cutoff", 0.15)
+    const [confidenceCutoff] = useLocalStorage("confidence-cutoff", 0.25)
 
 
     const navigate = useNavigate();
