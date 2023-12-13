@@ -1,7 +1,7 @@
 .team-display {
     padding: 1.5vh 1.5vw 1.5vh 1.5vw;
 
-    border-radius: 1.3vh;
+    border-radius: var(--standard-border-radius);
 
     min-height: 40vh;
     max-height: 45vh;
@@ -33,7 +33,7 @@ h2, h3 {
     height: auto;
     border: 5px solid;
     min-height: 20vh;
-    border-radius: 1.3vh;
+    border-radius: var(--standard-border-radius);
 
     object-fit: cover;
 }
@@ -69,6 +69,16 @@ h2, h3 {
     color: white;
 
     /*line-height: 10vh;*/
+}
+
+.team-name {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.8em;
+    max-height: 1.8em;
+    overflow: hidden;
+
+    max-width: 10vw;
 }
 
 .rank-text-inactive {

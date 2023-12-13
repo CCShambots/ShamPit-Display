@@ -281,38 +281,36 @@ function MainPage() {
             <Header number={parseInt(teamNumber)} eventKey={eventKey}/>
             <div className="main-app">
                 <div className={"top-info"}>
-                    <div className={"top-text"}>
                         {
                             yourLastMatch ?
-                            <div className={"last-match-info"}>
-                                <p>Just {(yourLastMatch.getWinningAlliance() === yourLastAlliance ? "Won" : "Lost")} {lastMatchName}</p>
+                            <div className={"top-text"}>
+                                <p><b>Just {(yourLastMatch.getWinningAlliance() === yourLastAlliance ? "Won" : "Lost")} {lastMatchName}</b></p>
                                 <p>
-
-                                    <span className={"red-score"}>
-                                        {isQualsMatch ? `(${yourLastMatch.alliances.red.rp}RP)` : ""} {yourLastMatch.alliances.red.score}
-                                    </span>
-                                    -
-                                    <span className={"blue-score"}>
-                                        {yourLastMatch.alliances.blue.score} {isQualsMatch ? `(${yourLastMatch.alliances.blue.rp}RP)` : ""}
-                                    </span>
+                                    <b>
+                                        <span className={"red-score"}>
+                                            {isQualsMatch ? `(${yourLastMatch.alliances.red.rp}RP)` : ""} {yourLastMatch.alliances.red.score}
+                                        </span>
+                                        -
+                                        <span className={"blue-score"}>
+                                            {yourLastMatch.alliances.blue.score} {isQualsMatch ? `(${yourLastMatch.alliances.blue.rp}RP)` : ""}
+                                        </span>
+                                    </b>
                                 </p>
                             </div> : <div className={"top-text"}/>
                         }
-                    </div>
-
                     <div>
                         <h1 className={"next-match next-match-text"}>{nextMatchName} - {matchTime}</h1>
                     </div>
 
-                    <div>
-                        <b>
+                    <div className={"top-text"}>
+                        <p>
                             {
                                 lastPlayedMatch >= 0 ?
-                                    <p className={"top-text"}>Last Match: {matches[lastPlayedMatch].convertToHumanReadableName()}</p> :
-                                    <p className={"top-text"}>Last Match: None</p>
+                                    <b>Last Match: {matches[lastPlayedMatch].convertToHumanReadableName()}</b> :
+                                    <b>Last Match: None</b>
                             }
-                        </b>
-                        <p className={"top-text"}><b>{timeSinceSync} Seconds Since Sync</b></p>
+                        </p>
+                        <p><b>{timeSinceSync} Seconds Since Sync</b></p>
                     </div>
                 </div>
 

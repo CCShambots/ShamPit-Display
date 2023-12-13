@@ -11,20 +11,30 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
 
     const year = packageJson.version.substring(0, 4);
 
-    const [epa, setEPA] = useState<number>(0)
-    const [tbaImgPath, setTbaImgPath] = useState<string>("")
+    const [name, setName] = useState("")
+
+    const [epa, setEPA] = useState(0)
+    const [tbaImgPath, setTbaImgPath] = useState("")
 
     let [imageInShambase, setImageInShambase] = useState(false)
 
     let [eventKey] = useLocalStorage("eventKey", "")
 
-    const [avatarPath, setAvatarPath] = useState<string>("")
+    const [avatarPath, setAvatarPath] = useState("")
 
     let [rank, setRank] = useState(-1)
+
+    useEffect(() => {
+        PullTBA(`team/frc${props.teamNumber}`, (data) => {
+            //Set the team name to the data's nickname, but parse out any "The"s at the start
+            setName(data.nickname.replace(/^The /i, ''))
+        })
+    }, []);
 
     //Load the team rank
     useEffect(() => {
         PullTBA(`event/${eventKey}/rankings`, (data) => {
+
             let rank = data["rankings"].map(e => parseInt(e["team_key"].substring(3))).indexOf(props.teamNumber) + 1
 
             setRank(rank)
@@ -97,6 +107,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
                 }
                 <h2 className={avatarPath === "" ? "center" : ""}>{props.teamNumber}</h2>
             </div>
+            <p className={"team-name "+ (!props.activeTeam ? " rank-text-inactive" : "")}><b>{name}</b></p>
             <p className={"small-info-text " + (!props.activeTeam ? "rank-text-inactive" : "")}><b>Rank: {rank}</b></p>
             {getImg()}
             <div>
