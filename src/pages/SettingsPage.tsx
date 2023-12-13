@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import {Event} from "../data/Event";
 import {useLocalStorage} from "usehooks-ts";
 import packageJson from "../../package.json"
+import LocalStorageConstants from "../util/LocalStorageConstants";
 
 
 function SettingsPage() {
@@ -12,28 +13,28 @@ function SettingsPage() {
     let year = packageJson.version.substring(0, 4)
 
     const [backgroundColor, setBackgroundColor] =
-        useLocalStorage("backgroundColor", "#004f9e");
+        useLocalStorage(LocalStorageConstants.BACKGROUND_COLOR, "#004f9e");
 
     let [originalBackgroundColor] = useState(() => backgroundColor)
 
 
     const [textColor, setTextColor] =
-        useLocalStorage("textColor", "#ffffff");
+        useLocalStorage(LocalStorageConstants.TEXT_COLOR, "#ffffff");
 
     let [originalTextColor] = useState(() => textColor)
 
 
-    const [teamNumber, setTeamNumber] = useLocalStorage("number", "0");
+    const [teamNumber, setTeamNumber] = useLocalStorage(LocalStorageConstants.TEAM_NUMBER, "0");
     let [originalTeamNumber] = useState(() => teamNumber)
 
-    const [eventKey, setEventKey] = useLocalStorage("eventKey", "");
+    const [eventKey, setEventKey] = useLocalStorage(LocalStorageConstants.EVENT_KEY, "");
     let [originalEventKey] = useState(() => eventKey)
 
-    const [apiKey, setApiKey] = useLocalStorage("apiKey", "none");
+    const [apiKey, setApiKey] = useLocalStorage(LocalStorageConstants.API_KEY, "none");
     let [originalAPIKey] = useState(() => apiKey)
 
     //Where to change a match from yellow to green or red
-    const [confidenceCutoff, setConfidenceCutoff] = useLocalStorage("confidence-cutoff", 0.15);
+    const [confidenceCutoff, setConfidenceCutoff] = useLocalStorage(LocalStorageConstants.CONFIDENCE_CUTOFF, 0.15);
     let [originalConfidenceCutoff] = useState(() => confidenceCutoff)
 
 

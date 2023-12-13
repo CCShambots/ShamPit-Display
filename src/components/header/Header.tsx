@@ -5,11 +5,12 @@ import packageJson from '../../../package.json';
 import SettingsIcon from "../settings-icon/SettingsIcon";
 import {PullTBA} from "../../util/APIUtil";
 import {useLocalStorage} from "usehooks-ts";
+import LocalStorageConstants from "../../util/LocalStorageConstants";
 
 const Header = (props: {number:number, eventKey:string}) => {
 
-    const [backgroundColor] = useLocalStorage("backgroundColor", "#004f9e")
-    const [textColor] = useLocalStorage("textColor", "#ffffff")
+    const [backgroundColor] = useLocalStorage(LocalStorageConstants.BACKGROUND_COLOR, "#004f9e")
+    const [textColor] = useLocalStorage(LocalStorageConstants.TEXT_COLOR, "#ffffff")
 
     let teamNumber: number = props.number
     let eventKey: string = props.eventKey

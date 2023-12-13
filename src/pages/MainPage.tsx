@@ -11,17 +11,17 @@ import packageJson from "../../package.json";
 import {useLocalStorage} from "usehooks-ts";
 import {PullTBA} from "../util/APIUtil";
 import ReactConfetti from "react-confetti";
+import LocalStorageConstants from "../util/LocalStorageConstants";
 
 
 function MainPage() {
 
-    const [teamNumber] = useLocalStorage("number", "0")
-    const [eventKey] = useLocalStorage("eventKey", "")
+    const [teamNumber] = useLocalStorage(LocalStorageConstants.TEAM_NUMBER, "0")
+    const [eventKey] = useLocalStorage(LocalStorageConstants.EVENT_KEY, "")
 
-    const [apiKey] = useLocalStorage("apiKey", "")
+    const [apiKey] = useLocalStorage(LocalStorageConstants.API_KEY, "")
 
-    const [confidenceCutoff] = useLocalStorage("confidence-cutoff", 0.25)
-
+    const [confidenceCutoff] = useLocalStorage(LocalStorageConstants.CONFIDENCE_CUTOFF, 0.25)
 
     const navigate = useNavigate();
 
