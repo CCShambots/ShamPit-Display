@@ -74,8 +74,11 @@ h2, h3 {
 .team-name-container {
     align-self: center;
 
-    max-width: 10vw;
+    width: 11vw;
+    height: 2em;
     overflow: hidden;
+
+    position: relative;
 }
 
 .team-name {
@@ -85,10 +88,10 @@ h2, h3 {
     margin-bottom: 0;
     line-height: 1.8em;
     max-height: 1.8em;
-    overflow: hidden;
     white-space: nowrap;
 
-    max-width: 10vw;
+    width: max-content;
+
 }
 
 .rank-text-inactive {

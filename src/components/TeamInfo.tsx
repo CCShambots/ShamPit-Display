@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from "react"
+import React, {createRef, useEffect, useRef, useState} from "react"
 import "./TeamInfo.css"
 import {CheckImage, PullStatbotics, PullTBA, ShamBaseUrl} from "../util/APIUtil";
 import {Match} from "../data/Data";
 import {useLocalStorage} from "usehooks-ts";
+import Marquee from "react-fast-marquee";
 
 
 function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:Match|null}) {
@@ -90,9 +91,13 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
         checkShamBase()
     }, [props.teamNumber])
 
+    let [playMarquee, setPlayMarquee] = useState(true)
+
+
     return (
 
         <div className={"team-display " + (props.activeTeam ? "active" : "inactive")}>
+
             {
                 props.upcomingMatch != null ?
                     <p className={"small-info-text"}><b>In: {props.upcomingMatch.convertToHumanReadableName()}</b></p>
@@ -104,7 +109,16 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
                 }
                 <h2 className={avatarPath === "" ? "center" : ""}>{props.teamNumber}</h2>
             </div>
-            <p className={"team-name "+ (!props.activeTeam ? " rank-text-inactive" : "")}>{name}</p>
+            <div className={"team-name-container"}>
+                <Marquee play={playMarquee} onCycleComplete={() => {
+                    setPlayMarquee(false)
+                    setTimeout(() => setPlayMarquee(true), 10000)
+                }}>
+                    <p
+                        className={"team-name " + (!props.activeTeam ? " rank-text-inactive" : "")}
+                    ><b>{name}⠀⠀⠀</b></p>
+                </Marquee>
+            </div>
             <p className={"small-info-text " + (!props.activeTeam ? "rank-text-inactive" : "")}><b>Rank: {rank}</b></p>
             {getImg()}
             <div>
@@ -129,7 +143,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
 
         try {
 
-            if(imageInShambase) {
+            if (imageInShambase) {
                 return <img className={"bot-image"}
                             src={ShamBaseUrl + `bytes/get/key/${props.teamNumber}-img-${year}`}
                             alt={"Error"}></img>
