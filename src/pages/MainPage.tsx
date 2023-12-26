@@ -7,7 +7,6 @@ import SyncIcon from "../components/sync-icon/SyncIcon";
 import FullscreenIcon from "../components/fullscreen/FullscreenIcon";
 import {Link, useNavigate} from "react-router-dom";
 import MatchCompletionOverride from "../components/match-override-menu/MatchCompletionOverride";
-import packageJson from "../../package.json";
 import {useLocalStorage} from "usehooks-ts";
 import {PullTBA} from "../util/APIUtil";
 import ReactConfetti from "react-confetti";
@@ -18,6 +17,8 @@ function MainPage() {
 
     const [teamNumber] = useLocalStorage(LocalStorageConstants.TEAM_NUMBER, "0")
     const [eventKey] = useLocalStorage(LocalStorageConstants.EVENT_KEY, "")
+
+    let year = eventKey.substring(0,4)
 
     const [apiKey] = useLocalStorage(LocalStorageConstants.API_KEY, "")
 
@@ -233,8 +234,8 @@ function MainPage() {
 
                         //We were unable to get the match result from statbotics (potentially because it's an offseason event). We'll run our own manual summation in that case
 
-                        let redTotal = await getSumOfEPAs(nextMatch?.alliances.red.numbers ?? [1])
-                        let blueTotal = await getSumOfEPAs(nextMatch?.alliances.blue.numbers ?? [1])
+                        let redTotal = await getSumOfEPAs(nextMatch?.alliances.red.numbers ?? [1], year)
+                        let blueTotal = await getSumOfEPAs(nextMatch?.alliances.blue.numbers ?? [1], year)
 
                         redTotal = Math.round(redTotal);
                         blueTotal = Math.round(blueTotal);
@@ -401,9 +402,7 @@ function MainPage() {
     }
 }
 
-const year = packageJson.version.substring(0, 4);
-
-async function getSumOfEPAs(teamNumbers:number[]):Promise<number> {
+async function getSumOfEPAs(teamNumbers:number[], year:string):Promise<number> {
 
     return teamNumbers.reduce(async (sum, current) => {
         return await fetch("https://api.statbotics.io/v2/team_year/" + current + "/" + year)

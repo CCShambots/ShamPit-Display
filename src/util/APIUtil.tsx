@@ -1,10 +1,10 @@
 export const ShamBaseUrl = "http://167.71.240.213:8080/"
 
-export function CheckImage(teamNum:number) {
+export function CheckImage(teamNum:number, year:string) {
     return fetch(ShamBaseUrl + "bytes/get",
     ).then(response => response.json())
         .then((data:any[]) => {
-            return data.includes(`${teamNum}-img`)
+            return data.includes(`${teamNum}-img-${year}`)
         })
 }
 

@@ -71,12 +71,22 @@ h2, h3 {
     /*line-height: 10vh;*/
 }
 
+.team-name-container {
+    align-self: center;
+
+    max-width: 10vw;
+    overflow: hidden;
+}
+
 .team-name {
+    align-self: center;
+
     margin-top: 0;
     margin-bottom: 0;
     line-height: 1.8em;
     max-height: 1.8em;
     overflow: hidden;
+    white-space: nowrap;
 
     max-width: 10vw;
 }

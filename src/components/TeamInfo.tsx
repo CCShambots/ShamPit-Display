@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from "react"
 import "./TeamInfo.css"
-import packageJson from "../../package.json";
 import {CheckImage, PullStatbotics, PullTBA, ShamBaseUrl} from "../util/APIUtil";
 import {Match} from "../data/Data";
 import {useLocalStorage} from "usehooks-ts";
 
-let baseImagePath = "../resources/team-images/"
 
 function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:Match|null}) {
 
-    const year = packageJson.version.substring(0, 4);
+    let [eventKey] = useLocalStorage("eventKey", "")
+    const year = eventKey.substring(0, 4)
 
     const [name, setName] = useState("")
 
@@ -17,8 +16,6 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
     const [tbaImgPath, setTbaImgPath] = useState("")
 
     let [imageInShambase, setImageInShambase] = useState(false)
-
-    let [eventKey] = useLocalStorage("eventKey", "")
 
     const [avatarPath, setAvatarPath] = useState("")
 
@@ -79,7 +76,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
     }
 
     const checkShamBase = () => {
-        CheckImage(props.teamNumber).then(result => {
+        CheckImage(props.teamNumber, year).then(result => {
             setImageInShambase(result)
         })
     }
@@ -107,7 +104,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
                 }
                 <h2 className={avatarPath === "" ? "center" : ""}>{props.teamNumber}</h2>
             </div>
-            <p className={"team-name "+ (!props.activeTeam ? " rank-text-inactive" : "")}><b>{name}</b></p>
+            <p className={"team-name "+ (!props.activeTeam ? " rank-text-inactive" : "")}>{name}</p>
             <p className={"small-info-text " + (!props.activeTeam ? "rank-text-inactive" : "")}><b>Rank: {rank}</b></p>
             {getImg()}
             <div>
@@ -134,7 +131,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
 
             if(imageInShambase) {
                 return <img className={"bot-image"}
-                            src={ShamBaseUrl + `bytes/get/key/${props.teamNumber}-img`}
+                            src={ShamBaseUrl + `bytes/get/key/${props.teamNumber}-img-${year}`}
                             alt={"Error"}></img>
             } else {
                 return <img className={"bot-image"}
