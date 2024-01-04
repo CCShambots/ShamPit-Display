@@ -177,7 +177,6 @@ function MainPage() {
     function handleLastMatchInfo(playedMatches:Match[]) {
         //Load the previous match key to check that we're doing confetti for a new match
         let oldLastMatchKey = yourLastMatch?.key ?? "none"
-        console.log(oldLastMatchKey)
 
         let lastMatch = playedMatches[playedMatches.length-1]
 

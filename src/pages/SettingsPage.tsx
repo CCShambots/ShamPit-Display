@@ -50,11 +50,8 @@ function SettingsPage() {
     useEffect(() => {
         try {
             CheckJWT(jwt).then((status) => {
-                console.log(status)
                 if(status !== 200) {
                     setNeedToAuthorize(true)
-                } else {
-                    console.log("Authorized!")
                 }
             })
 
