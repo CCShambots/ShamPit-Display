@@ -92,8 +92,6 @@ function MainPage() {
 
                     })
 
-                    console.log(curMatches)
-
                     setMatches(curMatches)
                 }
             )

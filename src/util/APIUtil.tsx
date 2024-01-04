@@ -1,11 +1,55 @@
-export const ShamBaseUrl = "http://167.71.240.213:8080/"
+import axios from "axios";
 
-export function CheckImage(teamNum:number, year:string) {
-    return fetch(ShamBaseUrl + "bytes/get",
-    ).then(response => response.json())
+export const DataBaseUrl = "https://scout.voth.name:3000/protected/"
+
+export function CheckImage(teamNum:number, year:string, jwt:string) {
+
+    return axios.get(DataBaseUrl + "bytes/", {
+        headers: {
+            'Authorization': jwt,
+        },
+        withCredentials: false
+    }
+    ).then(response => response.data)
         .then((data:any[]) => {
+            console.log(data)
             return data.includes(`${teamNum}-img-${year}`)
         })
+
+}
+
+export function CheckJWT(jwt:string) {
+
+    return axios.get(DataBaseUrl.substring(0, DataBaseUrl.length-1), {
+        headers: {
+            'Authorization': jwt,
+        },
+        withCredentials: false
+    }).then((res) => {
+        console.log(res.status)
+        return res.status
+    })
+}
+
+export function getBytes(jwt:string) {
+    return fetch(DataBaseUrl + "bytes/", {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'cookie': jwt
+        },
+    }
+    ).then(response => response.json())
+
+}
+
+export function Authorize(code:string, email:string) {
+    let baseURL = DataBaseUrl.replace("protected/", "")
+    return fetch(`${baseURL}auth/${code}/${email}`, {
+        method: 'GET',
+        // credentials: "include",
+    })
+        .then(response => response.text())
 }
 
 export function PullTBA(endpoint:string, callback:(e:any) => void) {

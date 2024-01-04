@@ -6,6 +6,8 @@ import {Event} from "../data/Event";
 import {useLocalStorage} from "usehooks-ts";
 import packageJson from "../../package.json"
 import LocalStorageConstants from "../util/LocalStorageConstants";
+import {get} from "node:https";
+import {Authorize, CheckJWT, getBytes} from "../util/APIUtil";
 
 
 function SettingsPage() {
@@ -37,8 +39,29 @@ function SettingsPage() {
     const [confidenceCutoff, setConfidenceCutoff] = useLocalStorage(LocalStorageConstants.CONFIDENCE_CUTOFF, 0.15);
     let [originalConfidenceCutoff] = useState(() => confidenceCutoff)
 
-
     const [teamEvents, setTeamEvents] = useState<Event[]>([])
+
+    const [jwt, setJwt]  = useLocalStorage(LocalStorageConstants.JWT, "")
+    const [email, setEmail] = useLocalStorage(LocalStorageConstants.EMAIL, "")
+    const [tempCode, setTempCode] = useState("")
+    const [needToAuthorize, setNeedToAuthorize] = useState(false)
+
+    //Check JWT info
+    useEffect(() => {
+        console.log(jwt)
+        CheckJWT(jwt).then((status) => {
+            console.log(status)
+            if(status !== 200) {
+                setNeedToAuthorize(true)
+            } else {
+                console.log("Authorized!")
+            }
+        })
+
+        // getBytes(jwt).then((data) => {
+        //     console.log(data)
+        // })
+    }, []);
 
      //This fixed an error sometime, but I didn't document it. Sorry
     function withEvent(func: Function): React.ChangeEventHandler<any> {
@@ -124,6 +147,12 @@ function SettingsPage() {
         return value
     }
 
+    function handleAPIAurhorize() {
+        Authorize(tempCode, email).then((code) => {
+          setJwt(code)
+        });
+    }
+
     return <div className={"settings-page"}>
         <h1 className={"title"} style={{background: backgroundColor, color: textColor}}>Settings</h1>
 
@@ -196,6 +225,31 @@ function SettingsPage() {
                     </div>
                 </div>
             </div>
+
+            {
+                needToAuthorize ?
+                    <div className={"settings-container"}>
+                        <div>
+                            <h2><a className={"white-link"} href={"https://scout.voth.name:3000/protected"} target={"_blank"} rel={"noreferrer"}>
+                                Get One Time Code
+                            </a></h2>
+                            <p>Copy the code you get into the input</p>
+                        </div>
+                        <input className={"input"} type={"text"} onChange={withEvent(setTempCode)}/>
+                    </div>
+                : <div className={"settings-container"}>
+                    <h2>You're authorized with the database!</h2>
+                </div>
+            }
+
+            {
+                needToAuthorize ?
+                    <div className={"settings-container"}>
+                        <h2>Set Email</h2>
+                        <input className={"input"} type={"text"} value={email} onChange={withEvent(setEmail)}/>
+                        <div onClick={handleAPIAurhorize} className={"color-button green"}>Authorize</div>
+                    </div> : <div/>
+            }
 
             <div className={"settings-container"}>
                 <Link to={"/"} className={"color-button green bottom-button"}>

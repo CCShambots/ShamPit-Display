@@ -1,9 +1,10 @@
-import React, {createRef, useEffect, useRef, useState} from "react"
+import React, {createRef, useEffect, useState} from "react"
 import "./TeamInfo.css"
-import {CheckImage, PullStatbotics, PullTBA, ShamBaseUrl} from "../util/APIUtil";
+import {CheckImage, PullStatbotics, PullTBA, DataBaseUrl} from "../util/APIUtil";
 import {Match} from "../data/Data";
 import {useLocalStorage} from "usehooks-ts";
 import Marquee from "react-fast-marquee";
+import LocalStorageConstants from "../util/LocalStorageConstants";
 
 
 function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:Match|null}) {
@@ -16,11 +17,13 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
     const [epa, setEPA] = useState(0)
     const [tbaImgPath, setTbaImgPath] = useState("")
 
-    let [imageInShambase, setImageInShambase] = useState(false)
+    let [imageInDataBase, setImageInDataBase] = useState(false)
 
     const [avatarPath, setAvatarPath] = useState("")
 
     let [rank, setRank] = useState(-1)
+
+    let [jwt] = useLocalStorage(LocalStorageConstants.JWT, "")
 
     useEffect(() => {
         PullTBA(`team/frc${props.teamNumber}`, (data) => {
@@ -77,9 +80,39 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
     }
 
     const checkShamBase = () => {
-        CheckImage(props.teamNumber, year).then(result => {
-            setImageInShambase(result)
+        CheckImage(props.teamNumber, year, jwt).then(result => {
+            setImageInDataBase(result)
         })
+    }
+
+    let imgRef = createRef<HTMLImageElement>();
+
+    let [imgSrc, setImgSrc] = useState("");
+
+    useEffect(() => {
+        setTimeout(() => {
+            loadImage()
+        }, 250)
+        setInterval(() => {
+            loadImage()
+        }, 600000)
+    }, [imageInDataBase]);
+
+    let loadImage = () => {
+        if(imageInDataBase) {
+            const src = DataBaseUrl + `bytes/${props.teamNumber}-img-${year}`;
+            const options = {
+                headers: {
+                    'Authorization': jwt,
+                }
+            };
+
+            fetch(src, options)
+                .then(res => res.blob())
+                .then(blob => {
+                    setImgSrc(URL.createObjectURL(blob));
+                });
+        }
     }
 
     useEffect(() => {
@@ -143,10 +176,11 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
 
         try {
 
-            if (imageInShambase) {
-                return <img className={"bot-image"}
-                            src={ShamBaseUrl + `bytes/get/key/${props.teamNumber}-img-${year}`}
-                            alt={"Error"}></img>
+            if (imageInDataBase) {
+                return <img ref={imgRef}
+                            className={"bot-image"}
+                            src={imgSrc}
+                            alt={"Loading"}></img>
             } else {
                 return <img className={"bot-image"}
                             src={tbaImgPath}

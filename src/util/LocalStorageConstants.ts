@@ -5,4 +5,6 @@ export default class LocalStorageConstants {
     static CONFIDENCE_CUTOFF = "confidence-cutoff";
     static BACKGROUND_COLOR = "backgroundColor";
     static TEXT_COLOR = "textColor";
+    static JWT = "jwt";
+    static EMAIL = "email";
 }
