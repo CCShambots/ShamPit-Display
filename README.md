@@ -22,6 +22,8 @@ You can select an event to display in multiple ways
 
 The Event Key field will turn green when it matches one of the events in the dropdown for you team. This will guarantee that you have a valid key.
 
+### Using the CC Shambots Database
+Members of the CC Shambots will take photos of teams at events and upload them to a database using the app ShamPic (available on Google Play and Apple App Store). Anyone either running their own instances of ShamScout or who are at the same event as the CC Shambots are welcome to assist with this endeavor. This database is used to display photos of teams on the pit display. The settings window has authorization fields that allow you to access the database. If you are not a member of the CC Shambots or don't care to log in, you can leave these fields blank and the display will still work with images teams have uploaded to The Blue Alliance.
 
 # Contributing to ShamPit-Display
 See [CONTRIBUTING.md](https://github.com/CCShambots/ShamPit-Display/blob/master/CONTRIBUTING.md)

@@ -234,7 +234,7 @@ function SettingsPage() {
                 needToAuthorize ?
                     <div className={"settings-container"}>
                         <div>
-                            <h2><a className={"white-link"} href={"https://scout.voth.name:3000/protected"} target={"_blank"} rel={"noreferrer"}>
+                            <h2><a className={"white-link"} href={"https://scout.voth.name:3000/protected/code"} target={"_blank"} rel={"noreferrer"}>
                                 Get One Time Code
                             </a></h2>
                             <p>Copy the code you get into the input</p>
