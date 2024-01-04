@@ -11,10 +11,12 @@ export function CheckImage(teamNum:number, year:string, jwt:string) {
         withCredentials: false
     }
     ).then(response => response.data)
-        .then((data:any[]) => {
-            console.log(data)
-            return data.includes(`${teamNum}-img-${year}`)
-        })
+    .then((data:any[]) => {
+        console.log(data)
+        return data.includes(`${teamNum}-img-${year}`)
+    }).catch(e => {
+        return false
+    })
 
 }
 
@@ -28,6 +30,9 @@ export function CheckJWT(jwt:string) {
     }).then((res) => {
         console.log(res.status)
         return res.status
+    }).catch((e) => {
+        console.log(e)
+        return 401
     })
 }
 

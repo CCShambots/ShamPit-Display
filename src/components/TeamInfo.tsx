@@ -111,7 +111,10 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
                 .then(res => res.blob())
                 .then(blob => {
                     setImgSrc(URL.createObjectURL(blob));
-                });
+                }).catch(e => {
+                    console.log(e)
+                })
+            ;
         }
     }
 

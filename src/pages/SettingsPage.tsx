@@ -48,19 +48,21 @@ function SettingsPage() {
 
     //Check JWT info
     useEffect(() => {
-        console.log(jwt)
-        CheckJWT(jwt).then((status) => {
-            console.log(status)
-            if(status !== 200) {
-                setNeedToAuthorize(true)
-            } else {
-                console.log("Authorized!")
-            }
-        })
+        try {
+            CheckJWT(jwt).then((status) => {
+                console.log(status)
+                if(status !== 200) {
+                    setNeedToAuthorize(true)
+                } else {
+                    console.log("Authorized!")
+                }
+            })
 
-        // getBytes(jwt).then((data) => {
-        //     console.log(data)
-        // })
+        } catch {
+            //Auth fails becauseno JWT saved
+            setNeedToAuthorize(true)
+        }
+
     }, []);
 
      //This fixed an error sometime, but I didn't document it. Sorry
@@ -149,7 +151,9 @@ function SettingsPage() {
 
     function handleAPIAurhorize() {
         Authorize(tempCode, email).then((code) => {
-          setJwt(code)
+            setJwt(code)
+            setNeedToAuthorize(false)
+
         });
     }
 
