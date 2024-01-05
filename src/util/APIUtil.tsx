@@ -34,23 +34,11 @@ export function CheckJWT(jwt:string) {
     })
 }
 
-export function getBytes(jwt:string) {
-    return fetch(DataBaseUrl + "bytes/", {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'cookie': jwt
-        },
-    }
-    ).then(response => response.json())
-
-}
 
 export function Authorize(code:string, email:string) {
     let baseURL = DataBaseUrl.replace("protected/", "")
     return fetch(`${baseURL}auth/${code}/${email}`, {
         method: 'GET',
-        // credentials: "include",
     })
         .then(response => response.text())
 }

@@ -7,7 +7,7 @@ import {useLocalStorage} from "usehooks-ts";
 import packageJson from "../../package.json"
 import LocalStorageConstants from "../util/LocalStorageConstants";
 import {get} from "node:https";
-import {Authorize, CheckJWT, getBytes} from "../util/APIUtil";
+import {Authorize, CheckJWT} from "../util/APIUtil";
 
 
 function SettingsPage() {
