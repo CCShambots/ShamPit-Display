@@ -188,6 +188,7 @@ function MainPage() {
         let wonLast = lastMatch?.getWinningAlliance() === yourLastAlliance
 
         if(matchKey !== oldLastMatchKey && wonLast && yourLastAlliance !== undefined) {
+
             setConfetti(wonLast)
             setTimeout(() => {
                 setConfetti(false)

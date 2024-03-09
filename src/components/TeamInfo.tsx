@@ -30,7 +30,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
             //Set the team name to the data's nickname, but parse out any "The"s at the start
             setName(data.nickname.replace(/^The /i, ''))
         })
-    }, []);
+    }, [props.teamNumber]);
 
     //Load the team rank
     useEffect(() => {
@@ -121,6 +121,8 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
     useEffect(() => {
         //Clear the current TBA image location (don't retain old images on match change)
         setTbaImgPath("")
+        setAvatarPath("")
+        setImageInDataBase(false)
 
         fetchEPA()
         fetchTBAImage(false)
