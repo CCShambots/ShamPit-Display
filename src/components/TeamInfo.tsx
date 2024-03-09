@@ -96,9 +96,10 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
         setInterval(() => {
             loadImage()
         }, 600000)
-    }, [imageInDataBase]);
+    }, [imageInDataBase, props.teamNumber]);
 
     let loadImage = () => {
+        console.log("Loading image")
         if(imageInDataBase) {
             const src = DataBaseUrl + `bytes/${props.teamNumber}-img-${year}`;
             const options = {
@@ -123,6 +124,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
         setTbaImgPath("")
         setAvatarPath("")
         setImageInDataBase(false)
+
 
         fetchEPA()
         fetchTBAImage(false)
