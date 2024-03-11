@@ -82,6 +82,10 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
     const checkShamBase = () => {
         CheckImage(props.teamNumber, year, jwt).then(result => {
             setImageInDataBase(result)
+
+            if(result) {
+                loadImage()
+            }
         })
     }
 
@@ -99,7 +103,6 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
     }, [imageInDataBase, props.teamNumber]);
 
     let loadImage = () => {
-        console.log("Loading image")
         if(imageInDataBase) {
             const src = DataBaseUrl + `bytes/${props.teamNumber}-img-${year}`;
             const options = {
@@ -124,7 +127,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
         setTbaImgPath("")
         setAvatarPath("")
         setImageInDataBase(false)
-
+        setImgSrc("")
 
         fetchEPA()
         fetchTBAImage(false)
