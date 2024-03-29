@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import './header.css'
 import packageJson from '../../../package.json';
-import SettingsIcon from "../settings-icon/SettingsIcon";
 import {PullTBA} from "../../util/APIUtil";
 import {useLocalStorage} from "usehooks-ts";
 import LocalStorageConstants from "../../util/LocalStorageConstants";
+import {Button, Popup} from "semantic-ui-react";
 
 const Header = (props: {number:number, eventKey:string}) => {
 
@@ -48,7 +48,12 @@ const Header = (props: {number:number, eventKey:string}) => {
             }</h1>
             <div className={"settings box"}>
                 <Link className={"settings-icon"} to={"settings"}>
-                    <SettingsIcon color={textColor}></SettingsIcon>
+                    <Popup
+                        trigger={
+                            <Button size={"massive"} icon={"settings"} inverted></Button>
+                        }
+                        content={"Settings"}
+                    />
                 </Link>
             </div>
         </div>
