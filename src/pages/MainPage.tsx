@@ -298,7 +298,7 @@ function MainPage() {
                             </div> : <div className={"top-text"}/>
                         }
                     <div>
-                        <h1 className={"next-match next-match-text"}>{nextMatchName} - {matchTime}</h1>
+                        <p className={"next-match next-match-text"}><b>{nextMatchName} - {matchTime}</b></p>
                     </div>
 
                     <div className={"top-text"}>
@@ -334,7 +334,7 @@ function MainPage() {
                 <div className={"bottom-content"}>
                     <SyncIcon click={fetchMatchInfo} syncing={syncing}/>
                     <div className={"next-match prediction " + getMatchOutcomeType()}>
-                        <h2>Win Chance: {Math.round(confidence * 100)}%</h2>
+                        <p><b>Win Chance: {Math.round(confidence * 100)}%</b></p>
                     </div>
                     <FullscreenIcon/>
                     <h6 className={"presented-text"}>Created by <Link className={"presented-link"} target={"_blank"}  to={"https://www.thebluealliance.com/team/5907"}>

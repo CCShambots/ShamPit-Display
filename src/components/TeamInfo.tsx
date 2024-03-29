@@ -150,7 +150,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
                 {avatarPath !== "" ?
                     <img className={"avatar"} src={`data:image/png;base64,${avatarPath}`} alt={"team avatar"}/> : null
                 }
-                <h2 className={avatarPath === "" ? "center" : ""}>{props.teamNumber}</h2>
+                <p className={"team-number"}>{props.teamNumber}</p>
             </div>
             <div className={"team-name-container"}>
                 {name.length > 10 ?
@@ -170,7 +170,7 @@ function TeamInfo(props: { teamNumber:number, activeTeam:boolean, upcomingMatch:
             <p className={"small-info-text " + (!props.activeTeam ? "rank-text-inactive" : "")}><b>Rank: {rank}</b></p>
             {getImg()}
             <div>
-                <h3>EPA: {epa}</h3>
+                <p><b>EPA: {epa}</b></p>
             </div>
         </div>
 

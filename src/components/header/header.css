@@ -17,10 +17,18 @@ h1,h2 {
 .left-info {
     margin-left: 10px;
     justify-content: left;
-    margin-top: auto;
-    margin-bottom: auto;
 
     font-size: 2vh;
+}
+
+.left-info-spread {
+
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
 }
 
 .event-title {

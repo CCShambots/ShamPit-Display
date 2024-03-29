@@ -26,13 +26,11 @@ const Header = (props: {number:number, eventKey:string}) => {
     return (
         <div className={"header-container"} style={{backgroundColor: backgroundColor, color: textColor}}>
             <div className={"left-info box"}>
-                <div>
+                <div className={"left-info-spread"}>
                     <Link target={"_blank"} style={{color: textColor}} to={"https://github.com/CCShambots/5907-pit-display"}>
                         Version: {packageJson.version}
                     </Link>
-                    <br/>
                     <Link target={"_blank"} style={{color: textColor}} to={"https://www.thebluealliance.com/team/" + teamNumber}>Team: {teamNumber}</Link>
-                    <br/>
                     <Link target={"_blank"} style={{color: textColor}} to={"https://www.thebluealliance.com/event/" + eventKey}>Event: {eventKey}</Link>
                 </div>
             </div>

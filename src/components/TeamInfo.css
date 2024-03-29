@@ -42,13 +42,9 @@ h2, h3 {
     display: flex;
     flex-direction: row;
 
-    justify-content: space-between;
-}
+    justify-content: space-around;
 
-.center {
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
 }
 
 .avatar {
@@ -76,6 +72,13 @@ h2, h3 {
     align-self: center;
     margin-left: auto;
     margin-right: auto;
+}
+
+.team-number {
+    line-height: 1.8em;
+    max-height: 1.8em;
+
+    font-weight: bold;
 }
 
 .team-name-container {
