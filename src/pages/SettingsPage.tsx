@@ -6,8 +6,8 @@ import {Event} from "../data/Event";
 import {useLocalStorage} from "usehooks-ts";
 import packageJson from "../../package.json"
 import LocalStorageConstants from "../util/LocalStorageConstants";
-import {get} from "node:https";
 import {Authorize, CheckJWT} from "../util/APIUtil";
+import {Button, Input, Popup} from "semantic-ui-react";
 
 
 function SettingsPage() {
@@ -122,7 +122,7 @@ function SettingsPage() {
          }
      }, [apiKey, teamNumber])
 
-     //Save all settings to local storage
+     //Un-save all settings to local storage
     function cancel() {
         setTeamNumber(originalTeamNumber)
         setEventKey(originalEventKey)
@@ -162,17 +162,17 @@ function SettingsPage() {
 
             <div className={"settings-container"}>
                 <h2>TBA API Key</h2>
-                <input className={"input long"} type={"text"}
+                <Input className={"long"} type={"text"}
                        onClick={() => {
                            if(apiKey === "none") setApiKey("")
                        }}
-                       onChange={withEvent(setApiKey)} value={apiKey}></input>
+                       onChange={withEvent(setApiKey)} value={apiKey}></Input>
             </div>
 
             <div className={"settings-container"}>
                 <h2>Team Number</h2>
-                <input className={"input"} type={"text"} id={"team-number"} value={teamNumber}
-                       minLength={1} maxLength={4} onChange={withEvent(setTeamNumber)}></input>
+                <Input type={"number"} id={"team-number"} value={teamNumber}
+                       minLength={1} maxLength={4} onChange={withEvent(setTeamNumber)}></Input>
             </div>
 
             <div className={"settings-container"}>
@@ -187,21 +187,29 @@ function SettingsPage() {
             </div>
 
             <div className={"settings-container"}>
-                <div>
-                    <h2>Event Key</h2>
-                    <p className={"small-text"}>*Optional if you select an event from the dropdown</p>
-                </div>
+                <Popup
+                    inverted
+                    trigger={
+                        <h2>Event Key</h2>
+                    }
+                    content="Optional if you select an event from the dropdown"
+                />
 
-                <input className={"input " + (isCurrentKeyMatching() ? "valid" : "")} type={"text"} onChange={withEvent(setEventKey)} value={eventKey}></input>
+                <Input error={!isCurrentKeyMatching()} type={"text"} onChange={withEvent(setEventKey)} value={eventKey}></Input>
             </div>
 
             <div className={"settings-container"}>
-                <div>
-                    <h2>Confidence Cutoff</h2>
-                    <p className={"small-text"}>*The win chance at which the display will turn from yellow to red or green. In interval [0,1].</p>
-                </div>
+                <Popup
+                    inverted
+                    trigger={
+                        <h2>Confidence Cutoff</h2>
+                    }
 
-                <input className={"input"} type={"text"} onChange={withEvent(setConfidenceCutoff)} value={confidenceCutoff}></input>
+                    content="The win chance at which the display will turn from yellow to red or green. In interval [0,1]."
+
+                />
+
+                <Input type={"text"} onChange={withEvent(setConfidenceCutoff)} value={confidenceCutoff}></Input>
             </div>
 
             <div className={"settings-container"}>
@@ -217,13 +225,11 @@ function SettingsPage() {
 
                 {/*Allow the user to set the color easily to black or white*/}
                 <div className={"color-buttons"}>
-                    <div className={"color-button black"} onClick={() => setTextColor("#000000")}>
-                        Black
-                    </div>
+                    <Button size={"massive"} color={"black"} onClick={() => setTextColor("#000000")}>Black</Button>
+
                     <HexColorInput className={"input color-input"} color={textColor} onChange={setTextColor} />
-                    <div className={"color-button white"} onClick={() => setTextColor("#ffffff")}>
-                        White
-                    </div>
+
+                    <Button size={"massive"} onClick={() => setTextColor("#ffffff")}>White</Button>
                 </div>
             </div>
 
@@ -236,7 +242,7 @@ function SettingsPage() {
                             </a></h2>
                             <p>Copy the code you get into the input</p>
                         </div>
-                        <input className={"input"} type={"text"} onChange={withEvent(setTempCode)}/>
+                        <Input type={"text"} onChange={withEvent(setTempCode)}/>
                     </div>
                 : <div className={"settings-container"}>
                     <h2>You're authorized with the database!</h2>
@@ -247,17 +253,17 @@ function SettingsPage() {
                 needToAuthorize ?
                     <div className={"settings-container"}>
                         <h2>Set Email</h2>
-                        <input className={"input"} type={"text"} value={email} onChange={withEvent(setEmail)}/>
+                        <Input className={"input"} type={"text"} value={email} onChange={withEvent(setEmail)}/>
                         <div onClick={handleAPIAurhorize} className={"color-button green"}>Authorize</div>
                     </div> : <div/>
             }
 
             <div className={"settings-container"}>
-                <Link to={"/"} className={"color-button green bottom-button"}>
-                    Save
+                <Link to={"/"}>
+                    <Button size={"massive"} color={"green"}>Save</Button>
                 </Link>
-                <Link onClick={() => cancel()} to={"/"} className={"color-button red bottom-button"}>
-                    Cancel
+                <Link onClick={() => cancel()} to={"/"}>
+                    <Button size={"massive"} color={"red"}>Cancel</Button>
                 </Link>
             </div>
         </div>

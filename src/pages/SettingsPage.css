@@ -28,8 +28,7 @@
 }
 
 .color-text {
-    margin-top: auto;
-    margin-bottom: auto;
+    align-self: center;
 }
 
 .color-buttons {
@@ -66,22 +65,6 @@
 .black {
     background-color: black;
     color: white;
-}
-
-.green {
-    background-color: green;
-}
-
-.green:hover {
-    background-color: #016401;
-}
-
-.red {
-    background-color: red;
-}
-
-.red:hover {
-    background-color: #b00000;
 }
 
 .black:hover {
