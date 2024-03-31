@@ -65,34 +65,7 @@ function MainPage() {
             PullTBA(
                 pullURL, (data) => {
                     //Convert all the data to match info
-                    let curMatches:Match[] = [];
-
-                    data.forEach((e) => {
-
-                        curMatches.push(
-                            new Match(
-                                e.key,
-                                e.comp_level,
-                                e.match_number,
-                                new Alliances(
-                                    new Alliance(e.alliances.red.team_keys.map((e) => {
-                                        return parseInt(e.substring(3))
-                                    }), e.alliances.red.score, e["score_breakdown"]?.red.rp ?? -1),
-                                    new Alliance(e.alliances.blue.team_keys.map((e) => {
-                                        return parseInt(e.substring(3))
-                                    }), e.alliances.blue.score, e["score_breakdown"]?.blue.rp ?? -1)
-                                ),
-                                new Date(e.predicted_time * 1000)
-                            )
-                        )
-
-                        curMatches.sort((e1, e2) => {
-                            return e1.predicted_time.getTime() - e2.predicted_time.getTime()
-                        })
-
-                    })
-
-                    setMatches(curMatches)
+                    setMatches(Match.arrayFromJson(data))
                 }
             )
         }

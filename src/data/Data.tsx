@@ -85,6 +85,37 @@ class Match {
         return "CATASTROPHIC FAILURE"
     }
 
+    public static fromJson(data:any):Match {
+        return new Match(
+            data.key,
+            data.comp_level,
+            data.match_number,
+            new Alliances(
+                new Alliance(data.alliances.red.team_keys.map((e) => {
+                    return parseInt(e.substring(3))
+                }), data.alliances.red.score, data["score_breakdown"]?.red.rp ?? -1),
+                new Alliance(data.alliances.blue.team_keys.map((e) => {
+                    return parseInt(e.substring(3))
+                }), data.alliances.blue.score, data["score_breakdown"]?.blue.rp ?? -1)
+            ),
+            new Date(data.predicted_time * 1000)
+        )
+    }
+
+    public static arrayFromJson(data:any):Match[] {
+        let curMatches:Match[] = [];
+
+        data.forEach((e) => curMatches.push(this.fromJson(e)))
+
+        curMatches.sort((e1, e2) => {
+            return e1.predicted_time.getTime() - e2.predicted_time.getTime()
+        })
+
+        return curMatches;
+    }
+
+
+
 }
 
 class Alliances {
