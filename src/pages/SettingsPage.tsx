@@ -7,7 +7,7 @@ import {useLocalStorage} from "usehooks-ts";
 import packageJson from "../../package.json"
 import LocalStorageConstants from "../util/LocalStorageConstants";
 import {Authorize, CheckJWT} from "../util/APIUtil";
-import {Button, Input, Popup} from "semantic-ui-react";
+import {Button, Dropdown, Input, Popup} from "semantic-ui-react";
 
 
 function SettingsPage() {
@@ -132,7 +132,9 @@ function SettingsPage() {
         setConfidenceCutoff(originalConfidenceCutoff)
     }
 
-    function handleEventSelection(value:string) {
+    function handleEventSelection(e: any, {value}: any) {
+        console.log(value)
+
         if(value !== "none") setEventKey(value)
     }
 
@@ -179,11 +181,12 @@ function SettingsPage() {
 
                 <h2>Select From Team's Events</h2>
 
-                <select className={"input"} onChange={withEvent(handleEventSelection)} value={eventKey}>
-                    <option key={"none"} value={"none"}>[Using Custom Event Key]</option>
-                    {/*Include all events the team is playing at*/}
-                    {teamEvents.map((e) => <option key={e.key} value={e.key}>{e.name}</option>)}
-                </select>
+                <Dropdown
+                    onChange={handleEventSelection}
+                    value={eventKey}
+                    selection
+                    options={teamEvents.map(e => {return {key: e.key, text: e.name, value: e.key}})}
+                />
             </div>
 
             <div className={"settings-container"}>
@@ -236,10 +239,10 @@ function SettingsPage() {
             {
                 needToAuthorize ?
                     <div className={"settings-container"}>
-                        <div>
-                            <h2><a className={"white-link"} href={"https://scout.voth.name:3000/protected/code"} target={"_blank"} rel={"noreferrer"}>
-                                Get One Time Code
-                            </a></h2>
+                        <div className={"margin-right"}>
+                            <a className={"white-link"} href={"https://scout.voth.name:3000/protected/code"} target={"_blank"} rel={"noreferrer"}>
+                                <Button size={"large"} inverted>Get One Time Code</Button>
+                            </a>
                             <p>Copy the code you get into the input</p>
                         </div>
                         <Input type={"text"} onChange={withEvent(setTempCode)}/>
@@ -251,11 +254,16 @@ function SettingsPage() {
 
             {
                 needToAuthorize ?
-                    <div className={"settings-container"}>
-                        <h2>Set Email</h2>
-                        <Input className={"input"} type={"text"} value={email} onChange={withEvent(setEmail)}/>
-                        <div onClick={handleAPIAurhorize} className={"color-button green"}>Authorize</div>
-                    </div> : <div/>
+                    <div>
+                        <div className={"settings-container"}>
+                            <h2>Set Email</h2>
+                            <Input className={"input"} type={"text"} value={email} onChange={withEvent(setEmail)}/>
+                        </div>
+                        <div className={"settings-container"}>
+                            <Button onClick={handleAPIAurhorize} size={"massive"} color={"green"}>Authorize</Button>
+                        </div>
+                    </div>
+                : <div/>
             }
 
             <div className={"settings-container"}>

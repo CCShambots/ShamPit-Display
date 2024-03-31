@@ -37,7 +37,7 @@ export function CheckJWT(jwt:string) {
 
 export function Authorize(code:string, email:string) {
     let baseURL = DataBaseUrl.replace("protected/", "")
-    return fetch(`${baseURL}auth/${code}/${email}`, {
+    return fetch(`${baseURL}auth/${code}/${email.toLowerCase()}`, {
         method: 'GET',
     })
         .then(response => response.text())
