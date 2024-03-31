@@ -27,15 +27,18 @@ const Header = (props: {number:number, eventKey:string}) => {
         <div className={"header-container"} style={{backgroundColor: backgroundColor, color: textColor}}>
             <div className={"left-info box"}>
                 <div className={"left-info-spread"}>
-                    <Link target={"_blank"} style={{color: textColor}} to={"https://github.com/CCShambots/5907-pit-display"}>
+                    <Link target={"_blank"} style={{color: textColor}}
+                          to={"https://github.com/CCShambots/5907-pit-display"}>
                         Version: {packageJson.version}
                     </Link>
-                    <Link target={"_blank"} style={{color: textColor}} to={"https://www.thebluealliance.com/team/" + teamNumber}>Team: {teamNumber}</Link>
-                    <Link target={"_blank"} style={{color: textColor}} to={"https://www.thebluealliance.com/event/" + eventKey}>Event: {eventKey}</Link>
+                    <Link target={"_blank"} style={{color: textColor}}
+                          to={"https://www.thebluealliance.com/team/" + teamNumber}>Team: {teamNumber}</Link>
+                    <Link target={"_blank"} style={{color: textColor}}
+                          to={"https://www.thebluealliance.com/event/" + eventKey}>Event: {eventKey}</Link>
                 </div>
             </div>
             <h1 className={"event-title box"}>{
-                eventName !== undefined && eventName.indexOf("presented") !== -1  ?
+                eventName !== undefined && eventName.indexOf("presented") !== -1 ?
                     (
                         //Remove any "presented by" stuff because it takes up too much text
                         eventName.substring(0, eventName.indexOf("presented"))
@@ -47,10 +50,18 @@ const Header = (props: {number:number, eventKey:string}) => {
                     ) : eventName
             }</h1>
             <div className={"settings box"}>
+                <Link className={"settings-icon"} to={"cart"}>
+                    <Popup
+                        trigger={
+                            <Button size={"huge"} icon={"cart"} inverted></Button>
+                        }
+                        content={"Cart Display"}
+                    />
+                </Link>
                 <Link className={"settings-icon"} to={"settings"}>
                     <Popup
                         trigger={
-                            <Button size={"massive"} icon={"settings"} inverted></Button>
+                            <Button size={"huge"} icon={"settings"} inverted></Button>
                         }
                         content={"Settings"}
                     />
