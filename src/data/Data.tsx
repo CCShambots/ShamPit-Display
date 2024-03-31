@@ -15,6 +15,12 @@ class Match {
         )
     }
 
+    getAllianceOfTeam(teamNum:number):Alliance {
+        //Return the alliance that includes this team
+        if(this.alliances.red.numbers.includes(teamNum)) return this.alliances.red
+        else return this.alliances.blue
+    }
+
     getTeamAlliance(teamNum:number) {
         if(this.alliances.red.numbers.includes(teamNum)) return "red"
         else if(this.alliances.blue.numbers.includes(teamNum)) return "blue"
@@ -83,6 +89,10 @@ class Match {
         }
 
         return "CATASTROPHIC FAILURE"
+    }
+
+    public hasBeenPlayed() {
+        return (this.alliances.red.score >= 0 || this.alliances.blue.score >= 0)
     }
 
     public static fromJson(data:any):Match {

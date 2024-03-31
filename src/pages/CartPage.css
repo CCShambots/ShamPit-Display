@@ -1,97 +1,28 @@
 .cart-page {
-    /*background-color: black;*/
-
-    background:
-            linear-gradient(to top right, red 50%, transparent 50%),
-            linear-gradient(to top left, green 50%, transparent 50%),
-            linear-gradient(to bottom left, blue 50%, transparent 50%),
-            linear-gradient(to bottom right, yellow 50%, transparent 50%);
-    background-size: 50% 50%;
-    background-position: top left, top right, bottom left, bottom right;
-    background-repeat: no-repeat;
+    background-color: black;
 
     height: 100vh;
     width: 100vw;
 
     position: relative;
 
-    --size: 10vh;
-    --radius: 30vh;
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-around;
+
+    align-items: center;
 }
 
-.orbit {
+.match-title {
     position: absolute;
-    width: var(--size); /* Adjust size as needed */
-    height: var(--size); /* Adjust size as needed */
-    background-color: black; /* Adjust styling as needed */
-    /*border-radius: 50%; !* Make it circular *!*/
-    animation: orbit 6s linear infinite; /* Adjust animation duration as needed */
-    transform-origin: center center; /* Set the transform origin to the center */
-}
 
-/*@keyframes orbit {*/
-/*    0% {*/
-/*        transform: translateX(-50%) translateY(-50%) rotate(0deg) translateX(100px) rotate(0deg);*/
-/*    }*/
-/*    100% {*/
-/*        transform: translateX(-50%) translateY(-50%) rotate(360deg) translateX(100px) rotate(-360deg);*/
-/*    }*/
-/*}*/
-
-@keyframes orbit {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg) ;
-    }
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg) ;
-    }
-}
-
-/* Adjust positioning of each orbit element */
-.orbit:nth-child(1) {
-    top: calc(50% - var(--size) / 2 + var(--radius));
-    left: calc(50% - var(--size) / 2);
-}
-
-.orbit:nth-child(2) {
-    top: calc(50% - var(--size) / 2 - var(--radius) * sin(30deg));
-    left: calc(50% - var(--size) / 2 - var(--radius) * cos(30deg));
-}
-
-.orbit:nth-child(3) {
-    top: calc(50% - var(--size) / 2 - var(--radius) * sin(30deg));
-    left: calc(50% - var(--size) / 2 + var(--radius) * cos(30deg));
-}
-
-.viewport {
-    position: fixed;
     top: 0;
-    left: 0;
+
+    text-align: center;
     width: 100vw;
-    height: 100vh;
-}
 
-.container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-origin: center center;
-}
-
-.rotate {
-    width: 50px;
-    height: 50px;
-
-    /*margin-left: 5vh;*/
-    background-color: #f00;
-    animation: rotateAnimation 5s linear infinite;
-}
-
-@keyframes rotateAnimation {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
+    font-size: 10vh;
+    color: white;
+    font-weight: bold;
 }

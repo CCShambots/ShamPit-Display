@@ -1,0 +1,19 @@
+.avatar-cart {
+    width: 35vh;
+    height: 35vh;
+
+    image-rendering: pixelated;
+
+    border: 4px solid white;
+
+    border-radius: 1vh;
+}
+
+.number {
+    text-align: center;
+
+    color: white;
+
+    font-size: 10vh;
+    font-weight: bold;
+}

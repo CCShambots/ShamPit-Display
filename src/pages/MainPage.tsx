@@ -115,10 +115,7 @@ function MainPage() {
      */
     const pullNextMatchData = () => {
 
-        let unplayedMatches = matches.filter((e:Match) =>
-            !(e.alliances.red.score >= 0 && e.alliances.blue.score >= 0)
-        );
-
+        let unplayedMatches = matches.filter((e:Match) => !e.hasBeenPlayed());
 
         let playedMatches = matches.filter(e => !unplayedMatches.includes(e))
 
