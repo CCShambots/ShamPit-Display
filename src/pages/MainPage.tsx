@@ -267,7 +267,7 @@ function MainPage() {
                                 </p>
                             </div> : <div className={"top-text"}/>
                         }
-                    <div className={"next-match"}>
+                    <div>
                         <p className={"next-match next-match-text"}><b>{nextMatchName} - {matchTime}</b></p>
                     </div>
 
