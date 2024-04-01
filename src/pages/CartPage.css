@@ -26,3 +26,9 @@
     color: white;
     font-weight: bold;
 }
+
+.fullscreen {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}

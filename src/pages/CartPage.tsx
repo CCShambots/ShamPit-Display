@@ -5,6 +5,7 @@ import {useLocalStorage} from "usehooks-ts";
 import LocalStorageConstants from "../util/LocalStorageConstants";
 import {PullTBA} from "../util/APIUtil";
 import IconPreview from "../components/preview/IconPreview";
+import FullscreenIcon from "../components/fullscreen/FullscreenIcon";
 
 export default function CartPage() {
 
@@ -62,5 +63,9 @@ export default function CartPage() {
         <p className={"match-title"}>{nextMatch?.convertToHumanReadableName()}</p>
 
         {nextAlliance?.numbers.map(e => <IconPreview number={e} key={e}/>)}
+
+        <div className={"fullscreen"}>
+            <FullscreenIcon/>
+        </div>
     </div>
 }
