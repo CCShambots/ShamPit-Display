@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from "react-router-dom";
 import './header.css'
 import packageJson from '../../../package.json';
@@ -19,7 +19,12 @@ const Header = (props: {number:number, eventKey:string}) => {
     
     //Fetch the event title when the component loads
     PullTBA(`event/${eventKey}`, (data) => {
-        setEventName(data.name)
+
+        let name = data.name;
+
+        name = name.replace(/first in michigan state championship/gi, "MSC");
+
+        setEventName(name)
     })
 
 
