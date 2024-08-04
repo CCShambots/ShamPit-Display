@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/ShamPit-Display/static/css/main.c175f256.css",
-    "main.js": "/ShamPit-Display/static/js/main.76115745.js",
-    "static/js/787.6eee9a60.chunk.js": "/ShamPit-Display/static/js/787.6eee9a60.chunk.js",
+    "main.css": "/ShamPit-Display/static/css/main.82aa3b2c.css",
+    "main.js": "/ShamPit-Display/static/js/main.425583f9.js",
+    "static/js/453.fccf678d.chunk.js": "/ShamPit-Display/static/js/453.fccf678d.chunk.js",
     "static/media/brand-icons.svg": "/ShamPit-Display/static/media/brand-icons.6729d29753e000c17489.svg",
     "static/media/icons.svg": "/ShamPit-Display/static/media/icons.62d9dae4e0040e81c980.svg",
     "static/media/outline-icons.svg": "/ShamPit-Display/static/media/outline-icons.9c4845b4b41ef40a22fa.svg",
@@ -27,12 +27,12 @@
     "static/media/fullscreen-close-icon.svg": "/ShamPit-Display/static/media/fullscreen-close-icon.4716f8e83878273c7e44114f63ab55c3.svg",
     "static/media/arrow-down.svg": "/ShamPit-Display/static/media/arrow-down.bd07ef487f21dd02e8c5f70dc616ff56.svg",
     "static/media/remove-icon.svg": "/ShamPit-Display/static/media/remove-icon.44e751399a19ac1311c4cd962eb34b49.svg",
-    "main.c175f256.css.map": "/ShamPit-Display/static/css/main.c175f256.css.map",
-    "main.76115745.js.map": "/ShamPit-Display/static/js/main.76115745.js.map",
-    "787.6eee9a60.chunk.js.map": "/ShamPit-Display/static/js/787.6eee9a60.chunk.js.map"
+    "main.82aa3b2c.css.map": "/ShamPit-Display/static/css/main.82aa3b2c.css.map",
+    "main.425583f9.js.map": "/ShamPit-Display/static/js/main.425583f9.js.map",
+    "453.fccf678d.chunk.js.map": "/ShamPit-Display/static/js/453.fccf678d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c175f256.css",
-    "static/js/main.76115745.js"
+    "static/css/main.82aa3b2c.css",
+    "static/js/main.425583f9.js"
   ]
 }
