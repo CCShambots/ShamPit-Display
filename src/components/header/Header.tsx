@@ -55,14 +55,14 @@ const Header = (props: {number:number, eventKey:string}) => {
                     ) : eventName
             }</h1>
             <div className={"settings box"}>
-                <Link className={"settings-icon"} to={"cart"}>
-                    <Popup
-                        trigger={
-                            <Button size={"huge"} icon={"cart"} inverted></Button>
-                        }
-                        content={"Cart Display"}
-                    />
-                </Link>
+                {/*<Link className={"settings-icon"} to={"cart"}>*/}
+                {/*    <Popup*/}
+                {/*        trigger={*/}
+                {/*            <Button size={"huge"} icon={"cart"} inverted></Button>*/}
+                {/*        }*/}
+                {/*        content={"Cart Display"}*/}
+                {/*    />*/}
+                {/*</Link>*/}
                 <Link className={"settings-icon"} to={"settings"}>
                     <Popup
                         trigger={
