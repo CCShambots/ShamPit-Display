@@ -253,7 +253,7 @@ function MainPage() {
                         {
                             yourLastMatch ?
                             <div className={"top-text"}>
-                                <p><b>Just {(yourLastMatch.getWinningAlliance() === yourLastAlliance ? "Won" : "Lost")} {lastMatchName}</b></p>
+                                <p><b>Just {(yourLastMatch.alliances.red.score !== yourLastMatch.alliances.blue.score ? (yourLastMatch.getWinningAlliance() === yourLastAlliance ? "Won" : "Lost") : "Tied")} {lastMatchName}</b></p>
                                 <p>
                                     <b>
                                         <span className={"red-score"}>
